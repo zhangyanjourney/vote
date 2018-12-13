@@ -1,0 +1,1495 @@
+2018-12-10 20:16:48 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '5000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'b5itwCc2',
+  'openid' => 'oPTE50qneYDxzq7O_pYshiYNRKn4',
+  'out_trade_no' => '2018121020163400001327298438',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '06380E80BC2F243D1C48EFAAD008092D',
+  'time_end' => '20181210201648',
+  'total_fee' => '5000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000221201812107257263047',
+)
+
+2018-12-10 20:17:45 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '10000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'sWYNiXmy',
+  'openid' => 'oPTE50muKFK4_71lZeWqtZHwCkB8',
+  'out_trade_no' => '2018121020173000001354234867',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '8C369E323DC674DAD258F6937F6991CF',
+  'time_end' => '20181210201744',
+  'total_fee' => '10000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000222201812102304622062',
+)
+
+2018-12-10 20:18:21 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '10000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'hp9P9iEp',
+  'openid' => 'oPTE50lF3noMlAsnkTEdZo5JkbDY',
+  'out_trade_no' => '2018121020174700001386114288',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '142D7491DC94F46BE5344BDBBBF3B940',
+  'time_end' => '20181210201820',
+  'total_fee' => '10000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812102957331091',
+)
+
+2018-12-10 20:32:17 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '500',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'G2J5sEFy',
+  'openid' => 'oPTE50qmsSq3gRkEqpB0R9giQGTs',
+  'out_trade_no' => '2018121020321100001356817430',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '12E612D6F4B093B126DAD487E1CA36A4',
+  'time_end' => '20181210203216',
+  'total_fee' => '500',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000212201812107242968758',
+)
+
+2018-12-10 20:46:22 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '100',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'WSSgVZNV',
+  'openid' => 'oPTE50mkowkGLXYKcTr7JSrv7W3I',
+  'out_trade_no' => '2018121020461500001382946797',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'A997916E8F49A018585AB0C4B553F1E1',
+  'time_end' => '20181210204621',
+  'total_fee' => '100',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000227201812105130484506',
+)
+
+2018-12-10 20:49:50 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ICBC_DEBIT',
+  'cash_fee' => '1000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'LHHZ5AA2',
+  'openid' => 'oPTE50q0XX9e6FJxhZ3H4E9uW4gY',
+  'out_trade_no' => '2018121020494300001301436922',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '41EF01DB71C18F0BC6AB4DE16C98B526',
+  'time_end' => '20181210204950',
+  'total_fee' => '1000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000230201812108972983224',
+)
+
+2018-12-10 20:52:38 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '100',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'jVwP4vWd',
+  'openid' => 'oPTE50kYnn2rzNtWzLYF-oAZZDjA',
+  'out_trade_no' => '2018121020515700001368145110',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '79A0DF69773FA9BEA729DC77DB4E0EFE',
+  'time_end' => '20181210205233',
+  'total_fee' => '100',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000233201812100897543638',
+)
+
+2018-12-10 21:00:19 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ICBC_DEBIT',
+  'cash_fee' => '5000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'r5s3s51z',
+  'openid' => 'oPTE50vTcAvuEfYYaUOho6HZrS6k',
+  'out_trade_no' => '2018121020595200001328078946',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '2B5BF8A249ABD161D7150C321264ECFB',
+  'time_end' => '20181210210016',
+  'total_fee' => '5000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000235201812101188931153',
+)
+
+2018-12-10 21:00:45 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ICBC_DEBIT',
+  'cash_fee' => '5000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'r5s3s51z',
+  'openid' => 'oPTE50vTcAvuEfYYaUOho6HZrS6k',
+  'out_trade_no' => '2018121020595200001328078946',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '2B5BF8A249ABD161D7150C321264ECFB',
+  'time_end' => '20181210210016',
+  'total_fee' => '5000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000235201812101188931153',
+)
+
+2018-12-10 21:04:50 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ICBC_DEBIT',
+  'cash_fee' => '5000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'r5s3s51z',
+  'openid' => 'oPTE50vTcAvuEfYYaUOho6HZrS6k',
+  'out_trade_no' => '2018121020595200001328078946',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '2B5BF8A249ABD161D7150C321264ECFB',
+  'time_end' => '20181210210016',
+  'total_fee' => '5000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000235201812101188931153',
+)
+
+2018-12-10 21:13:08 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '1000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'O4tt2w49',
+  'openid' => 'oPTE50smjS-dXjQBqTuynUV_T0lE',
+  'out_trade_no' => '2018121021122500001316996660',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '940B99C4182367755A03E1FA18C4051F',
+  'time_end' => '20181210211251',
+  'total_fee' => '1000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812104268133939',
+)
+
+2018-12-10 21:13:49 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CMB_CREDIT',
+  'cash_fee' => '10000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'UuH0w33w',
+  'openid' => 'oPTE50n2gJUJwuUj9rfKOkbzXKfQ',
+  'out_trade_no' => '2018121021133100001331272647',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'DF00901D5D054055D7FC1A6641149176',
+  'time_end' => '20181210211349',
+  'total_fee' => '10000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000223201812104844855850',
+)
+
+2018-12-10 21:13:59 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '1000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'ylsixWjs',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021135100001386782462',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '0104660F9125092457AAA374415D1D12',
+  'time_end' => '20181210211358',
+  'total_fee' => '1000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000229201812105735825447',
+)
+
+2018-12-10 21:15:12 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '100',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'EJrJ2LLv',
+  'openid' => 'oPTE50qoihCb0RsbbJl43DzuSero',
+  'out_trade_no' => '2018121021150100001384868190',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '8CBEE2DA3D063FACFC8B5BC327E935ED',
+  'time_end' => '20181210211511',
+  'total_fee' => '100',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000213201812109212073743',
+)
+
+2018-12-10 21:15:26 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'GDB_DEBIT',
+  'cash_fee' => '100',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'Ybo6UNA1',
+  'openid' => 'oPTE50jYR-Ic-fsaTVRGz2FZHW9g',
+  'out_trade_no' => '2018121021152100001391738840',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '7608F3ED2ED49567E99849F8FB3498BC',
+  'time_end' => '20181210211525',
+  'total_fee' => '100',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000217201812101255036830',
+)
+
+2018-12-10 21:17:51 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '1000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'KmUm1jU6',
+  'openid' => 'oPTE50qoihCb0RsbbJl43DzuSero',
+  'out_trade_no' => '2018121021174100001387069872',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '97269A77B4B5B672377707FECC2B4394',
+  'time_end' => '20181210211750',
+  'total_fee' => '1000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000230201812104277573172',
+)
+
+2018-12-10 21:18:39 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CEB_CREDIT',
+  'cash_fee' => '1000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'RPT4O3R4',
+  'openid' => 'oPTE50vdu46oIJm3hQm8mxfkdgsI',
+  'out_trade_no' => '2018121021183300001396974943',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'DAFF4710805949CA005CAFEFEFAF425F',
+  'time_end' => '20181210211838',
+  'total_fee' => '1000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000214201812106393167763',
+)
+
+2018-12-10 21:20:13 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'GDB_DEBIT',
+  'cash_fee' => '1000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'aJ3d171S',
+  'openid' => 'oPTE50jYR-Ic-fsaTVRGz2FZHW9g',
+  'out_trade_no' => '2018121021200700001388781516',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'D62A88B3D92BC93EC238AEE000C49715',
+  'time_end' => '20181210212012',
+  'total_fee' => '1000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000212201812109409905214',
+)
+
+2018-12-10 21:20:46 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CCB_DEBIT',
+  'cash_fee' => '5000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'RBeWlXLB',
+  'openid' => 'oPTE50hbcmyeN50AQrHo68LJk71A',
+  'out_trade_no' => '2018121021203400001383835842',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '586D14AABF086D1B3F6625B645A809D6',
+  'time_end' => '20181210212045',
+  'total_fee' => '5000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000235201812107455630965',
+)
+
+2018-12-10 21:25:33 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '10000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'vBdutmuV',
+  'openid' => 'oPTE50iOMemE1faKGYyu3DT-4lZA',
+  'out_trade_no' => '2018121021252400001388946481',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '1104F87E5A877F873F602B36E4C3A992',
+  'time_end' => '20181210212532',
+  'total_fee' => '10000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000226201812101397799066',
+)
+
+2018-12-10 21:28:12 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CMB_CREDIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'UNAWKKn3',
+  'openid' => 'oPTE50n2gJUJwuUj9rfKOkbzXKfQ',
+  'out_trade_no' => '2018121021275700001384982404',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '03F01148AC33C7FD480CF1B88E3E080B',
+  'time_end' => '20181210212810',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000221201812100726045316',
+)
+
+2018-12-10 21:28:31 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CMB_CREDIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'UNAWKKn3',
+  'openid' => 'oPTE50n2gJUJwuUj9rfKOkbzXKfQ',
+  'out_trade_no' => '2018121021275700001384982404',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '03F01148AC33C7FD480CF1B88E3E080B',
+  'time_end' => '20181210212810',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000221201812100726045316',
+)
+
+2018-12-10 21:28:48 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CMB_CREDIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'UNAWKKn3',
+  'openid' => 'oPTE50n2gJUJwuUj9rfKOkbzXKfQ',
+  'out_trade_no' => '2018121021275700001384982404',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '03F01148AC33C7FD480CF1B88E3E080B',
+  'time_end' => '20181210212810',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000221201812100726045316',
+)
+
+2018-12-10 21:29:20 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CMB_CREDIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'UNAWKKn3',
+  'openid' => 'oPTE50n2gJUJwuUj9rfKOkbzXKfQ',
+  'out_trade_no' => '2018121021275700001384982404',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '03F01148AC33C7FD480CF1B88E3E080B',
+  'time_end' => '20181210212810',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000221201812100726045316',
+)
+
+2018-12-10 21:32:17 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CMB_CREDIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'UNAWKKn3',
+  'openid' => 'oPTE50n2gJUJwuUj9rfKOkbzXKfQ',
+  'out_trade_no' => '2018121021275700001384982404',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '03F01148AC33C7FD480CF1B88E3E080B',
+  'time_end' => '20181210212810',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000221201812100726045316',
+)
+
+2018-12-10 21:51:23 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '700',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'IAdy6YzY',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021510400001314868452',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '14256644CD1EA6F50DB364F76783FC98',
+  'time_end' => '20181210215118',
+  'total_fee' => '700',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000212201812105911167915',
+)
+
+2018-12-10 21:51:37 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '700',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'IAdy6YzY',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021510400001314868452',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '14256644CD1EA6F50DB364F76783FC98',
+  'time_end' => '20181210215118',
+  'total_fee' => '700',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000212201812105911167915',
+)
+
+2018-12-10 21:51:52 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '700',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'IAdy6YzY',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021510400001314868452',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '14256644CD1EA6F50DB364F76783FC98',
+  'time_end' => '20181210215118',
+  'total_fee' => '700',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000212201812105911167915',
+)
+
+2018-12-10 21:52:27 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '700',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'IAdy6YzY',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021510400001314868452',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '14256644CD1EA6F50DB364F76783FC98',
+  'time_end' => '20181210215118',
+  'total_fee' => '700',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000212201812105911167915',
+)
+
+2018-12-10 21:54:57 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '3000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'FZz7vLF7',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021544400001380686985',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'AD95EDC0FC018B1F598BC4A499A6ECAE',
+  'time_end' => '20181210215452',
+  'total_fee' => '3000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812109137421626',
+)
+
+2018-12-10 21:55:13 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '3000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'FZz7vLF7',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021544400001380686985',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'AD95EDC0FC018B1F598BC4A499A6ECAE',
+  'time_end' => '20181210215452',
+  'total_fee' => '3000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812109137421626',
+)
+
+2018-12-10 21:55:30 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '700',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'IAdy6YzY',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021510400001314868452',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '14256644CD1EA6F50DB364F76783FC98',
+  'time_end' => '20181210215118',
+  'total_fee' => '700',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000212201812105911167915',
+)
+
+2018-12-10 21:55:32 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '3000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'FZz7vLF7',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021544400001380686985',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'AD95EDC0FC018B1F598BC4A499A6ECAE',
+  'time_end' => '20181210215452',
+  'total_fee' => '3000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812109137421626',
+)
+
+2018-12-10 21:56:10 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '3000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'FZz7vLF7',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021544400001380686985',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'AD95EDC0FC018B1F598BC4A499A6ECAE',
+  'time_end' => '20181210215452',
+  'total_fee' => '3000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812109137421626',
+)
+
+2018-12-10 21:58:58 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '3000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'FZz7vLF7',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021544400001380686985',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'AD95EDC0FC018B1F598BC4A499A6ECAE',
+  'time_end' => '20181210215452',
+  'total_fee' => '3000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812109137421626',
+)
+
+2018-12-10 21:59:32 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '10000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'reuVZ367',
+  'openid' => 'oPTE50rwDbpqCRAQ7Pcpa4HVb6tc',
+  'out_trade_no' => '2018121021591800001346304981',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '24DCE519BA45C54D2B3BD1C6F5449FB5',
+  'time_end' => '20181210215925',
+  'total_fee' => '10000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000217201812108877034711',
+)
+
+2018-12-10 21:59:52 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '10000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'reuVZ367',
+  'openid' => 'oPTE50rwDbpqCRAQ7Pcpa4HVb6tc',
+  'out_trade_no' => '2018121021591800001346304981',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '24DCE519BA45C54D2B3BD1C6F5449FB5',
+  'time_end' => '20181210215925',
+  'total_fee' => '10000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000217201812108877034711',
+)
+
+2018-12-10 22:00:08 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '10000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'reuVZ367',
+  'openid' => 'oPTE50rwDbpqCRAQ7Pcpa4HVb6tc',
+  'out_trade_no' => '2018121021591800001346304981',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '24DCE519BA45C54D2B3BD1C6F5449FB5',
+  'time_end' => '20181210215925',
+  'total_fee' => '10000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000217201812108877034711',
+)
+
+2018-12-10 22:00:37 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '10000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'reuVZ367',
+  'openid' => 'oPTE50rwDbpqCRAQ7Pcpa4HVb6tc',
+  'out_trade_no' => '2018121021591800001346304981',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '24DCE519BA45C54D2B3BD1C6F5449FB5',
+  'time_end' => '20181210215925',
+  'total_fee' => '10000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000217201812108877034711',
+)
+
+2018-12-10 22:02:17 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CMB_CREDIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'UNAWKKn3',
+  'openid' => 'oPTE50n2gJUJwuUj9rfKOkbzXKfQ',
+  'out_trade_no' => '2018121021275700001384982404',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '03F01148AC33C7FD480CF1B88E3E080B',
+  'time_end' => '20181210212810',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000221201812100726045316',
+)
+
+2018-12-10 22:03:42 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '10000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'reuVZ367',
+  'openid' => 'oPTE50rwDbpqCRAQ7Pcpa4HVb6tc',
+  'out_trade_no' => '2018121021591800001346304981',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '24DCE519BA45C54D2B3BD1C6F5449FB5',
+  'time_end' => '20181210215925',
+  'total_fee' => '10000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000217201812108877034711',
+)
+
+2018-12-10 22:04:40 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ICBC_DEBIT',
+  'cash_fee' => '5000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'r5s3s51z',
+  'openid' => 'oPTE50vTcAvuEfYYaUOho6HZrS6k',
+  'out_trade_no' => '2018121020595200001328078946',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '2B5BF8A249ABD161D7150C321264ECFB',
+  'time_end' => '20181210210016',
+  'total_fee' => '5000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000235201812101188931153',
+)
+
+2018-12-10 22:07:45 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ABC_DEBIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'k1OdAiuG',
+  'openid' => 'oPTE50vqMYHSTOx8GDCrUQ0UntnI',
+  'out_trade_no' => '2018121022073400001368876544',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '3DE0CB84D3F10B0F2F6D903C598C1BDD',
+  'time_end' => '20181210220740',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812102383393925',
+)
+
+2018-12-10 22:08:06 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ABC_DEBIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'k1OdAiuG',
+  'openid' => 'oPTE50vqMYHSTOx8GDCrUQ0UntnI',
+  'out_trade_no' => '2018121022073400001368876544',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '3DE0CB84D3F10B0F2F6D903C598C1BDD',
+  'time_end' => '20181210220740',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812102383393925',
+)
+
+2018-12-10 22:08:22 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ABC_DEBIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'k1OdAiuG',
+  'openid' => 'oPTE50vqMYHSTOx8GDCrUQ0UntnI',
+  'out_trade_no' => '2018121022073400001368876544',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '3DE0CB84D3F10B0F2F6D903C598C1BDD',
+  'time_end' => '20181210220740',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812102383393925',
+)
+
+2018-12-10 22:08:55 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ABC_DEBIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'k1OdAiuG',
+  'openid' => 'oPTE50vqMYHSTOx8GDCrUQ0UntnI',
+  'out_trade_no' => '2018121022073400001368876544',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '3DE0CB84D3F10B0F2F6D903C598C1BDD',
+  'time_end' => '20181210220740',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812102383393925',
+)
+
+2018-12-10 22:11:54 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ABC_DEBIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'k1OdAiuG',
+  'openid' => 'oPTE50vqMYHSTOx8GDCrUQ0UntnI',
+  'out_trade_no' => '2018121022073400001368876544',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '3DE0CB84D3F10B0F2F6D903C598C1BDD',
+  'time_end' => '20181210220740',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812102383393925',
+)
+
+2018-12-10 22:13:21 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '100',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'kRhInUGE',
+  'openid' => 'oPTE50h1Te6jqz5gpx2JdHhlQeCU',
+  'out_trade_no' => '2018121022131300001384607454',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '83665DEE94733618DAC1A29D7178F9B7',
+  'time_end' => '20181210221321',
+  'total_fee' => '100',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000225201812107305894082',
+)
+
+2018-12-10 22:16:57 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '1000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'O4tt2w49',
+  'openid' => 'oPTE50smjS-dXjQBqTuynUV_T0lE',
+  'out_trade_no' => '2018121021122500001316996660',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '940B99C4182367755A03E1FA18C4051F',
+  'time_end' => '20181210211251',
+  'total_fee' => '1000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812104268133939',
+)
+
+2018-12-10 22:24:14 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '500',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'O72cwx86',
+  'openid' => 'oPTE50rCQhHcyqfmeN-xwBIzNwpI',
+  'out_trade_no' => '2018121022240700001324022957',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '450087471A88CA4B87A20484576BD527',
+  'time_end' => '20181210222414',
+  'total_fee' => '500',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000225201812105231555047',
+)
+
+2018-12-10 22:25:25 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '700',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'IAdy6YzY',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021510400001314868452',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '14256644CD1EA6F50DB364F76783FC98',
+  'time_end' => '20181210215118',
+  'total_fee' => '700',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000212201812105911167915',
+)
+
+2018-12-10 22:25:33 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '500',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'S8r2b11X',
+  'openid' => 'oPTE50rCQhHcyqfmeN-xwBIzNwpI',
+  'out_trade_no' => '2018121022252500001393668882',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'E98C8D699FF4574DD81898E8B30CE0ED',
+  'time_end' => '20181210222532',
+  'total_fee' => '500',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000238201812109432636311',
+)
+
+2018-12-10 22:28:59 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'PSBC_DEBIT',
+  'cash_fee' => '3000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'FZz7vLF7',
+  'openid' => 'oPTE50ryFxFRRylP4xxGlEDJUmF8',
+  'out_trade_no' => '2018121021544400001380686985',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'AD95EDC0FC018B1F598BC4A499A6ECAE',
+  'time_end' => '20181210215452',
+  'total_fee' => '3000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812109137421626',
+)
+
+2018-12-10 22:32:18 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CMB_CREDIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'UNAWKKn3',
+  'openid' => 'oPTE50n2gJUJwuUj9rfKOkbzXKfQ',
+  'out_trade_no' => '2018121021275700001384982404',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '03F01148AC33C7FD480CF1B88E3E080B',
+  'time_end' => '20181210212810',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000221201812100726045316',
+)
+
+2018-12-10 22:34:28 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ICBC_DEBIT',
+  'cash_fee' => '5000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'r5s3s51z',
+  'openid' => 'oPTE50vTcAvuEfYYaUOho6HZrS6k',
+  'out_trade_no' => '2018121020595200001328078946',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '2B5BF8A249ABD161D7150C321264ECFB',
+  'time_end' => '20181210210016',
+  'total_fee' => '5000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000235201812101188931153',
+)
+
+2018-12-10 22:34:45 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '100',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'vDmV5V9s',
+  'openid' => 'oPTE50sNKCGBawEtaJRC3h0CP4SY',
+  'out_trade_no' => '2018121022343100001322257241',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '37E12FDA50984ABD42332A40784D9E74',
+  'time_end' => '20181210223444',
+  'total_fee' => '100',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000212201812108293318364',
+)
+
+2018-12-10 22:34:55 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CIB_CREDIT',
+  'cash_fee' => '1000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'sEz5IxB2',
+  'openid' => 'oPTE50uSctbeJqtMYn1WqtO1j4H0',
+  'out_trade_no' => '2018121022344300001365597684',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '1BE750AF5E5560AB95FB7CD8DADBC61F',
+  'time_end' => '20181210223454',
+  'total_fee' => '1000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000215201812107071540857',
+)
+
+2018-12-10 22:35:39 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '100',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'A3werRQd',
+  'openid' => 'oPTE50sNKCGBawEtaJRC3h0CP4SY',
+  'out_trade_no' => '2018121022353100001320306198',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '6BFC2C7EDB51A9D5308A40A1C6A21F96',
+  'time_end' => '20181210223538',
+  'total_fee' => '100',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000216201812109714876985',
+)
+
+2018-12-10 22:37:01 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '100',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'qkFfZ5S4',
+  'openid' => 'oPTE50sNKCGBawEtaJRC3h0CP4SY',
+  'out_trade_no' => '2018121022365200001342485610',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'A06A6858D734CD2C504B833CA874B6F6',
+  'time_end' => '20181210223700',
+  'total_fee' => '100',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000229201812103259970952',
+)
+
+2018-12-10 22:39:22 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '100',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'Guv1kuJt',
+  'openid' => 'oPTE50hvFc-AeaHS1AfHei274-xI',
+  'out_trade_no' => '2018121022391200001368680616',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '5DB3DEA4FAC3650EDC3C79940633634C',
+  'time_end' => '20181210223921',
+  'total_fee' => '100',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000217201812103197006756',
+)
+
+2018-12-10 22:41:03 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '100',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'ywprv65J',
+  'openid' => 'oPTE50j-aLNJjZjo-HWTgfWvtetw',
+  'out_trade_no' => '2018121022405800001302548464',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '35B1F760F7C13F5C91F0A856C947F061',
+  'time_end' => '20181210224102',
+  'total_fee' => '100',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000212201812106159764369',
+)
+
+2018-12-10 22:41:10 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '1000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'aY3wdDTW',
+  'openid' => 'oPTE50g-F9SyOi7upkVuXoyMZvqw',
+  'out_trade_no' => '2018121022410200001345489820',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '86E5FB615A3071FE0E0909C47087ABDE',
+  'time_end' => '20181210224109',
+  'total_fee' => '1000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000221201812108561513188',
+)
+
+2018-12-10 22:41:47 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'ABC_DEBIT',
+  'cash_fee' => '20000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'k1OdAiuG',
+  'openid' => 'oPTE50vqMYHSTOx8GDCrUQ0UntnI',
+  'out_trade_no' => '2018121022073400001368876544',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '3DE0CB84D3F10B0F2F6D903C598C1BDD',
+  'time_end' => '20181210220740',
+  'total_fee' => '20000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812102383393925',
+)
+
+2018-12-10 22:42:58 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '1000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'TH4hZ0q9',
+  'openid' => 'oPTE50oytXFcS7lHj9-ud1JwNjOg',
+  'out_trade_no' => '2018121022425000001364820558',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '3F3509ED9A0E48391AC3F9DA4EC79DB2',
+  'time_end' => '20181210224257',
+  'total_fee' => '1000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000211201812109416636821',
+)
+
+2018-12-10 22:43:26 pay :
+------------
+String:
+array (
+  'appid' => 'wxfe395da2fdce94c6',
+  'attach' => '1',
+  'bank_type' => 'CFT',
+  'cash_fee' => '1000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1516144281',
+  'nonce_str' => 'nIaR5RaP',
+  'openid' => 'oPTE50n7St6YqEgyo_Lxvz34NYZQ',
+  'out_trade_no' => '2018121022431800001382682884',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => 'E163782F5CBDF25D40894B2D637E4EEF',
+  'time_end' => '20181210224326',
+  'total_fee' => '1000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000215201812100508620274',
+)
+
