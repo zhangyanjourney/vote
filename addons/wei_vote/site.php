@@ -216,16 +216,13 @@ echo json_encode($result);
 		global $_GPC, $_W;
 		
 		if($this->moshi == 1 && $_W['isfounder'] != 'true'){
-				
 			$pieces = pdo_fetchall("SELECT id FROM " . tablename('wei_vote_peizhi') . " WHERE uniacid = :uniacid  and user=:user ORDER BY id DESC", array(':uniacid' => $_W['uniacid'],':user' => $_W['username']));
 		    for($i=0;$i<count($pieces);$i++){
 				$uname=$uname."'".$pieces[$i]['id']."',";
 			}
 			$the_uname ="hdid in(".$uname."'')";
 			$the_unames ="id in(".$uname."'')";
-			
-			
-			
+
 			$y = date("Y");
 			$m = date("m");
 			$d = date("d");
@@ -241,9 +238,7 @@ echo json_encode($result);
 			$item['jointotal'] = pdo_fetchcolumn('SELECT COUNT(id) FROM ' . tablename('wei_vote_up') . " WHERE   uniacid = :uniacid  and {$the_uname} ", array(':uniacid' => $_W['uniacid']));
 			$item['giftcount'] = pdo_fetchcolumn('SELECT sum(jiner) FROM ' . tablename('wei_vote_userlog') . " WHERE {$the_uname} and  uniacid = :uniacid AND iszhifu=2 AND isgl=1  ", array(':uniacid' => $_W['uniacid']));
 			$item['zssj'] = pdo_fetchcolumn('SELECT sum(jiner) FROM ' . tablename('wei_vote_userlog') . " WHERE   uniacid = :uniacid AND iszhifu=2 and {$the_uname}", array(':uniacid' => $_W['uniacid']));
-			
 		}else{
-			
 			$y = date("Y");
 			$m = date("m");
 			$d = date("d");
@@ -258,27 +253,23 @@ echo json_encode($result);
 			$item['votetotal'] = pdo_fetchcolumn('SELECT COUNT(id) FROM ' . tablename('wei_vote_jilu') . " WHERE   uniacid = :uniacid", array(':uniacid' => $_W['uniacid']));
 			$item['jointotal'] = pdo_fetchcolumn('SELECT COUNT(id) FROM ' . tablename('wei_vote_up') . " WHERE   uniacid = :uniacid  ", array(':uniacid' => $_W['uniacid']));
 			$item['giftcount'] = pdo_fetchcolumn('SELECT sum(jiner) FROM ' . tablename('wei_vote_userlog') . " WHERE   uniacid = :uniacid AND iszhifu=2 ", array(':uniacid' => $_W['uniacid']));
-			$item['je'] = pdo_fetchall("SELECT createtime,FROM_UNIXTIME(createtime,'%Y%m%d') days,SUM(jiner) count FROM " . tablename('wei_vote_userlog') . " WHERE uniacid = :uniacid AND iszhifu=2   group by days ORDER BY createtime desc LIMIT 7 ", array(':uniacid' => $_W['uniacid']));
+            $item['giftcount'] = !empty($item['giftcount']) ? $item['giftcount'] : 0;
+			$item['je'] = pdo_fetchall("SELECT createtime,FROM_UNIXTIME(createtime,'%Y%m%d') days,SUM(jiner) count FROM " . tablename('wei_vote_userlog') . " WHERE uniacid = :uniacid AND iszhifu=2   group by days ORDER BY createtime desc LIMIT 30", array(':uniacid' => $_W['uniacid']));
 			// select createtime , FROM_UNIXTIME(createtime,'%Y%m%d') as days,sum(jiner) as count from ims_wei_vote_userlog  group by days ORDER BY createtime desc LIMIT 7
-			
 		}
 		$cd = array_column($item['je'], 'count','days');
 		//print_r($cd);
-		
-		
-		for ($i = 6; 0 <= $i; $i--) {
-			
+
+		for ($i = 30; 0 <= $i; $i--) {
 			   $dy = date('Ymd', strtotime('-' . $i . ' day'));
 		       $result[$i]['y'] = $dy;
 			   if(empty($cd[$dy])){
-				   
 				   $cd[$dy] = 0;
 			   }
 		       $result[$i]['c'] = $cd[$dy];
 			   $tianshu[]= $dy;
 			   $mtje[]= $cd[$dy];
 		}
-		
 		//print_r($result);
 		//print_r($tianshu);
 		//print_r($mtje);
@@ -286,11 +277,9 @@ echo json_encode($result);
 		$mtje_zfc = implode(",", $mtje);
 		//print_r($tianshu_zfc);
 		//print_r($mtje_zfc);
-		
 	    include $this->template('shuju');
 	}
-	
-	
+
 	public function doWebBlacklist(){
 		 global $_GPC, $_W;
 		 $type=intval($_GPC['type']);
@@ -957,6 +946,63 @@ echo json_encode($result);
 		}
 
 	}
+
+	//防封禁
+    public function doWebFengjin() {
+        global $_GPC, $_W;
+
+        $op = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+        if ($op == display) {
+            $pindex = max(1, intval($_GPC['page']));
+            $psize = 25;
+            $urs = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_fengjin') . " WHERE uniacid = :uniacid ORDER BY id DESC LIMIT " . ($pindex - 1) * $psize . ",{$psize}", array(':uniacid' => $_W['uniacid']));
+            $total = pdo_fetchcolumn('SELECT COUNT(*) FROM '.tablename('wei_vote_fengjin')." WHERE uniacid = :uniacid", array(':uniacid' => $_W['uniacid']));
+            $pager = pagination($total, $pindex, $psize);
+            include $this->template('fengjin');
+        } else if ($op == 'fengjinyuming') {
+            $data = array('flag' => 1);
+            $result = pdo_update('wei_vote_fengjin', $data, array('uniacid' => $_W['uniacid'], 'id' => $_GPC['id']));
+            if ($result) {
+                message('成功！', $this->createWebUrl('Fengjin'));
+            } else {
+                message('失败！', $this->createWebUrl('Fengjin'));
+            }
+        } else if ($op == 'jiefengjin') {
+            $data = array('flag' => 0);
+            $result = pdo_update('wei_vote_fengjin', $data, array('uniacid' => $_W['uniacid'], 'id' => $_GPC['id']));
+            if ($result) {
+                message('成功！', $this->createWebUrl('Fengjin'));
+            } else {
+                message('失败！', $this->createWebUrl('Fengjin'));
+            }
+        } else if ($op == 'add') {
+            if($_POST) {
+                $data['uniacid']=$_W['uniacid'];
+                $data['domain'] = $_GPC['domain'];
+                $data['flag'] = $_GPC['flag'];
+                $result = pdo_insert('wei_vote_fengjin', $data);
+                $uid = pdo_insertid();
+                if(!empty($uid)){
+                    message('添加成功！', $this->createWebUrl('Fengjin'));
+                    exit();
+                }else{
+                    message('添加失败！', $this->createWebUrl('Fengjin'));
+                    exit();
+                }
+            } else {
+                include $this->template('fengjinadd');
+            }
+        } else if ($op == 'del') {
+            $ew = pdo_delete('wei_vote_fengjin', array('id' => $_GPC['id']));
+            if ($ew) {
+                message('删除成功', $this->createWebUrl('Fengjin', array()));
+            } else {
+                message('删除失败！', $redirect = '', $type = '');
+            }
+        }
+    }
+
+
 	public function isOk_ip($ip){  
 		 if(preg_match('/^((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1 -9]?\d))))$/', $ip))  
 		{  
@@ -3916,7 +3962,7 @@ public function doMobileWxjspayapi() {
 		$user_data = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE id = :id LIMIT 1", array(':id' => $_GPC['id']));
 				
 		if ($result3) {
-			
+
 			
 			if($this->settings[0]['templateid']){
 					$template_id = $this->settings[0]['templateid'];
@@ -3944,6 +3990,18 @@ public function doMobileWxjspayapi() {
 	        message('失败！', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])));
 		}
 	}
+
+    public function doWebJiefengjin() {
+        global $_GPC, $_W;
+        $data = array('flag' => 0);
+        $result = pdo_update('wei_vote_fengjin', array('uniacid' => $_W['uniacid'], 'id' => $_GPC['id']));
+        if ($result) {
+            message('成功！', $this->createWebUrl('Fengjin'));
+        } else {
+            message('失败！', $this->createWebUrl('Fengjin'));
+        }
+    }
+
 	public function doWebButongguo() {
 		global $_GPC, $_W;
 		$data3 = array('isshenhe' => 1,);

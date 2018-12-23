@@ -343,7 +343,11 @@ if (!function_exists('murl')) {
 		global $_W;
 		list($controller, $action, $do) = explode('/', $segment);
 		if (!empty($addhost)) {
-			$url = $_W['siteroot'] . 'app/';
+		    if($addhost === true) {
+		        $url = $_W['siteroot'] . 'app/';
+            } else {
+		        $url = 'http://' . $addhost . '/app/./';
+            }
 		} else {
 			$url = './';
 		}

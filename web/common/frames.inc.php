@@ -1038,6 +1038,7 @@ $we7_system_menu['system'] = array(
 	),
 );
 
+/*
 $we7_system_menu['site'] = array(
 	'title' => '站点',
 	'icon' => 'wi wi-system-site',
@@ -1197,6 +1198,7 @@ $we7_system_menu['site'] = array(
 	),
 	'founder' => true,
 );
+*/
 
 
 

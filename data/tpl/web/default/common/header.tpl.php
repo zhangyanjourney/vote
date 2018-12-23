@@ -155,22 +155,18 @@
 			<?php  if(empty($frames['section']['platform_module_menu']['plugin_menu'])) { ?>
 			<div class="left-menu-content">
 				<?php  if(is_array($frames['section'])) { foreach($frames['section'] as $frame_section_id => $frame_section) { ?>
-
-				
-				
 				<?php  if(FRAME == 'store' && !($_W['isfounder']) && !empty($frame_section['founder'])) { ?>
 				<?php  continue;?>
 				<?php  } ?>
-				
 
 				<?php  if(!isset($frame_section['is_display']) || !empty($frame_section['is_display'])) { ?>
 				<div class="panel panel-menu">
 					<?php  if($frame_section['title']) { ?>
 					<div class="panel-heading">
-						<span class="no-collapse" data-toggle="collapse" data-target="#frame-<?php  echo $frame_section_id;?>" onclick="util.cookie.set('menu_fold_tag:<?php  echo $frame_section_id;?>', util.cookie.get('menu_fold_tag:<?php  echo $frame_section_id;?>') == 1 ? 0 : 1)"><?php  echo $frame_section['title'];?><i class="wi wi-down-sign-s pull-right setting"></i></span>
+						<span class="no-collapse" data-toggle="collapse" data-target="#frame-<?php  echo $frame_section_id;?>" onclick="util.cookie.set('menu_fold_tag:<?php  echo $frame_section_id;?>', util.cookie.get('menu_fold_tag:<?php  echo $frame_section_id;?>') == 1 ? 0 : 1)">
+							<?php  echo $frame_section['title'];?><i class="wi wi-down-sign-s pull-right setting"></i></span>
 					</div>
 					<?php  } ?>
-
 					<ul class="list-group collapse <?php  if($_GPC['menu_fold_tag:'.$frame_section_id] == 0) { ?>in<?php  } ?>" id="frame-<?php  echo $frame_section_id;?>">
 						<?php  if(is_array($frame_section['menu'])) { foreach($frame_section['menu'] as $menu_id => $menu) { ?>
 							<?php  if(!empty($menu['is_display'])) { ?>
@@ -191,6 +187,7 @@
 											<?php  } ?>
 										<?php  } ?>
 										<?php  echo $menu['title'];?>
+
 										<?php  if(!empty($menu['need_upload']) && $action != 'front-download') { ?><i class="wi wi-info-sign color-red" style="font-size:14px;position:relative;bottom:4px"></i><?php  } ?>
 										</a>
 									</li>
@@ -200,6 +197,7 @@
 						<?php  } } ?>
 					</ul>
 				</div>
+
 				<?php  } ?>
 				<?php  } } ?>
 			</div>
@@ -234,7 +232,8 @@
 							<div class="panel panel-menu">
 								<?php  if($frame_section['title']) { ?>
 								<div class="panel-heading">
-									<span class="no-collapse"><?php  echo $frame_section['title'];?><i class="wi wi-appsetting pull-right setting"></i></span>
+									<span class="no-collapse"><?php  echo $frame_section['title'];?>
+										<i class="wi wi-appsetting pull-right setting"></i></span>
 								</div>
 								<?php  } ?>
 								<ul class="list-group panel-collapse">
@@ -253,6 +252,38 @@
 											<?php  } else { ?>
 											<i class="<?php  echo $menu['icon'];?>"></i>
 											<?php  } ?>
+										<?php  } ?>
+										<?php  echo $menu['title'];?>
+										</a>
+									</li>
+									<?php  } ?>
+									<?php  } ?>
+									<?php  } } ?>
+								</ul>
+							</div>
+							<div class="panel panel-menu">
+								<?php  if($frame_section['title']) { ?>
+								<div class="panel-heading">
+										<span class="no-collapse"><?php  echo $frame_section['title'];?>
+											<i class="wi wi-appsetting pull-right setting"></i></span>
+								</div>
+								<?php  } ?>
+								<ul class="list-group panel-collapse">
+									<?php  if(is_array($frame_section['menu'])) { foreach($frame_section['menu'] as $menu_id => $menu) { ?>
+									<?php  if(!empty($menu['is_display'])) { ?>
+									<?php  if($menu_id == 'platform_module_more') { ?>
+									<li class="list-group-item list-group-more">
+										<a href="<?php  echo url('module/manage-account');?>"><span class="label label-more">更多应用</span></a>
+									</li>
+									<?php  } else { ?>
+									<li class="list-group-item <?php  if($menu['active']) { ?>active<?php  } ?>">
+										<a href="<?php  echo $menu['url'];?>" class="text-over" <?php  if($frame_section_id == 'platform_module') { ?>target="_blank"<?php  } ?>>
+										<?php  if($menu['icon']) { ?>
+										<?php  if($frame_section_id == 'platform_module') { ?>
+										<img src="<?php  echo $menu['icon'];?>"/>
+										<?php  } else { ?>
+										<i class="<?php  echo $menu['icon'];?>"></i>
+										<?php  } ?>
 										<?php  } ?>
 										<?php  echo $menu['title'];?>
 										</a>

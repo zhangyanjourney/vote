@@ -65,17 +65,16 @@
         </div>
     </div>
 
-  
-  
-  
-  
+
+
+
 
 	<div class="panel panel-default">
 	<div class="panel-body table-responsive">
 		<table class="table table-hover" style="width:100%;z-index:-10;" cellspacing="0" cellpadding="0">
 			<thead style="height:70px" class="navbar-inner">
 				<tr>
-					<th style="width:30px;overflow:hidden;">删？</th>
+					<th style="width:30px;overflow:hidden;">#</th>
 					<th style="width:50px;overflow:hidden;">ID</th>
 					
 					<th style="width:90px;overflow:hidden;">缩略图</th>
@@ -133,8 +132,11 @@
 						<p><span class="label label-warning">浏览量：{$item['liulan']}</span></p>
 							<p class="color-gray "><span class="label label-warning">金额：{$item['je']}{if $item['je'] == ''}0{/if}元</span></p>
                        		<p class="color-gray "><span class="label label-warning">实际票数：{$item['shijipiaoshu']}</span></p>
-							<p><a href="javascript:;" class="js-clip color-default" data-url="{php echo $_W['siteroot'].'app/' }{php echo $this->createMobileUrl('voindex',array('hdid'=>$item['id']))}"  >复制活动链接</a></p>
-							<p><a style="color:#428bca" href="{php echo $this->createWebUrl('clip',array('hdid'=>$item['id']))}"  >复制活动</a></p>
+<!--
+							<p><a href="javascript:;" class="js-clip color-default" data-url="{php echo $_W['siteroot'].'app/' }{php echo $this->createValidMobileUrl('voindex',array('hdid'=>$item['id']))}"  >复制活动链接</a></p>
+-->
+							<a href="javascript:;" class="js-clip color-default" data-url="{php echo $this->createValidMobileUrl('voindex',array('hdid'=>$item['id']))}"  >复制活动链接</a>
+							<p><a style="color:#428bca" href="{php echo $this->createMobileUrl('clip',array('hdid'=>$item['id']))}"  >复制活动</a></p>
 						</div>
 					
 					</td>

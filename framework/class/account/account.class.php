@@ -804,10 +804,20 @@ abstract class WeBase {
 		global $_W;
 		$query['do'] = $do;
 		$query['m'] = strtolower($this->modulename);
+
 		return murl('entry', $query, $noredirect);
 	}
 
-	
+    protected function createValidMobileUrl($do, $query = array(), $noredirect = true) {
+        global $_W;
+        $query['do'] = $do;
+        $query['m'] = strtolower($this->modulename);
+
+        $domain = pdo_fetch("SELECT domain FROM ".tablename('wei_vote_fengjin')." WHERE flag = :flag and uniacid = :uniacid LIMIT 1", array(':flag' => 0,  ':uniacid' => $_W['uniacid']));
+        $domain = $domain['domain'];
+        return murl('entry', $query, $noredirect, $domain);
+    }
+
 	protected function createWebUrl($do, $query = array()) {
 		$query['do'] = $do;
 		$query['m'] = strtolower($this->modulename);
@@ -867,7 +877,7 @@ abstract class WeBase {
 		$paths = pathinfo($compile);
 		$compile = str_replace($paths['filename'], $_W['uniacid'] . '_' . $paths['filename'], $compile);
 		if (DEVELOPMENT || !is_file($compile) || filemtime($source) > filemtime($compile)) {
-			template_compile($source, $compile, true);
+		    template_compile($source, $compile, true);
 		}
 		return $compile;
 	}

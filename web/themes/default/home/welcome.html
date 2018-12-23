@@ -47,7 +47,7 @@
 				<div class="menu">
 					<span class="topic active notice">公告</span>
 					
-						<span class="topic we7notice">微擎公告</span>
+<!--						<span class="topic we7notice">微擎公告</span>-->
 					
 				</div>
 			</div>
@@ -67,7 +67,7 @@
 			
 		</div>	
 		
-			<div class="panel we7-panel apply-list">
+<!--			<div class="panel we7-panel apply-list">
 				<div class="panel-heading">
 					<a href="http://s.we7.cc" target="_blank" class="color-default pull-right">查看更多应用</a>
 					微擎推荐
@@ -80,7 +80,7 @@
 						<span>{{module.title|limitTo:6}}</span>
 					</a>
 				</div>
-			</div>
+			</div>-->
 		
 	</div>
 </div>
