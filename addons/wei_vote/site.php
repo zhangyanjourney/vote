@@ -979,17 +979,14 @@ class Wei_voteModuleSite extends WeModuleSite
             $psize = 20;
             $condition = "";
             $table_name = 'core_paylog';
-            $list = pdo_fetchall("SELECT * FROM " . tablename($table_name) . " WHERE uniacid = '{
-                    $uniacid} ' ORDER BY plid DESC LIMIT 20");
+            $list = pdo_fetchall("SELECT * FROM " . tablename($table_name) . " WHERE uniacid = '{$uniacid} ' ORDER BY plid DESC LIMIT 20");
 
             foreach ($list as &$val) {
                 $val['status'] == 2 ? ($val['status_cn'] = "已支付") . ($val['status_style'] = 'success') : ($val['status_cn'] = "未支付") . ($val['status_style'] = 'danger');
-                $hd_info = pdo_fetchcolumn('SELECT xlh FROM ' . tablename('wei_vote_peizhi') . " WHERE uniacid = '{
-                    $uniacid}' AND id = '" . $val['rid'] . "'");
+                $hd_info = pdo_fetchcolumn('SELECT xlh FROM ' . tablename('wei_vote_peizhi') . " WHERE uniacid = '{$uniacid}' AND id = '" . $val['rid'] . "'");
                 $rtitle_info = iunserializer($hd_info);
                 $val['rtitle'] = $rtitle_info['name'];
-                $val['uname'] = pdo_fetchcolumn('SELECT name FROM ' . tablename('wei_vote_up') . " WHERE uniacid = '{
-                    $uniacid}' AND hdid = '" . $val['rid'] . "'AND bh='" . $val['bh'] . "'");
+                $val['uname'] = pdo_fetchcolumn('SELECT name FROM ' . tablename('wei_vote_up') . " WHERE uniacid = '{$uniacid}' AND hdid = '" . $val['rid'] . "'AND bh='" . $val['bh'] . "'");
                 !$val['rtitle'] && $val['rtitle'] = "活动异常";
                 !$val['uname'] && $val['uname'] = "选手异常";
 
