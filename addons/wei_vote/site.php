@@ -246,6 +246,7 @@ class Wei_voteModuleSite extends WeModuleSite {
             $item['votetotal'] = pdo_fetchcolumn('SELECT COUNT(id) FROM ' . tablename('wei_vote_jilu') . " WHERE  {$the_uname} and   uniacid = :uniacid", array(':uniacid' => $_W['uniacid']));
             $item['jointotal'] = pdo_fetchcolumn('SELECT COUNT(id) FROM ' . tablename('wei_vote_up') . " WHERE   uniacid = :uniacid  and {$the_uname} ", array(':uniacid' => $_W['uniacid']));
             $item['giftcount'] = pdo_fetchcolumn('SELECT sum(jiner) FROM ' . tablename('wei_vote_userlog') . " WHERE {$the_uname} and  uniacid = :uniacid AND iszhifu=2 AND isgl=1  ", array(':uniacid' => $_W['uniacid']));
+            $item['giftcount'] = !empty($item['giftcount']) ? $item['giftcount'] : 0;
             $item['zssj'] = pdo_fetchcolumn('SELECT sum(jiner) FROM ' . tablename('wei_vote_userlog') . " WHERE   uniacid = :uniacid AND iszhifu=2 and {$the_uname}", array(':uniacid' => $_W['uniacid']));
         }else{
             $y = date("Y");
