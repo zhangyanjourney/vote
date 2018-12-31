@@ -181,6 +181,13 @@ class Wei_voteModuleSite extends WeModuleSite {
         $result = pdo_insert('wei_vote_peizhi', $settings);
         if (!empty($result)) {
             $uid = pdo_insertid();
+            pdo_query("INSERT INTO ".tablename('wei_vote_liwu')." VALUES 
+							('', ".$_W['uniacid'].", '棒棒糖', '10', '3', '../addons/wei_vote/template/style/images/11.png', '1','', ".$uid.")".",
+							('', ".$_W['uniacid'].", '蓝色妖姬', '10', '15', '../addons/wei_vote/template/style/images/22.png', '5','', ".$uid.")".",
+							('', ".$_W['uniacid'].", '香水', '10', '30', '../addons/wei_vote/template/style/images/33.png', '10','', ".$uid.")".",
+							('', ".$_W['uniacid'].", '皮皮虾', '10', '60', '../addons/wei_vote/template/style/images/44.png', '20','', ".$uid.")".",
+							('', ".$_W['uniacid'].", '砖戒', '10', '180', '../addons/wei_vote/template/style/images/555.png', '50','', ".$uid.")".",
+							('', ".$_W['uniacid'].", '豪华游艇', '10', '650', '../addons/wei_vote/template/style/images/66.png', '200','', ".$uid.")");
             header("Location:".$this->createWebUrl('huodong', array('id' => $uid,'op' => 'edi')));
             message('添加成功');
             ;

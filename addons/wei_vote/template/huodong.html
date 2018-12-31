@@ -1,4 +1,6 @@
 {template 'common/header'}
+{template 'common/floatgift'}
+
 <script type="text/javascript" src="{TEMPLATE_PATH}js/leftTime.min.js"></script>
 
 <script>
@@ -25,10 +27,6 @@
 
 
             }, "json");
-
-
-
-
     }
 
 
@@ -136,8 +134,7 @@
                                                     <p><a href="javascript:;" class="js-clip color-default" data-url="{php echo $_W['siteroot'].'app/' }{php echo $this->createValidMobileUrl('voindex',array('hdid'=>$item['id']))}"  >复制活动链接</a></p>
                         -->
 						<a href="javascript:;" class="js-clip color-default" data-url="{php echo $this->createValidMobileUrl('voindex',array('hdid'=>$item['id']))}"  >复制活动链接</a>
-						<!--<?php var_dump($_SERVER['SERVER_NAME'])?>-->
-						<p><a style="color:#428bca" href="{php echo $this->createWebUrl('clip', array('hdid' => $item['id']))}"  >复制活动</a></p>
+						<p><a style="color:#428bca" href="{php echo $this->createWebUrl('clip',array('hdid'=>$item['id']))}"  >复制活动</a></p>
 					</div>
 
 				</td>
@@ -165,14 +162,14 @@
 		</table>
 		<!-- <table class="table table-hover">
 			<tbody>
-		
+
 			<tr>
 				<td colspan="2">
 				<div class="panel-group" id="accordion">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordion" 
+										<a data-toggle="collapse" data-parent="#accordion"
 										   href="#collapseOne">
 											获取最新文档
 										</a>
@@ -184,25 +181,25 @@
 											<label for="exampleInputEmail1">请填写EMAIL</label>
 											<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
 										</div>
-										  
-										  <button type="submit" id="tj" class="btn btn-default">Submit</button> 
+
+										  <button type="submit" id="tj" class="btn btn-default">Submit</button>
 									</div>
 								</div>
 							</div>
-						
-						
+
+
 						</div>
 				</td>
 			</tr>
 		</tbody>
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
 		</table> -->
 	</div>
 </div>
