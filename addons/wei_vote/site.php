@@ -6,20 +6,19 @@
  * @url http://bbs.we7.cc/
  */
 defined('IN_IA') or exit('Access Denied');
-
 define('TEMPLATE_PATH', '../addons/wei_vote/template/style/');
 define('MB_ROOT', IA_ROOT . '/addons/wei_vote');
-
 class Wei_voteModuleSite extends WeModuleSite
 {
+    //数据表
+    public $tablefeedback = "tyzm_diamondvote_feedback";
+    public $tablereply = "tyzm_diamondvote_reply";
     private $tb_vote = 'wei_vote_up';
-
     public $sc = 2;
     public $settings;
     public $user_total;
     public $piao_total;
     public $replys;
-
     public function __construct()
     {
         global $_GPC, $_W;
@@ -28,7 +27,6 @@ class Wei_voteModuleSite extends WeModuleSite
         if ($rd == 5) {
             cache_delete($uniacidpeizhi);
         }
-
         $result = cache_load($uniacidpeizhi);
         if ($result) {
             $settings = cache_load($uniacidpeizhi);
@@ -37,14 +35,10 @@ class Wei_voteModuleSite extends WeModuleSite
             $sql = 'SELECT * FROM ' . tablename('wei_vote_peizhi') . ' WHERE uniacid = :uniacid and id=:hdid';
             $settings = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
             /* if($_GPC['c'] == 'entry'){
-
 				 if(empty($settings)){
-
 					 echo '活动不存在！';exit();
 				 }
-
 			 } */
-
             $this->settings['0'] = iunserializer($settings['0']['xlh']);
             $this->settings['0']['liulan'] = $settings['0']['liulan'];
             $this->settings['0']['cn_4'] = $settings['0']['cn_4'];
@@ -67,16 +61,12 @@ class Wei_voteModuleSite extends WeModuleSite
             $this->settings['0']['cr_1'] = $settings['0']['cr_1'];
             $this->settings['0']['ch_1'] = $settings['0']['ch_1'];
             $settings[0] = $this->settings['0'];
-
             cache_write($uniacidpeizhi, $this->settings);
         }
-
         if ($settings[0]['huancun'] == 1) {
         } else {
             cache_delete($uniacidpeizhi);
         }
-
-
         $this->kaishi = 0;
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         if (strpos($user_agent, 'MicroMessenger') === false) {
@@ -84,67 +74,48 @@ class Wei_voteModuleSite extends WeModuleSite
             if ($settings[0]['tiaozhuandizhi']) {
                 if ($_SERVER['HTTP_HOST'] != $settings[0]['tiaozhuandizhi']) {
                     if ($settings[0]['oauth'] == 1) {
-
                         $hosturl = $_SERVER['REQUEST_SCHEME'] . '://' . $settings[0]['tiaozhuandizhi'] . $_SERVER['REQUEST_URI'] . '&openid=' . $_W['openid'] . '&cc=' . $_W['fans']['follow'];
                         Header("Location: $hosturl");
                         exit();
-
-
                     } else {
                         $hosturl = $_SERVER['REQUEST_SCHEME'] . '://' . $settings[0]['tiaozhuandizhi'] . $_SERVER['REQUEST_URI'] . '&wxdm=1';
                         Header("Location: $hosturl");
                         exit();
-
                     }
                 }
                 /* $_SESSION['openid'] = $_SESSION['fans']['openid'] = $_GPC['openid'];
 				$_SESSION['fans']['follow'] = $_GPC['cc'];
 				if ($_GPC['cc']) {
-
 					$hosturl = $_SERVER['REQUEST_SCHEME'].'://'.$settings[0]['tiaozhuandizhi'].$_SERVER['REQUEST_URI'].'&wxdm=1';
 					Header("Location: $hosturl");
 					exit();
-
 				} */
             }
         }
-
-
         if ($this->settings[0]['muban'] == 0) {
-
             $this->replys['template'] = 0;
         } elseif ($this->settings[0]['muban'] == 1) {
-
             $this->replys['template'] = 'new1';
         } elseif ($this->settings[0]['muban'] == 2) {
-
             $this->replys['template'] = 'new';
         } elseif ($this->settings[0]['muban'] == 3) {
-
             $this->replys['template'] = 'new3';
         } elseif ($this->settings[0]['muban'] == 4) {
-
             $this->replys['template'] = 'new4';
         } elseif ($this->settings[0]['muban'] == 5) {
-
             $this->replys['template'] = 'new5';
         } else {
             $this->replys['template'] = 0;
         }
-
-
         $this->settings[0][touimg] = tomedia($this->settings[0][touimg]);
         $this->user_total = $user_total = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid  and hdid = :hdid LIMIT 1", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
-
         $this->piao_total = $piao_total = pdo_fetchcolumn('SELECT sum(piao) FROM ' . tablename('wei_vote_up') . " WHERE   uniacid = :uniacid  and hdid = :hdid", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
-
-
         pdo_update('wei_vote_peizhi', array('liulan +=' => 1), array('uniacid' => $_W['uniacid'], 'id' => $_GPC['hdid']));
-
-
     }
 
-
+    public function  json_exit($status,$msg){
+        exit(json_encode(array('status' => $status, 'msg' => $msg)));
+    }
     public function is_https()
     {
         if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
@@ -156,7 +127,6 @@ class Wei_voteModuleSite extends WeModuleSite
         }
         return false;
     }
-
     public function doMobileCodeyz()
     {
         global $_GPC, $_W;
@@ -169,11 +139,7 @@ class Wei_voteModuleSite extends WeModuleSite
         isetcookie('__code', $hash);
         $_SESSION['__code'] = $hash;
         $captcha->output();
-
-
     }
-
-
     public function doWebClip()
     {
         global $_GPC, $_W;
@@ -198,21 +164,14 @@ class Wei_voteModuleSite extends WeModuleSite
             header("Location:" . $this->createWebUrl('huodong', array('id' => $uid, 'op' => 'edi')));
             message('添加成功');;
         } else {
-
             message('添加失败');
         }
-
-
     }
-
     public function doWebMail()
     {
         global $_GPC, $_W;
-
         $post_data = 'mail=' . $_GPC['mail'];
-
         $url = 'http://wx.zc91.cn/email/mail.php';
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -221,17 +180,11 @@ class Wei_voteModuleSite extends WeModuleSite
         curl_exec($ch);
         $result = ob_get_contents();
         ob_end_clean();
-
-
         echo json_encode($result);
-
-
     }
-
     public function doWebShuju()
     {
         global $_GPC, $_W;
-
         if ($this->moshi == 1 && $_W['isfounder'] != 'true') {
             $pieces = pdo_fetchall("SELECT id FROM " . tablename('wei_vote_peizhi') . " WHERE uniacid = :uniacid  and user=:user ORDER BY id DESC", array(':uniacid' => $_W['uniacid'], ':user' => $_W['username']));
             for ($i = 0; $i < count($pieces); $i++) {
@@ -239,7 +192,6 @@ class Wei_voteModuleSite extends WeModuleSite
             }
             $the_uname = "hdid in(" . $uname . "'')";
             $the_unames = "id in(" . $uname . "'')";
-
             $y = date("Y");
             $m = date("m");
             $d = date("d");
@@ -277,7 +229,6 @@ class Wei_voteModuleSite extends WeModuleSite
         }
         $cd = array_column($item['je'], 'count', 'days');
         //print_r($cd);
-
         for ($i = 30; 0 <= $i; $i--) {
             $dy = date('Ymd', strtotime('-' . $i . ' day'));
             $result[$i]['y'] = $dy;
@@ -297,7 +248,6 @@ class Wei_voteModuleSite extends WeModuleSite
         //print_r($mtje_zfc);
         include $this->template('shuju');
     }
-
     public function doWebBlacklist()
     {
         global $_GPC, $_W;
@@ -307,7 +257,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $data = array(
             'uniacid' => $_W['uniacid'],
             'type' => $type,
-
             'ip' => $val,
             'createtime' => time(),
         );
@@ -317,36 +266,23 @@ class Wei_voteModuleSite extends WeModuleSite
             $data['type'] = '';
             echo json_encode($data);
             exit();
-
         }
         if ($type == 1) {
-
             $data['val'] = $results['didian'];
-
         } else {
-
             $data['val'] = $results['nickname'];
-
         }
-
-
         $re = pdo_insert('wei_vote_ip', $data);
         if ($re) {
-
             $data['type'] = 'success';
             echo json_encode($data);
             exit();
-
         } else {
-
             $data['type'] = 'success';
             echo json_encode($data);
             exit();
-
         }
-
     }
-
     public function doWebUploadvote()
     {
         global $_GPC, $_W;
@@ -355,8 +291,6 @@ class Wei_voteModuleSite extends WeModuleSite
             $cture = 0;
             $cflase = 0;
             for ($k = 0; $k < count($_POST['imgname']); $k++) {
-
-
                 $instdata = array(
                     'hdid' => $hdid,
                     'uniacid' => $_W['uniacid'],
@@ -371,7 +305,6 @@ class Wei_voteModuleSite extends WeModuleSite
                 $instdata['height'] = $aa['1'];
                 $lastid = pdo_getall('wei_vote_up', array('hdid' => $hdid, 'uniacid' => $_W['uniacid']), array('bh'), '', 'bh DESC', array(1));
                 $instdata['bh'] = $lastid[0]['bh'] + 1;
-
                 $result = pdo_insert('wei_vote_up', $instdata);
                 if ($result) {
                     $cture++;
@@ -381,10 +314,7 @@ class Wei_voteModuleSite extends WeModuleSite
             }
             message('操作完成，成功' . $cture . '个，失败' . $cflase . '个。', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])), 'success');
         }
-
         include $this->template('uploadvote');
-
-
     }
 
     public function doWebHuodong()
@@ -397,23 +327,65 @@ class Wei_voteModuleSite extends WeModuleSite
             $owner = $_GPC['owner'];
             $where = '';
             if (!empty($owner) and $owner != '-1') {
-                $where = " and  owner= '" . $owner . "'";
+                $where .= " AND  owner = '" . $owner . "'";
             }
             if (!empty($_GPC['keyword'])) {
-                $where = " AND xlh LIKE '%{$_GPC['keyword']}%'";
+                $keyword = $_GPC['keyword'];
+                $where .= " AND xlh LIKE '%$keyword%'";
             }
+            if (isset($_GPC['status']) && $_GPC['status'] != "") {
+                if ($_GPC['status'] ==1) {
+                    $where .= " AND status = '1' AND starttime < '".time()."' AND endtime > '".time()."'";
+                }elseif ($_GPC['status'] ==3) {
+                    $where .= " AND status = '1' AND starttime > '".time()."'";
+                }elseif ($_GPC['status'] ==4) {
+                    $where .= " AND status = '1' AND endtime < '".time()."'";
+                }else{
+                    $where .= " AND status = '{$_GPC['status']}'";
+                }
+            }
+            if(!empty($_GPC['votestart'])) {
+                $start_time = strtotime(date("Y-m-d"), time());
+                $end_time = $start_time + 86400;
+                if ($_GPC['votestart'] == 1) {
+                    $where .= " AND starttime BETWEEN " .$start_time . " AND " . $end_time;
+                } else {
+                    $where .= " AND NOT (starttime BETWEEN " .$start_time . " AND " . $end_time .")";
+                }
+            }
+            if(!empty($_GPC['voteend'])) {
+                $start_time = strtotime(date("Y-m-d"), time());
+                $end_time = $start_time + 86400;
+                if ($_GPC['voteend'] == 1) {
+                    $where .= " AND endtime BETWEEN " .$start_time . " AND " . $end_time;
+                } else {
+                    $where .= " AND NOT (endtime BETWEEN " .$start_time . " AND " . $end_time .")";
+                }
+            }
+            if (is_array($_GPC['starttime'])) {
+                $where .= " AND starttime > '".strtotime($_GPC['starttime']['start'])."' AND starttime < '".(strtotime($_GPC['starttime']['end'])+86399)."'";
+            }
+            if (is_array($_GPC['endtime'])) {
+                $where .= " AND endtime > '".strtotime($_GPC['endtime']['start'])."' AND endtime < '".(strtotime($_GPC['endtime']['end'])+86399)."'";
+            }
+            if (is_array($_GPC['createtime'])) {
+                $where .= " AND crtime > '".strtotime($_GPC['createtime']['start'])."' AND crtime < '".(strtotime($_GPC['createtime']['end'])+86399)."'";
+            }
+            !$_GPC['createtime']['start'] && $_GPC['createtime']['start'] = date("Y-m-d H:i:s", strtotime("-1 month"));
+            !$_GPC['createtime']['end'] && $_GPC['createtime']['end'] = date("Y-m-d H:i:s", time());
+            !$_GPC['starttime']['start'] && $_GPC['starttime']['start'] = date("Y-m-d H:i:s", strtotime("-1 month"));
+            !$_GPC['starttime']['end'] && $_GPC['starttime']['end'] = date("Y-m-d H:i:s", strtotime("1 month"));
+            !$_GPC['endtime']['start'] && $_GPC['endtime']['start'] = date("Y-m-d H:i:s", strtotime("-1 month"));
+            !$_GPC['endtime']['end'] && $_GPC['endtime']['end'] = date("Y-m-d H:i:s", strtotime("1 month"));
+
             if ($this->moshi == 1 && $_W['isfounder'] != 'true') {
-
                 $urs = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_peizhi') . " WHERE uniacid = :uniacid and user =:user ORDER BY id DESC LIMIT " . ($pindex - 1) * $psize . ",{$psize}", array(':uniacid' => $_W['uniacid'], ':user' => $_W['username']));
-
             } else {
-
-
                 $urs = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_peizhi') . " WHERE uniacid = :uniacid  " . $where . " ORDER BY id DESC LIMIT " . ($pindex - 1) * $psize . ",{$psize}", array(':uniacid' => $_W['uniacid']));
-
             }
             foreach ($urs as $key => $value) {
                 $urs[$key] = iunserializer($value['xlh']);
+                unset($usrs[$key]['owner']);
                 $urs[$key]['id'] = $value['id'];
                 $urs[$key]['liulan'] = $value['liulan'];
                 $urs[$key]['je'] = pdo_fetchcolumn("SELECT sum(jiner) FROM " . tablename('wei_vote_userlog') . " WHERE uniacid = :uniacid and iszhifu=:iszhifu and hdid=:hdid and isxuli = :isxuli", array(':uniacid' => $_W['uniacid'], ':iszhifu' => 2, ':hdid' => $value['id'], ':isxuli' => 1));
@@ -421,44 +393,33 @@ class Wei_voteModuleSite extends WeModuleSite
                 if (empty($urs[$key]['shijipiaoshu'])) {
                     $urs[$key]['shijipiaoshu'] = 0;
                 }
+                $usr[$key]['endtime'] = $value['endtime'];
+                $urs[$key]['date_starttime'] = date("Y-m-d H:i:s", $value['starttime']);
+                $urs[$key]['date_endtime'] = date("Y-m-d H:i:s", $value['endtime']);
+                $urs[$key]['owner'] = $value['owner'];
             }
-
             if ($this->moshi == 1 && $_W['isfounder'] != 'true') {
-
                 $total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('wei_vote_peizhi') . " WHERE uniacid = :uniacid and user =:user", array(':uniacid' => $_W['uniacid'], ':user' => $_W['username']));
-
             } else {
-
                 $total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('wei_vote_peizhi') . " WHERE uniacid = :uniacid" . $where, array(':uniacid' => $_W['uniacid']));
-
             }
-
             $pager = pagination($total, $pindex, $psize);
-
             /*
 			$sql = 'select sum(jiner) from ' . tablename('wei_vote_peizhi') . ' where uniacid = :uniacid and iszhifu = :iszhifu';
 		    $param = array(':uniacid' => $_W['uniacid'],':iszhifu' => 2);
 		    $totaltotal = pdo_fetchcolumn($sql, $param);
-
 			$totaltotal = floor($totaltotal); */
-
             $sql = 'select owner from ' . tablename('wei_vote_peizhi') . ' where uniacid = :uniacid and   owner<>\'\' GROUP by owner';
             $param = array(':uniacid' => $_W['uniacid']);
             $owner_list = pdo_fetchall($sql, $param);
-
             include $this->template('huodong');
         }
         if ($op == 'del') {
-
             if ($this->sc == 1) {
-
                 if (!$_W['isfounder']) {
-
                     message('没有权限删除!', $this->createWebUrl('Huodong', array()));
                     exit();
-
                 }
-
             }
             $ew = pdo_delete('wei_vote_peizhi', array('id' => $_GPC['id']));
             if ($ew) {
@@ -468,7 +429,6 @@ class Wei_voteModuleSite extends WeModuleSite
             }
         }
         if ($op == 'edi') {
-
             $results = pdo_fetch("SELECT * FROM " . tablename('wei_vote_peizhi') . " WHERE uniacid = :uniacid and id =:id ORDER BY id DESC ", array(':uniacid' => $_W['uniacid'], ':id' => $_GPC['id']));
             $result = iunserializer($results['xlh']);
             $result['ct_4'] = $results['ct_4'];
@@ -491,17 +451,12 @@ class Wei_voteModuleSite extends WeModuleSite
             $result['cm_1'] = $results['cm_1'];
             $result['cr_1'] = $results['cr_1'];
             $result['ch_1'] = $results['ch_1'];
-
             if ($_POST && $_GPC['id']) {
-
-
             } else {
-
                 include $this->template('newhuodongadd');
             }
         }
         if ($op == 'add') {
-
             if ($_POST) {
                 load()->func('tpl');
                 !defined('APP_PATH') && define('APP_PATH', IA_ROOT . '/addons/wei_vote/');
@@ -523,7 +478,6 @@ class Wei_voteModuleSite extends WeModuleSite
                     }
                     $save_file = $wxcertdir . "/" . $_W["uniacid"] . "." . $ext;
                     file_move($_FILES['nbfwpaycert']['tmp_name'], $save_file);
-
                     $this->unzip($save_file, $wxcertdir);
                     $certpath = $wxcertdir . "/apiclient_cert.pem";
                     $keypath = $wxcertdir . "/apiclient_key.pem";
@@ -560,18 +514,14 @@ class Wei_voteModuleSite extends WeModuleSite
                 $data['display'] = $_GPC['display'];
                 $data['zuipiao'] = $_GPC['zuipiao'];
                 $data['name'] = $_GPC['name'];
-                $data['owner'] = $_GPC['owner'];
                 $data['uniacid'] = $_W['uniacid'];
                 $data['huodong_sm'] = $_GPC['huodong_sm'];
                 $data['weng_x'] = $_GPC['weng_x'];
                 $data['jian_p'] = $_GPC['jian_p'];
                 $data['kaitime'] = $_GPC['work2']['start'];
                 $data['endtime'] = $_GPC['work2']['end'];
-
                 $data['bmkaitime'] = $_GPC['baoming']['start'];
                 $data['bmendtime'] = $_GPC['baoming']['end'];
-
-
                 $data['guanzhu'] = $_GPC['guanzhu'];
                 $data['censai'] = $_GPC['censai'];
                 $data['toupiaorenshu'] = $_GPC['toupiaorenshu'];
@@ -609,16 +559,10 @@ class Wei_voteModuleSite extends WeModuleSite
                 $data['isliwu'] = $_GPC['isliwu'];
                 $data['zjcishu'] = $_GPC['zjcishu'];
                 $data['choujiangcishu'] = $_GPC['choujiangcishu'];
-
                 $data['choujianjiesao'] = $_GPC['choujianjiesao'];
-
                 $data['audio'] = $_GPC['audio'];
-
                 $data['huancun'] = $_GPC['huancun'];
-
-
                 $data['wxkeyword'] = $_GPC['wxkeyword'];
-
                 $data['covertitle'] = $_GPC['covertitle'];
                 $data['wxdescribe'] = $_GPC['wxdescribe'];
                 $data['tpiao'] = $_GPC['tpiao'];
@@ -626,10 +570,8 @@ class Wei_voteModuleSite extends WeModuleSite
                 $data['yaz'] = $_GPC['yaz'];
                 $datas['uniacid'] = $_W['uniacid'];
                 $datas['crtime'] = time();
-
                 $data['muban'] = $_GPC['muban'];
                 $data['liwuinfo'] = $_GPC['liwuinfo'];
-
                 $data['advimg'] = $_GPC['advimg'];
                 $data['advurl'] = $_GPC['advurl'];
                 $data['advwenzi'] = $_GPC['advwenzi'];
@@ -642,8 +584,9 @@ class Wei_voteModuleSite extends WeModuleSite
                 $datas['user'] = $_W['username'];
                 $datas['owner'] = $_GPC['owner'];
                 $datas['xlh'] = iserializer($data);
+                $datas['starttime'] = strtotime($data['kaitime']);
+                $datas['endtime'] = strtotime($data['endtime']);
                 if (empty($_GPC['id'])) {
-
                     pdo_insert(wei_vote_peizhi, $datas);
                     $uid = pdo_insertid();
                     if ($uid) {
@@ -654,18 +597,14 @@ class Wei_voteModuleSite extends WeModuleSite
 							('', " . $_W['uniacid'] . ", '皮皮虾', '10', '60', '../addons/wei_vote/template/style/images/44.png', '20','', " . $uid . ")" . ",
 							('', " . $_W['uniacid'] . ", '砖戒', '10', '180', '../addons/wei_vote/template/style/images/555.png', '50','', " . $uid . ")" . ",
 							('', " . $_W['uniacid'] . ", '豪华游艇', '10', '650', '../addons/wei_vote/template/style/images/66.png', '200','', " . $uid . ")");
-
                         $gzname = 'zhouweivote' . $uid;
-
                         $gt = pdo_get('rule', array('name' => $gzname, 'module' => 'cover', 'uniacid' => $_W['uniacid']));
                         if ($gt) {
                             pdo_delete('rule_keyword', array('rid' => $gt['id'], 'uniacid' => $_W['uniacid']));
                             pdo_delete('cover_reply', array('rid' => $gt['id'], 'uniacid' => $_W['uniacid']));
                             pdo_delete('rule', array('name' => $gzname, 'module' => 'cover', 'uniacid' => $_W['uniacid']));
-
                         }
                         if (!empty($uid) && $_GPC['wxkeyword']) {
-
                             $rule = array(
                                 'uniacid' => $_W['uniacid'],
                                 'name' => $gzname,
@@ -674,7 +613,6 @@ class Wei_voteModuleSite extends WeModuleSite
                                 'status' => 1,
                                 'displayorder' => 0,
                             );
-
                             $resultrule = pdo_insert('rule', $rule);
                             $rid = pdo_insertid();
                             $reply = pdo_get('cover_reply', array('module' => 'wei_vote', 'rid' => $rid, 'uniacid' => $_W['uniacid']));
@@ -689,7 +627,6 @@ class Wei_voteModuleSite extends WeModuleSite
                                     'content' => $_GPC['wxkeyword'],
                                 );
                                 pdo_insert('rule_keyword', $keyword_insert);
-
                                 $entry = array(
                                     'uniacid' => $_W['uniacid'],
                                     'multiid' => 0,
@@ -700,45 +637,30 @@ class Wei_voteModuleSite extends WeModuleSite
                                     'thumb' => $_GPC['thumb'],
                                     'url' => $this->createMobileUrl('voindex', array('hdid' => $uid)),
                                     'do' => 'voindex',
-
                                 );
                                 if (empty($reply['id'])) {
                                     pdo_insert('cover_reply', $entry);
                                 } else {
                                     pdo_update('cover_reply', $entry, array('id' => $reply['id']));
                                 }
-
                             }
-
                         }
-
                         message('添加成功！', $this->createWebUrl('Huodong', array()));
                     } else {
-
-
                         message('添加失败！', $this->createWebUrl('Huodong', array()));
-
                     }
-
                 } else {
-
                     $result = pdo_update('wei_vote_peizhi', $datas, array('id' => $_GPC['id']));
                     $uid = $_GPC['id'];
                     if (!empty($result)) {
-
                         $gzname = 'zhouweivote' . $uid;
-
                         $gt = pdo_get('rule', array('name' => $gzname, 'module' => 'cover', 'uniacid' => $_W['uniacid']));
                         if ($gt) {
                             pdo_delete('rule_keyword', array('rid' => $gt['id'], 'uniacid' => $_W['uniacid']));
                             pdo_delete('cover_reply', array('rid' => $gt['id'], 'uniacid' => $_W['uniacid']));
                             pdo_delete('rule', array('name' => $gzname, 'module' => 'cover', 'uniacid' => $_W['uniacid']));
-
                         }
-
-
                         if (!empty($uid) && $_GPC['wxkeyword']) {
-
                             $rule = array(
                                 'uniacid' => $_W['uniacid'],
                                 'name' => $gzname,
@@ -747,7 +669,6 @@ class Wei_voteModuleSite extends WeModuleSite
                                 'status' => 1,
                                 'displayorder' => 0,
                             );
-
                             $resultrule = pdo_insert('rule', $rule);
                             $rid = pdo_insertid();
                             $reply = pdo_get('cover_reply', array('module' => 'wei_vote', 'rid' => $rid, 'uniacid' => $_W['uniacid']));
@@ -762,7 +683,6 @@ class Wei_voteModuleSite extends WeModuleSite
                                     'content' => $_GPC['wxkeyword'],
                                 );
                                 pdo_insert('rule_keyword', $keyword_insert);
-
                                 $entry = array(
                                     'uniacid' => $_W['uniacid'],
                                     'multiid' => 0,
@@ -773,80 +693,52 @@ class Wei_voteModuleSite extends WeModuleSite
                                     'thumb' => $_GPC['thumb'],
                                     'url' => $this->createMobileUrl('voindex', array('hdid' => $uid)),
                                     'do' => 'voindex',
-
                                 );
                                 if (empty($reply['id'])) {
                                     pdo_insert('cover_reply', $entry);
                                 } else {
                                     pdo_update('cover_reply', $entry, array('id' => $reply['id']));
                                 }
-
                             }
-
                         }
-
-
                         message('成功！', $this->createWebUrl('Huodong', array()));
                         exit();
                     } else {
-
-
                         message('失败！', $this->createWebUrl('Huodong', array()));
-
                     }
-
                 }
-
-
             } else {
-
-
                 if (empty($result['zuipiao'])) {
-
                     $result['zuipiao'] = 5;
                 }
                 if (empty($result['xiangtong'])) {
-
                     $result['xiangtong'] = 0;
                 }
                 if (empty($result['name'])) {
-
                     $result['name'] = '看最美花仙子【终极对战来袭】';
                 }
                 if (empty($result['zuiduotupian'])) {
-
                     $result['zuiduotupian'] = 5;
                 }
-
                 if (empty($result['endtime'])) {
                     $tmp = time() + 86400 * 7;
                     $time = date("Y-m-d h:i", $tmp);
                     $result['endtime'] = $time;
                 }
                 if (empty($result['kaitime'])) {
-
                     $timenow = date("Y-m-d h:i", time());
                     $result['kaitime'] = $timenow;
                 }
                 if (empty($result['touimg'])) {
                     $result['touimg'] = '../addons/wei_vote/preview.jpg';
-
                 }
-
                 include $this->template('newhuodongadd');
             }
-
-
         }
-
-
     }
-
-
     public function doWebZhifu()
     {
         global $_GPC, $_W;
-
         $op = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
         if ($op == display) {
             $pindex = max(1, intval($_GPC['page']));
@@ -855,29 +747,19 @@ class Wei_voteModuleSite extends WeModuleSite
                 $urs = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_userlog') . " WHERE uniacid = :uniacid  and hdid=:hdid ORDER BY id DESC LIMIT " . ($pindex - 1) * $psize . ",{$psize}", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
                 $total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('wei_vote_userlog') . " WHERE uniacid = :uniacid and hdid=:hdid", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
                 $pager = pagination($total, $pindex, $psize);
-
                 $sql = 'select sum(jiner) from ' . tablename('wei_vote_userlog') . ' where uniacid = :uniacid and hdid=:hdid and iszhifu = :iszhifu';
                 $param = array(':uniacid' => $_W['uniacid'], ':iszhifu' => 2, ':hdid' => $_GPC['hdid']);
                 $totaltotal = pdo_fetchcolumn($sql, $param);
-
                 $totaltotal = floor($totaltotal);
-
             } else {
-
                 $urs = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_userlog') . " WHERE uniacid = :uniacid  and hdid=:hdid and bianhao=:bianhao ORDER BY id DESC LIMIT " . ($pindex - 1) * $psize . ",{$psize}", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':bianhao' => $_GPC['id']));
                 $total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('wei_vote_userlog') . " WHERE uniacid = :uniacid and hdid=:hdid and bianhao=:bianhao", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':bianhao' => $_GPC['id']));
                 $pager = pagination($total, $pindex, $psize);
-
                 $sql = 'select sum(jiner) from ' . tablename('wei_vote_userlog') . ' where uniacid = :uniacid and hdid=:hdid and iszhifu = :iszhifu and bianhao=:bianhao';
                 $param = array(':uniacid' => $_W['uniacid'], ':iszhifu' => 2, ':hdid' => $_GPC['hdid'], ':bianhao' => $_GPC['id']);
                 $totaltotal = pdo_fetchcolumn($sql, $param);
-
                 $totaltotal = floor($totaltotal);
-
-
             }
-
-
             include $this->template('zhifu');
         }
         if ($op == 'del') {
@@ -885,30 +767,24 @@ class Wei_voteModuleSite extends WeModuleSite
             if ($ew) {
                 message('删除成功', $this->createWebUrl('Zhifu', array('hdid' => $_GPC['hdid'])));
             } else {
-
                 message('删除失败！', $this->createWebUrl('Zhifu', array('hdid' => $_GPC['hdid'])));
             }
         }
     }
-
     public function doWebIp()
     {
         global $_GPC, $_W;
-
         $op = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
         $type = $_GPC['type'];
         if ($type == '') {
-
             $type = 1;
         }
         if ($op == display) {
-
             $pindex = max(1, intval($_GPC['page']));
             $psize = 25;
             $urs = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_ip') . " WHERE uniacid = :uniacid and type = :type ORDER BY id DESC LIMIT " . ($pindex - 1) * $psize . ",{$psize}", array(':uniacid' => $_W['uniacid'], ':type' => $type));
             $total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('wei_vote_ip') . " WHERE uniacid = :uniacid and type = :type", array(':uniacid' => $_W['uniacid'], ':type' => $type));
             $pager = pagination($total, $pindex, $psize);
-
             include $this->template('ip');
         }
         if ($op == 'del') {
@@ -920,29 +796,21 @@ class Wei_voteModuleSite extends WeModuleSite
             }
         }
         if ($op == 'edi') {
-
             $urs = pdo_fetch("SELECT * FROM " . tablename('wei_vote_ip') . " WHERE uniacid = :uniacid and id =:id ORDER BY id DESC ", array(':uniacid' => $_W['uniacid'], ':id' => $_GPC['id']));
-
             if ($_POST && $_GPC['id']) {
-
                 $data['ip'] = $_GPC['ip'];
                 $result = pdo_update('wei_vote_ip', $data, array('id' => $_GPC['id']));
                 if (!empty($result)) {
                     message('添加成功！', $this->createWebUrl('Ip', array('type' => $_GPC['type'])));
                     exit();
                 }
-
             } else {
-
                 include $this->template('ipedi');
             }
         }
         if ($op == 'add') {
-
             if ($_POST) {
                 $data['type'] = $this->isOk_ip($_GPC['ip']);
-
-
                 $data['ip'] = $_GPC['ip'];
                 $data['createtime'] = time();
                 $data['uniacid'] = $_W['uniacid'];
@@ -952,27 +820,18 @@ class Wei_voteModuleSite extends WeModuleSite
                     message('添加成功！', $this->createWebUrl('Ip', array('type' => $data['type'])));
                     exit();
                 } else {
-
                     message('添加失败！', $this->createWebUrl('Ip', array('type' => $data['type'])));
                     exit();
-
                 }
-
             } else {
-
                 include $this->template('ipadd');
             }
-
-
         }
-
     }
-
     public function doWebFloatgift()
     {
         global $_W, $_GPC;
         $uniacid = intval($_W['uniacid']);
-
         $op = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
         if ($op == 'display') {
             $pindex = max(1, intval($_GPC['page']));
@@ -980,7 +839,6 @@ class Wei_voteModuleSite extends WeModuleSite
             $condition = "";
             $table_name = 'core_paylog';
             $list = pdo_fetchall("SELECT * FROM " . tablename($table_name) . " WHERE uniacid = '{$uniacid} ' ORDER BY plid DESC LIMIT 20");
-
             foreach ($list as &$val) {
                 $val['status'] == 2 ? ($val['status_cn'] = "已支付") . ($val['status_style'] = 'success') : ($val['status_cn'] = "未支付") . ($val['status_style'] = 'danger');
                 $hd_info = pdo_fetchcolumn('SELECT xlh FROM ' . tablename('wei_vote_peizhi') . " WHERE uniacid = '{$uniacid}' AND id = '" . $val['rid'] . "'");
@@ -989,7 +847,6 @@ class Wei_voteModuleSite extends WeModuleSite
                 $val['uname'] = pdo_fetchcolumn('SELECT name FROM ' . tablename('wei_vote_up') . " WHERE uniacid = '{$uniacid}' AND hdid = '" . $val['rid'] . "'AND bh='" . $val['bh'] . "'");
                 !$val['rtitle'] && $val['rtitle'] = "活动异常";
                 !$val['uname'] && $val['uname'] = "选手异常";
-
                 //$val['createtime'] = date('Y-m-d H:i:s',$val['createtime']);
                 $year = substr($val['uniontid'], 0, 4);
                 $month = substr($val['uniontid'], 4, 2);
@@ -1000,19 +857,56 @@ class Wei_voteModuleSite extends WeModuleSite
                 $val['createtime'] = $year . "-" . $month . "-" . $day . " " . $hour . ":" . $min . ":" . $sec;
                 //$val['createtime'] = '2018-12-24 19:00:00';
             }
-
             if ($_W['ispost']) {
                 json_exit(1, "获取成功！", $list);
             }
         }
         include $this->template('floatgift');
     }
-
+    public function doWebFeedback()
+    {
+        global $_W,$_GPC;
+        $uniacid=$_W['uniacid'];
+        //操作标识
+        $op =  isset($_GPC['op']) ? trim($_GPC['op']) : "display";
+        if($op=='display'){
+            $pindex = max(1, intval($_GPC['page']));
+            $psize = 20;
+            $condition="";
+            if (!empty($_GPC['title'])) {
+                $condition .= " AND CONCAT(`title`) LIKE '%{$_GPC['title']}%'";
+            }
+            if (!empty($_GPC['rtitle'])) {
+                $condition .= " AND CONCAT(`rtitle`) LIKE '%{$_GPC['rtitle']}%'";
+            }
+            $list = pdo_fetchall("SELECT * FROM " . tablename($this->tablefeedback) . " WHERE uniacid =:uniacid $condition ORDER BY `id` DESC LIMIT ".($pindex - 1) * $psize.",{$psize} ", array(':uniacid' => $uniacid));
+            if(!empty($list)){
+                $total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename($this->tablefeedback) . " WHERE uniacid = '{$uniacid}' $condition");
+                $pager = pagination($total, $pindex, $psize);
+            }
+        }else if($op=='change'){
+            $res = pdo_update($this->tablefeedback,array('status'=>1),array('id'=>$_GPC['id']));
+            if(!empty($res)){
+            message('投诉处理成功',$this->createWebUrl('feedback'),'success');
+        }else{
+            message('投诉处理失败',$this->createWebUrl('feedback'),'error');
+        }
+        }else if($op=='del'){
+            $res = pdo_delete($this->tablefeedback,array('id'=>$_GPC['id']));
+        if(!empty($res)){
+            message('投诉删除成功',$this->createWebUrl('feedback'),'success');
+        }else{
+            message('投诉删除失败',$this->createWebUrl('feedback'),'error');
+        }
+        }else{
+            message('链接错误，请重试！',$this->createWebUrl('feedback'),'error');
+        }
+        include $this->template('feedback');
+    }
     //防封禁
     public function doWebFengjin()
     {
         global $_GPC, $_W;
-
         $op = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
         if ($op == display) {
             $pindex = max(1, intval($_GPC['page']));
@@ -1063,8 +957,6 @@ class Wei_voteModuleSite extends WeModuleSite
             }
         }
     }
-
-
     public function isOk_ip($ip)
     {
         if (preg_match('/^((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1 -9]?\d))))$/', $ip)) {
@@ -1074,6 +966,78 @@ class Wei_voteModuleSite extends WeModuleSite
         }
     }
 
+    public function log($data) {
+        $filename = "./log/log";
+
+        file_put_contents($filename, $str, FILE_APPEND|LOCK_EX);
+    }
+
+    public function doMobileFeedback()
+    {
+        /**
+         * 钻石投票-报名
+         *
+         * @author baduyu
+         * @url http://www.8dfish.com
+         */
+        global $_W,$_GPC;
+        $uniacid = intval($_W['uniacid']);
+        $rid=intval($_GPC['rid']);
+        load()->func('logging');
+        $reply = pdo_fetch("SELECT * FROM " . tablename($this->tablereply) . " WHERE rid = :rid ORDER BY `id` DESC", array(':rid' => $rid));
+        $reply['style']=@unserialize($reply['style']);
+        $reply=array_merge ($reply,unserialize($reply['config']));unset($reply['config']);
+        logging_run("reply");
+        logging_run($reply);
+        if(empty($reply['status'])){
+            $this->json_exit('0', "活动已禁用");
+            //json_encode(array('status' => 0, 'msg' => "活动已禁用"));
+        }
+        $addata=@unserialize($reply['addata']);
+        logging_run("ispost");
+        logging_run($_W['ispost']);
+         if($_W['ispost']){
+             if($reply['endtime']<time()){
+                 logging_run("活动已经结束");
+                 $this->json_exit('0', "活动已经结束");
+                 //json_encode(array('status' => 0, 'msg' => "活动已经结束"));
+             }
+             //活动未开始
+             if(empty($reply['status'])){
+                 logging_run("活动已禁用");
+                 $this->json_exit('0', "活动已禁用");
+                 //json_encode(array('status' => 0, 'msg' => "活动已禁用"));
+             }
+             //是否关注
+             if($this->oauthuser['follow']!=1 && $reply['isfollow']>=2 || empty($this->oauthuser['openid'])){
+                 logging_run("没有关注");
+                 $this->json_exit('0', "没有关注");
+                 //json_encode(array('status' => 0, 'msg' => "没有关注"));
+             }
+             $feedback = array(
+                 'rid'=>$rid,
+                 'uniacid'=>$_W['uniacid'],
+                 'rtitle'=>$_GPC['rtitle'],
+                 'title'=>$_GPC['title'],
+                 'feedbackmark'=>$_GPC['feedbackmark'],
+                 'feedbacktel'=>$_GPC['feedbacktel'],
+                 'time'=>time()
+             );
+             logging_run("feedback");
+             logging_run($feedback);
+             pdo_insert($this->tablefeedback,$feedback);
+             $insertid=pdo_insertid();
+             if($insertid){
+                 logging_run("成功");
+                 $this->json_exit('1', "成功");
+             }else{
+                 logging_run("发生错误，请重试！");
+                 $this->json_exit('0', "发生错误，请重试！");
+             }
+         }else{
+             $this->json_exit('0', "参数错误，请重试");
+         }
+    }
     public function doMobilePcajax()
     {
         global $_GPC, $_W;
@@ -1089,16 +1053,13 @@ class Wei_voteModuleSite extends WeModuleSite
             echo json_encode($arr1);
             exit();
         }
-
         $ip = CLIENT_IP;
         $this->settings[0]['baidukey'] = 'WoStyQQTGHECWN6d4iOe62lQCTGOnckX';
         $content = file_get_contents("http://api.map.baidu.com/geocoder/v2/?location={$_GPC['latitude']},{$_GPC['longitude']}&output=json&pois=1&ak=WoStyQQTGHECWN6d4iOe62lQCTGOnckX");
         $jsonAddress = json_decode($content, true);
-
         $jsonAddress = $jsonAddress['result']['addressComponent'];
         if ($jsonAddress['country'] && !empty($jsonAddress['country'])) {
             $jsonAddress = $jsonAddress['country'] . '-' . $jsonAddress['province'] . '-' . $jsonAddress['city'] . '-' . $jsonAddress['district'] . '-' . $jsonAddress['street'] . '-' . $jsonAddress['street_number'];
-
         } else {
             //http://ip.taobao.com/service/getIpInfo.php?ip=
             //http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=$ip
@@ -1107,14 +1068,11 @@ class Wei_voteModuleSite extends WeModuleSite
             //$jsonAddress = substr($jsonData[1], 0, -1);
             //$jsonAddress = json_decode($jsonAddress);
             //$jsonAddress = $jsonAddress->{'country'} . '-' . $jsonAddress->{'province'} . '-' . $jsonAddress->{'city'} . '-' . $jsonAddress->{'district'};
-
             $ipContent = file_get_contents("http://api.map.baidu.com/location/ip?ip={$ip}&ak={$this->settings[0]['baidukey']}");
             $jsonData = json_decode($ipContent, true);
             $jsonAddress = $jsonData['content']['address_detail'];
             //$shengfu = $jsonAddress['province'];
             $jsonAddress = $jsonAddress['province'] . '-' . $jsonAddress['city'] . '-' . $jsonAddress['district'] . '-' . $jsonAddress['street'] . '-' . $jsonAddress['street_number'];
-
-
         }
         if (!empty($this->settings[0]['diqu'])) {
             $da2 = explode('-', $this->settings[0]['diqu']);
@@ -1144,12 +1102,9 @@ class Wei_voteModuleSite extends WeModuleSite
             }
             $user_zps = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and ip = :ip", array(':ip' => $ip, ':uniacid' => $_W['uniacid']));
             if ($user_zps >= $jszongpiaoshu) {
-
                 if ($this->settings[0]['ischouqian']) {
-
                     $arr1['c'] = 4;
                 }
-
                 $arr1['a'] = '总投票票数已投完！';
                 //$arr1['b'] = $ac;
                 echo json_encode($arr1);
@@ -1164,16 +1119,12 @@ class Wei_voteModuleSite extends WeModuleSite
         $user_shu = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and ip = :ip and time > :todayTime and time < :todayendTime", array(':todayendTime' => $todayendTime, ':todayTime' => $todayTime, ':ip' => $ip, ':uniacid' => $_W['uniacid']));
         if ($user_shu >= $this->settings[0]['zuipiao']) {
             $arr1['a'] = '今天票数已投完！';
-
             if ($this->settings[0]['ischouqian']) {
-
                 $arr1['c'] = 4;
             }
-
             echo json_encode($arr1);
             exit();
         }
-
         if ($_W['isajax'] && $_GPC['p']) {
             $account = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE id = :id LIMIT 1", array(':id' => $_GPC['p']));
             if ($account['lahei'] == 2) {
@@ -1187,11 +1138,8 @@ class Wei_voteModuleSite extends WeModuleSite
                     $arr1['a'] = '已投票，请给其他人投票';
                     echo json_encode($arr1);
                     exit();
-
-
                 }
             }
-
             if ($this->settings[0]['shenhe'] == 1) {
                 if ($account['isshenhe'] != 2) {
                     $arr1['a'] = '还未审核，暂时无法投票！';
@@ -1199,19 +1147,13 @@ class Wei_voteModuleSite extends WeModuleSite
                     exit();
                 }
             }
-
             if ($this->settings[0]['tpvotetime']) {
-
                 if ($this->getMillisecond() - $account['votetime'] <= $this->settings[0]['tpvotetime']) {
-
                     $arr1['a'] = '投票时间间隔为' . ($this->settings[0]['tpvotetime'] / 1000) . '秒，请稍后再试！';
                     echo json_encode($arr1);
                     exit();
-
                 }
-
             }
-
             $ac = $account['piao'] + 1;
             $user_data = array('piao' => $ac,);
             $user_data['votetime'] = $this->getMillisecond();
@@ -1243,12 +1185,10 @@ class Wei_voteModuleSite extends WeModuleSite
                             ),
                             'keyword1' => array('value' => $this->settings[0]['fenxiangbiaoti'], 'color' => '#173177'),
                             'keyword2' => array('value' => $time, 'color' => '#173177'),
-
                             'remark' => array('value' => '恭喜您有新的投票！投票好友为' . $_W[fans][nickname] . '', 'color' => '#173177'),
                         );
                         $this->doSend($account['openid'], $template_id, $ur, $data58, $topcolor = '#7B68EE');
                     }
-
                     $arr1['a'] = '投票成功第' . $ac . '票';
                     $arr1['b'] = $ac;
                     echo json_encode($arr1);
@@ -1258,23 +1198,17 @@ class Wei_voteModuleSite extends WeModuleSite
                 echo json_encode($arr1);
             }
         }
-
     }
-
     public function doMobilePc()
     {
         global $_GPC, $_W;
         $list = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and isshenhe= :isshenhe and hdid=:hdid ORDER BY piao DESC ", array(':uniacid' => $_W['uniacid'], ':isshenhe' => 2, 'hdid' => $_GPC['hdid']));
         //print_r($list);
-
         include $this->template('pc');
-
     }
-
     public function doWebFenleigl()
     {
         global $_GPC, $_W;
-
         $op = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
         if ($op == display) {
             $pindex = max(1, intval($_GPC['page']));
@@ -1282,7 +1216,6 @@ class Wei_voteModuleSite extends WeModuleSite
             $urs = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_feilei') . " WHERE uniacid = :uniacid   ORDER BY id DESC LIMIT " . ($pindex - 1) * $psize . ",{$psize}", array(':uniacid' => $_W['uniacid']));
             $total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('wei_vote_feilei') . " WHERE uniacid = :uniacid", array(':uniacid' => $_W['uniacid']));
             $pager = pagination($total, $pindex, $psize);
-
             include $this->template('fenleigl');
         }
         if ($op == 'del') {
@@ -1294,59 +1227,39 @@ class Wei_voteModuleSite extends WeModuleSite
             }
         }
         if ($op == 'edi') {
-
             $urs = pdo_fetch("SELECT * FROM " . tablename('wei_vote_feilei') . " WHERE uniacid = :uniacid and id =:id ORDER BY id DESC ", array(':uniacid' => $_W['uniacid'], ':id' => $_GPC['id']));
-
             if ($_POST && $_GPC['id']) {
-
-
                 $data['name'] = $_GPC['name'];
                 $result = pdo_update('wei_vote_feilei', $data, array('id' => $_GPC['id']));
                 if (!empty($result)) {
                     message('添加成功！', $this->createWebUrl('Fenleigl', array()));
                     exit();
                 }
-
             } else {
-
                 include $this->template('fenleiedi');
             }
         }
         if ($op == 'add') {
-
             if ($_POST) {
-
-
                 $data['name'] = $_GPC['name'];
-
                 $data['uniacid'] = $_W['uniacid'];
-
                 $result = pdo_insert('wei_vote_feilei', $data);
                 $uid = pdo_insertid();
                 if (empty($uid)) {
                     message('添加成功！', $this->createWebUrl('Fenleigl', array()));
                     exit();
                 } else {
-
                     message('添加失败！', $this->createWebUrl('Fenleigl', array()));
                     exit();
-
                 }
-
             } else {
-
                 include $this->template('fenleiadd');
             }
-
-
         }
-
     }
-
     public function doWebLiwu()
     {
         global $_GPC, $_W;
-
         $op = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
         if ($op == display) {
             $pindex = max(1, intval($_GPC['page']));
@@ -1354,12 +1267,10 @@ class Wei_voteModuleSite extends WeModuleSite
             $urs = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_liwu') . " WHERE uniacid = :uniacid  and hdid=:hdid ORDER BY id DESC LIMIT " . ($pindex - 1) * $psize . ",{$psize}", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
             $total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('wei_vote_liwu') . " WHERE uniacid = :uniacid and hdid=:hdid", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
             $pager = pagination($total, $pindex, $psize);
-
             include $this->template('liwu');
         }
         if ($op == 'add') {
             if ($_POST) {
-
                 $data['name'] = $_GPC['name'];
                 $data['shuliang'] = $_GPC['shuliang'];
                 $data['jiner'] = $_GPC['jiner'];
@@ -1373,27 +1284,16 @@ class Wei_voteModuleSite extends WeModuleSite
                     message('添加成功！', $this->createWebUrl('Liwu', array('hdid' => $_GPC['hdid'])));
                     exit();
                 } else {
-
                     message('添加失败！', $this->createWebUrl('Liwu', array('hdid' => $_GPC['hdid'])));
                     exit();
-
                 }
-
-
             } else {
-
                 include $this->template('liwuadd');
             }
-
-
         }
         if ($op == 'edi') {
-
-
             $urs = pdo_fetch("SELECT * FROM " . tablename('wei_vote_liwu') . " WHERE uniacid = :uniacid and hdid=:hdid and id =:id ORDER BY id DESC ", array(':uniacid' => $_W['uniacid'], ':id' => $_GPC['id'], ':hdid' => $_GPC['hdid']));
-
             if ($_POST && $_GPC['id']) {
-
                 $data['name'] = $_GPC['name'];
                 $data['shuliang'] = $_GPC['shuliang'];
                 $data['jiner'] = $_GPC['jiner'];
@@ -1404,16 +1304,10 @@ class Wei_voteModuleSite extends WeModuleSite
                     message('添加成功！', $this->createWebUrl('Liwu', array('hdid' => $_GPC['hdid'])));
                     exit();
                 }
-
-
             } else {
-
                 include $this->template('liwuedi');
             }
-
-
         }
-
         /* if ($op == 'fahoubao') {
 			$user = pdo_fetch("SELECT * FROM " . tablename('wei_vote_zhong') . " WHERE id = :uid and uniacid = :uniacid LIMIT 1", array(':uid' => $_GPC['id'], 'uniacid' => $_W['uniacid']));
 			if ($user['hongbao'] <= 0) {
@@ -1444,11 +1338,7 @@ class Wei_voteModuleSite extends WeModuleSite
                 message('删除失败！', $this->createWebUrl('Liwu', array('hdid' => $_GPC['hdid']), $type = ''));
             }
         }
-
-
     }
-
-
     public function doWebQingkong()
     {
         global $_GPC, $_W;
@@ -1463,7 +1353,6 @@ class Wei_voteModuleSite extends WeModuleSite
             message('删除失败！', $redirect = '', $type = '');
         }
     }
-
     public function doMobileWxjspayapi()
     {
         global $_GPC, $_W;
@@ -1473,7 +1362,6 @@ class Wei_voteModuleSite extends WeModuleSite
             echo json_encode($res);
             exit();
         }
-
         $kaitime = strtotime($this->settings[0]['kaitime']);
         $endtime = strtotime($this->settings[0]['endtime']);
         if ($kaitime > time()) {
@@ -1481,47 +1369,33 @@ class Wei_voteModuleSite extends WeModuleSite
             $res['msg'] = '投票还未开始！';
             echo json_encode($res);
             exit();
-
         }
         if ($endtime < time()) {
             $res['code'] = 10003;
             $res['msg'] = '投票已经结束！';
             echo json_encode($res);
             exit();
-
-
         }
-
-
         $account = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE id = :id LIMIT 1", array(':id' => $_GPC['p']));
         if ($account['lahei'] == 2) {
-
             $res['code'] = 10004;
             $res['msg'] = '系统禁止投票，请联系管理员';
             echo json_encode($res);
             exit();
-
         }
-
-
         if ($this->settings[0]['shenhe'] == 1) {
             if ($account['isshenhe'] != 2) {
-
                 $res['code'] = 10005;
                 $res['msg'] = '还未审核，暂时无法投票！';
                 echo json_encode($res);
                 exit();
-
             }
         }
-
         $fee = floatval($_GPC['dataid']);
         $id = floatval($_GPC['dataid']);
         $shuliang = floatval($_GPC['shuliang']);
         if (empty($shuliang)) {
-
             $shuliang = 1;
-
         }
         $liwu = pdo_fetch("SELECT * FROM " . tablename('wei_vote_liwu') . " WHERE  uniacid = :uniacid and hdid =:hdid and id =:id ", array(':uniacid' => $_W['uniacid'], ':id' => $_GPC['dataid'], ':hdid' => $_GPC['hdid']));
         $fee = $liwu['jiner'] * $shuliang;
@@ -1530,13 +1404,9 @@ class Wei_voteModuleSite extends WeModuleSite
             $res['msg'] = '请选择礼物，在支付';
             echo json_encode($res);
             exit();
-
-
         }
         $order_date = date('Y-m-d');
         $order_id_main = date('YmdHis') . rand(10000000, 99999999);
-
-
         $user_data = array(
             'openid' => $_W['openid'],
             'uniacid' => $_W['uniacid'],
@@ -1551,7 +1421,6 @@ class Wei_voteModuleSite extends WeModuleSite
             'shuliang' => $shuliang,
             'liwuname' => $liwu['name'], 'hdid' => $_GPC['hdid'], 'isxuli' => 1,
         );
-
         $result = pdo_insert('wei_vote_userlog', $user_data);
         $uid = pdo_insertid();
         if (empty($uid)) {
@@ -1559,17 +1428,13 @@ class Wei_voteModuleSite extends WeModuleSite
             $res['msg'] = '订单创建失败！';
             echo json_encode($res);
             exit();
-
         }
-
-
         $params = array(
             'tid' => $order_id_main,
             'ordersn' => time(),
             'title' => '礼物购买',
             'fee' => $fee,
             'user' => $_W['member']['uid'],
-
         );
         $res['pay'] = $params;
         $res['code'] = 10008;
@@ -1577,9 +1442,7 @@ class Wei_voteModuleSite extends WeModuleSite
         echo json_encode($res);
         exit();
         //$this->pay($params);
-
     }
-
     public function doMobileWxjspayapizan()
     {
         global $_GPC, $_W;
@@ -1589,7 +1452,6 @@ class Wei_voteModuleSite extends WeModuleSite
             echo json_encode($res);
             exit();
         }
-
         $kaitime = strtotime($this->settings[0]['kaitime']);
         $endtime = strtotime($this->settings[0]['endtime']);
         if ($kaitime > time()) {
@@ -1597,48 +1459,34 @@ class Wei_voteModuleSite extends WeModuleSite
             $res['msg'] = '投票还未开始！';
             echo json_encode($res);
             exit();
-
         }
         if ($endtime < time()) {
             $res['code'] = 10003;
             $res['msg'] = '投票已经结束！';
             echo json_encode($res);
             exit();
-
-
         }
-
-
         $account = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE id = :id LIMIT 1", array(':id' => $_GPC['p']));
         if ($account['lahei'] == 2) {
-
             $res['code'] = 10004;
             $res['msg'] = '系统禁止投票，请联系管理员';
             echo json_encode($res);
             exit();
-
         }
-
-
         if ($this->settings[0]['shenhe'] == 1) {
             if ($account['isshenhe'] != 2) {
-
                 $res['code'] = 10005;
                 $res['msg'] = '还未审核，暂时无法投票！';
                 echo json_encode($res);
                 exit();
-
             }
         }
-
         $fee = floatval($_GPC['ps']);
         $piao = $fee * 3;
         //$id = floatval($_GPC['dataid']);
         /* $shuliang = floatval($_GPC['shuliang']);
 		if(empty($shuliang)){
-
 			$shuliang = 1;
-
 		} */
         //$liwu = pdo_fetch("SELECT * FROM ".tablename('wei_vote_liwu')." WHERE  uniacid = :uniacid and hdid =:hdid and id =:id ", array(':uniacid' => $_W['uniacid'],':id' =>$_GPC['dataid'],':hdid' =>$_GPC['hdid']));
         //$fee = $liwu['jiner']*$shuliang;
@@ -1647,13 +1495,9 @@ class Wei_voteModuleSite extends WeModuleSite
             $res['msg'] = '请选择礼物，在支付';
             echo json_encode($res);
             exit();
-
-
         }
         $order_date = date('Y-m-d');
         $order_id_main = date('YmdHis') . rand(10000000, 99999999);
-
-
         $user_data = array(
             'openid' => $_W['openid'],
             'uniacid' => $_W['uniacid'],
@@ -1670,7 +1514,6 @@ class Wei_voteModuleSite extends WeModuleSite
             'hdid' => $_GPC['hdid'],
             'lx' => 2, 'isxuli' => 1,
         );
-
         $result = pdo_insert('wei_vote_userlog', $user_data);
         $uid = pdo_insertid();
         if (empty($uid)) {
@@ -1678,17 +1521,13 @@ class Wei_voteModuleSite extends WeModuleSite
             $res['msg'] = '订单创建失败！';
             echo json_encode($res);
             exit();
-
         }
-
-
         $params = array(
             'tid' => $order_id_main,
             'ordersn' => time(),
             'title' => '礼物购买',
             'fee' => $fee,
             'user' => $_W['member']['uid'],
-
         );
         $res['pay'] = $params;
         $res['code'] = 10008;
@@ -1696,18 +1535,14 @@ class Wei_voteModuleSite extends WeModuleSite
         echo json_encode($res);
         exit();
         //$this->pay($params);
-
     }
-
     public function doMobileGoumaiapi()
     {
         global $_GPC, $_W;
         if (!$_W['openid']) {
-
             echo '没有openid';
             exit();
         }
-
         $kaitime = strtotime($this->settings[0]['kaitime']);
         $endtime = strtotime($this->settings[0]['endtime']);
         if ($kaitime > time()) {
@@ -1724,8 +1559,6 @@ class Wei_voteModuleSite extends WeModuleSite
             echo json_encode($arr1);
             exit();
         }
-
-
         $account = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE id = :id LIMIT 1", array(':id' => $_GPC['id']));
         if ($account['lahei'] == 2) {
             $arr1['a'] = '系统禁止投票，请联系管理员';
@@ -1734,8 +1567,6 @@ class Wei_voteModuleSite extends WeModuleSite
             echo json_encode($arr1);
             exit();
         }
-
-
         if ($this->settings[0]['shenhe'] == 1) {
             if ($account['isshenhe'] != 2) {
                 //print_r($account);exit();
@@ -1746,21 +1577,16 @@ class Wei_voteModuleSite extends WeModuleSite
                 exit();
             }
         }
-
         $fee = floatval($_GPC['dataid']);
         $id = floatval($_GPC['dataid']);
         $shuliang = floatval($_GPC['shuliang']);
         $liwu = pdo_fetch("SELECT * FROM " . tablename('wei_vote_liwu') . " WHERE  uniacid = :uniacid and hdid =:hdid and id =:id ", array(':uniacid' => $_W['uniacid'], ':id' => $_GPC['dataid'], ':hdid' => $_GPC['hdid']));
         $fee = $liwu['jiner'] * $shuliang;
         if ($fee <= 0) {
-
             message('请选择礼物，在支付');
-
         }
         $order_date = date('Y-m-d');
         $order_id_main = date('YmdHis') . rand(10000000, 99999999);
-
-
         $user_data = array(
             'openid' => $_W['openid'],
             'uniacid' => $_W['uniacid'],
@@ -1775,39 +1601,29 @@ class Wei_voteModuleSite extends WeModuleSite
             'shuliang' => $shuliang,
             'liwuname' => $liwu['name'], 'hdid' => $_GPC['hdid'], 'isxuli' => 1,
         );
-
         $result = pdo_insert('wei_vote_userlog', $user_data);
         $uid = pdo_insertid();
         if (empty($uid)) {
             message('订单创建失败！');
             exit();
         }
-
-
         $params = array(
             'tid' => $order_id_main,
             'ordersn' => time(),
             'title' => '礼物购买',
             'fee' => $fee,
             'user' => $_W['member']['uid'],
-
         );
-
         $this->pay($params);
-
     }
-
     public function payResult($params)
     {
         global $_GPC, $_W;
         if ($params['result'] == 'success' && $params['from'] == 'notify') {
             //load()->func('logging');
             //记录文本日志
-
             //logging_run($params);
-
             if (empty($params['type'])) {
-
                 $params['type'] = $params['trade_type'];
             }
             $user_data2 = array(
@@ -1819,40 +1635,25 @@ class Wei_voteModuleSite extends WeModuleSite
             );
             $result = pdo_update('wei_vote_userlog', $user_data2, array('dingdanghao' => $params['tid']));
             $user = pdo_fetch("SELECT * FROM " . tablename('wei_vote_userlog') . " WHERE dingdanghao = :dingdanghao  LIMIT 1", array(':dingdanghao' => $params['tid']));
-
             if ($user['jiner'] <= $params['fee']) {
-
                 if ($result && $user) {
                     $xingpiao = $user['piao'] * $user['shuliang'];
-
                     pdo_update('wei_vote_up', array('piao +=' => $xingpiao), array('id' => $user['bianhao']));
                     pdo_update('wei_vote_up', array('liwushuliang +=' => $xingpiao), array('id' => $user['bianhao']));
                     pdo_update('wei_vote_up', array('yuan +=' => $user['jiner']), array('id' => $user['bianhao']));
                 }
-
-
             } else {
-
-
             }
-
-
         }
-
         if ($params['from'] == 'return') {
             if ($params['result'] == 'success') {
-
                 $user = pdo_fetch("SELECT * FROM " . tablename('wei_vote_userlog') . " WHERE dingdanghao = :dingdanghao LIMIT 1", array(':dingdanghao' => $params['tid']));
-
                 message('支付成功！', $this->createMobileUrl('list', array('id' => $user['bianhao'], 'hdid' => $user['hdid'])), 'success');
             } else {
-
                 message('支付成功！', $this->createMobileUrl('voindex', array('status' => 2, 'hdid' => $user['hdid'])), 'error');
-
             }
         }
     }
-
     public function doMobileUserxx()
     {
         global $_GPC, $_W;
@@ -1868,7 +1669,6 @@ class Wei_voteModuleSite extends WeModuleSite
             include $this->template('userxx');
         }
     }
-
     public function doMobileVoindexapi1()
     {
         global $_GPC, $_W;
@@ -1881,62 +1681,40 @@ class Wei_voteModuleSite extends WeModuleSite
             $val['tupian'] = stripslashes($val['tupian']);
             $he = (explode(",", $val[tupian]));
             $f = $he[0];
-
             $f = tomedia($f);
-
             if (empty($val['weight'])) {
-
                 $aa = @getimagesize($f);
-
                 $user_data = array(
                     'weight' => $aa['0'],
                     'height' => $aa['1'],
                 );
                 pdo_update('wei_vote_up', $user_data, array('id' => $val['id']));
-
             } else {
-
                 $result[0] = $val['weight'];
                 $result[1] = $val['height'];
                 $aa = $result;
-
-
             }
-
-
             if ($aa) {
-
                 $bl = $aa["0"] / $ww;
                 $weight = $aa['0'];
                 $height = $aa['1'] / $bl;
             }
-
-
             $urla = $this->createMobileUrl('list', array('type' => 'uids', 'id' => $val['id'], 'hdid' => $_GPC['hdid']));
-
             $shuju[] = "<div class='article'><a style='widht:{$ww}px;height:{$height}px' href='{$urla}'><img style='widht:{$ww}px;height:{$height}px' src='{$f}'><p>{$val['name']}</p><input type='button' value='投票' /></a><i>{$val['bh']}号,<small class ='p_{$val['id']}'>{$val['piao']}票</small></i></div>";
-
             $i++;
         }
         //print_r($shuju);
-
         echo json_encode($shuju);
-
     }
-
     public function doMobileVoindexapi()
     {
         global $_GPC, $_W;
         if ($this->settings[0]['toupiaojiequn']) {
-
             $_W['fans'] = mc_oauth_userinfo();
             if (empty($_W['fans']['nickname'])) {
                 mc_oauth_userinfo();
             }
-
-
         }
-
         $id2 = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE openid = :openid and uniacid = :uniacid and hdid=:hdid", array(':openid' => $_W['openid'], ':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
         $user_total = $this->user_total;
         $piao_total = $this->piao_total;
@@ -1973,7 +1751,6 @@ class Wei_voteModuleSite extends WeModuleSite
                                                       <img src='{$_W[siteroot]}addons/wei_vote/template/style/images/1.png'>{$val['piao']}
 													 
 												
-
                                                   </div>
                                             </a>
                                         </li>";
@@ -1986,93 +1763,62 @@ class Wei_voteModuleSite extends WeModuleSite
             $i = ++$_GPC['b'];
             foreach ($res as $val) {
                 //$key = $_W['uniacid'].'-'.$_GPC['hdid'].'-'.$_GPC['b'].'-'.$val['id'];
-
                 $val['tupian'] = str_replace("&quot;", "", $val['tupian']);
                 $val['tupian'] = htmlspecialchars_decode($val['tupian']);
                 $val['tupian'] = stripslashes($val['tupian']);
                 $he = (explode(",", $val[tupian]));
                 $f = $he[0];
-
-
                 //$result = cache_load($key);
                 $f = tomedia($f);
-
                 if (empty($val['weight'])) {
-
                     $aa = @getimagesize($f);
-
                     $user_data = array(
                         'weight' => $aa['0'],
                         'height' => $aa['1'],
                     );
                     pdo_update('wei_vote_up', $user_data, array('id' => $val['id']));
-
                 } else {
-
                     $result[0] = $val['weight'];
                     $result[1] = $val['height'];
                     $aa = $result;
-
-
                 }
-
-
                 /* if(empty($result)){
-
-
 					$aa = @getimagesize($f);
 					cache_write($key, $aa);
-
 				}else{
-
 					$aa = $result;
 				} */
-
                 if ($aa) {
-
                     $bl = $aa["0"] / $ww;
                     $weight = $aa['0'];
                     $height = $aa['1'] / $bl;
                 }
-
-
                 $urla = $this->createMobileUrl('list', array('type' => 'uids', 'id' => $val['id'], 'hdid' => $_GPC['hdid']));
-
                 $shuju[] = "<div class='article'><a style='widht:{$ww}px;height:{$height}px' href='{$urla}'><img style='widht:{$ww}px;height:{$height}px' src='{$f}'><p>{$val['name']}</p><input type='button' value='投票' /></a><i>{$val['bh']}号,<small class ='p_{$val['id']}'>{$val['piao']}票</small></i></div>";
-
                 //$shuju2[$val['id']] = $height;
                 $i++;
             }
             //print_r($shuju);
-
             echo json_encode($shuju);
         } else {
             $res = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and hdid=:hdid and isshenhe = :isshenhe ORDER BY piao DESC LIMIT 10", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':isshenhe' => 2));
             $nes = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and hdid=:hdid and isshenhe = :isshenhe  ORDER BY id DESC LIMIT 10", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':isshenhe' => 2));
-
             /* 	if ($this->settings[0]['muban'] == 0) {
-
 					include $this->template('voindex');
 				}else{
-
 					include $this->template('new/voindex');
 			} */
             $mb = $this->style('voindex', $this->replys['template']);
-
             if ($this->settings[0]['muban'] == 0) {
-
                 include $this->template('voindex');
             } else {
-
                 include $this->template($mb);
             }
         }
     }
-
     public function doMobileVoindex()
     {
         global $_GPC, $_W;
-
         if (empty($this->settings[0]['kaitime'])) {
             $msg['msg'] = '活动不存在！';
             $msg['title'] = '活动不存在！';
@@ -2085,13 +1831,10 @@ class Wei_voteModuleSite extends WeModuleSite
             $this->settings[0]['xingming'] = '姓名';
         }
         /* if (empty($_W['openid'])) {
-
 			$msg['msg']='请在微信中打开，跳转中';
 			$msg['title']='请在微信中打开，跳转中';
 			include $this->template('msg');exit();
-
 		} */
-
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         if (strpos($user_agent, 'MicroMessenger') === false) {
             $msg['msg'] = '请在微信中打开，跳转中';
@@ -2100,24 +1843,17 @@ class Wei_voteModuleSite extends WeModuleSite
             exit();
         }
         if ($this->settings[0]['toupiaojiequn']) {
-
-
             if (empty($_W['fans']['nickname'])) {
                 mc_oauth_userinfo();
             }
-
         }
         $user_total = $this->user_total;//pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and hdid=:hdid LIMIT 1", array(':uniacid' => $_W['uniacid'],':hdid' => $_GPC['hdid']));
         $piao_total = $this->piao_total;//pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and hdid=:hdid  LIMIT 1", array(':uniacid' => $_W['uniacid'],':hdid' => $_GPC['hdid']));
-
         if ($this->settings[0]['muban'] == 5) {
             $type = $_GPC['type'];
-
             if ($type == 'new' || $type == '') {
-
                 $cs = 'piao DESC';
             } else {
-
                 $cs = 'id DESC';
             }
             $pindex = max(1, intval($_GPC['page']));
@@ -2171,7 +1907,6 @@ class Wei_voteModuleSite extends WeModuleSite
                                                       <img src='{$_W[siteroot]}addons/wei_vote/template/style/images/1.png'>{$val['piao']}
 													 
 												
-
                                                   </div>
                                             </a>
                                         </li>";
@@ -2179,18 +1914,11 @@ class Wei_voteModuleSite extends WeModuleSite
             }
             echo $shuju;
         } elseif ($_GPC['b']) {
-
             if ($this->settings[0]['muban'] == 0) {
-
                 $res = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid  and hdid=:hdid and isshenhe = :isshenhe ORDER BY id DESC LIMIT " . $_GPC['b'] . ",6", array(':uniacid' => $_W['uniacid'], ':isshenhe' => 2, ':hdid' => $_GPC['hdid']));
-
             } else {
-
                 $res = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid  and hdid=:hdid and isshenhe = :isshenhe ORDER BY piao DESC LIMIT " . $_GPC['b'] . ",6", array(':uniacid' => $_W['uniacid'], ':isshenhe' => 2, ':hdid' => $_GPC['hdid']));
-
             }
-
-
             $ww = $_GPC['ww'];
             $i = ++$_GPC['b'];
             foreach ($res as $val) {
@@ -2202,46 +1930,29 @@ class Wei_voteModuleSite extends WeModuleSite
                 $f = $he[0];
                 //$result = cache_load($key);
                 $f = tomedia($f);
-
                 if (empty($val['weight'])) {
-
                     $aa = @getimagesize($f);
-
                     $user_data = array(
                         'weight' => $aa['0'],
                         'height' => $aa['1'],
                     );
                     pdo_update('wei_vote_up', $user_data, array('id' => $val['id']));
-
                 } else {
-
                     $result[0] = $val['weight'];
                     $result[1] = $val['height'];
                     $aa = $result;
-
-
                 }
-
                 /* if(empty($result)){
-
-
 					$aa = @getimagesize($f);
 					cache_write($key, $aa);
-
 				}else{
-
 					$aa = $result;
 				} */
-
-
                 if ($aa) {
-
                     $bl = $aa["0"] / $ww;
                     $weight = $aa["0"];
                     $height = $aa["1"] / $bl;
                 }
-
-
                 $urla = $this->createMobileUrl('list', array('type' => 'uids', 'id' => $val['id'], 'hdid' => $_GPC['hdid']));
                 if ($val['piao'] > 999) {
                     $mx = $val['piao'] % 999;
@@ -2251,16 +1962,10 @@ class Wei_voteModuleSite extends WeModuleSite
                     $zx = 0;
                 }
                 if ($this->settings['0']['yaz'] == 1) {
-
                     $rs = "<input class ='toupiao' onclick='toupiao2({$val['id']})' type='button' value='投票' />";
-
-
                 } else {
-
                     $rs = "<input class ='toupiao' onclick='toupiao({$val['id']})' type='button' value='投票' />";
-
                 }
-
                 $shuju[] = "<div class='article'>
                                              <a style='widht:{$ww}px;height:{$height}px' href='{$urla}'>
 											
@@ -2278,28 +1983,18 @@ class Wei_voteModuleSite extends WeModuleSite
         } else {
             $res = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and hdid=:hdid and isshenhe = :isshenhe ORDER BY piao DESC LIMIT 10", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':isshenhe' => 2));
             if ($this->settings[0]['muban'] == 0) {
-
                 $nes = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and hdid=:hdid and isshenhe = :isshenhe  ORDER BY id DESC LIMIT 10", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':isshenhe' => 2));
-
             } else {
-
                 $nes = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and hdid=:hdid and isshenhe = :isshenhe  ORDER BY piao DESC LIMIT 10", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':isshenhe' => 2));
-
             }
-
-
             $mb = $this->style('voindex', $this->replys['template']);
             if ($this->settings[0]['muban'] == 0) {
-
                 include $this->template('voindex');
             } else {
-
                 include $this->template($mb);
             }
-
         }
     }
-
     function pagination($total, $pageIndex, $pageSize = 15, $url = '', $context = array('before' => 2, 'after' => 2, 'ajaxcallback' => '', 'callbackfuncname' => ''))
     {
         global $_W;
@@ -2316,11 +2011,9 @@ class Wei_voteModuleSite extends WeModuleSite
         if ($context['ajaxcallback']) {
             $context['isajax'] = true;
         }
-
         if ($context['callbackfuncname']) {
             $callbackfunc = $context['callbackfuncname'];
         }
-
         $pdata['tcount'] = $total;
         $pdata['tpage'] = (empty($pageSize) || $pageSize < 0) ? 1 : ceil($total / $pageSize);
         if ($pdata['tpage'] <= 1) {
@@ -2334,7 +2027,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $pdata['pindex'] = $cindex > 1 ? $cindex - 1 : 1;
         $pdata['nindex'] = $cindex < $pdata['tpage'] ? $cindex + 1 : $pdata['tpage'];
         $pdata['lindex'] = $pdata['tpage'];
-
         if ($context['isajax']) {
             if (empty($url)) {
                 $url = $_W['script_name'] . '?' . http_build_query($_GET);
@@ -2360,10 +2052,8 @@ class Wei_voteModuleSite extends WeModuleSite
                 $pdata['laa'] = 'href="' . $_W['script_name'] . '?' . http_build_query($_GET) . '"';
             }
         }
-
         $html = '<ol class="li page" style="top: 1034px; height: 90px; width: 97%; left: 1%;">';
         if ($pdata['cindex'] > 1) {
-
             $html .= "<a {$pdata['paa']} class=\"pager-nav\">&laquo;上一页</a>";
         }
         if (!$context['before'] && $context['before'] != 0) {
@@ -2372,7 +2062,6 @@ class Wei_voteModuleSite extends WeModuleSite
         if (!$context['after'] && $context['after'] != 0) {
             $context['after'] = 4;
         }
-
         if ($context['after'] != 0 && $context['before'] != 0) {
             $range = array();
             $range['start'] = max(1, $pdata['cindex'] - $context['before']);
@@ -2395,26 +2084,19 @@ class Wei_voteModuleSite extends WeModuleSite
                 $html .= ($i == $pdata['cindex'] ? '<span class="current" href="javascript:;">' . $i . '</span>' : "<a {$aa}>" . $i . '</a>');
             }
         }
-
         if ($pdata['cindex'] < $pdata['tpage']) {
             $html .= "<a {$pdata['naa']} class=\"pager-nav\">下一页&raquo;</a>";
-
         }
         $html .= '</ol>';
         return $html;
     }
-
     public function doMobileChapai()
     {
         global $_GPC, $_W;
         if ($this->settings[0]['toupiaojiequn']) {
-
-
             if (empty($_W['fans']['nickname'])) {
                 mc_oauth_userinfo();
             }
-
-
         }
         if ($this->kaishi) {
             $userxx = pdo_fetch("SELECT * FROM " . tablename('wei_vote_userxx') . " WHERE openid = :openid and uniacid = :uniacid LIMIT 1", array(':openid' => $_W['openid'], ':uniacid' => $_W['uniacid']));
@@ -2437,7 +2119,6 @@ class Wei_voteModuleSite extends WeModuleSite
                 $he = (explode(",", $val[tupian]));
                 $f = $he[0];
                 $f = tomedia($f);
-
                 $url = $this->createMobileUrl('list', array('type' => 'uids', 'id' => $val['id']));
                 if ($val['piao'] > 999) {
                     $mx = $val['piao'] % 999;
@@ -2461,7 +2142,6 @@ class Wei_voteModuleSite extends WeModuleSite
                                                       <img src='{$_W[siteroot]}addons/wei_vote/template/style/images/1.png'>{$val['piao']}
 													 
 												
-
                                                   </div>
                                             </a>
                                         </li>";
@@ -2504,24 +2184,19 @@ class Wei_voteModuleSite extends WeModuleSite
                                         </div>";
                 $i++;
             }
-
             echo json_encode($shuju);
         } else {
             $res = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and isshenhe = :isshenhe and  feilei=:feilei ORDER BY piao", array(':uniacid' => $_W['uniacid'], ':isshenhe' => 2, ':feilei' => $_GPC['feilei']));
             $nes = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and isshenhe = :isshenhe  ORDER BY id", array(':uniacid' => $_W['uniacid'], ':isshenhe' => 2));
             //include $this->template('voindex');
             $fenzhu = pdo_fetch("SELECT * FROM " . tablename('wei_vote_feilei') . " WHERE uniacid = :uniacid and id =:id ORDER BY id", array(':uniacid' => $_W['uniacid'], ':id' => $_GPC['feilei']));
-
             $feilei = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_feilei') . " WHERE uniacid = :uniacid ORDER BY id", array(':uniacid' => $_W['uniacid']));
-
             include $this->template('Paiming');
         }
     }
-
     public function doMobilelist()
     {
         global $_GPC, $_W;
-
         if (empty($this->settings[0]['kaitime'])) {
             $msg['msg'] = '活动不存在！';
             $msg['title'] = '活动不存在！';
@@ -2530,16 +2205,11 @@ class Wei_voteModuleSite extends WeModuleSite
             echo '活动不存在！';
             exit();
         }
-
-
         if ($this->settings[0]['toupiaojiequn']) {
-
             $_W['fans'] = mc_oauth_userinfo();
             if (empty($_W['fans']['nickname'])) {
                 mc_oauth_userinfo();
             }
-
-
         }
         $user_total = $this->user_total;//pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid  and hdid = :hdid LIMIT 1", array(':uniacid' => $_W['uniacid'],':hdid' => $_GPC['hdid']));
         $piao_total = $this->piao_total;//pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and hdid = :hdid  LIMIT 1", array(':uniacid' => $_W['uniacid'],':hdid' => $_GPC['hdid']));
@@ -2553,7 +2223,6 @@ class Wei_voteModuleSite extends WeModuleSite
 		} */
         if ($_GPC['id']) {
             $account = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE id = :id LIMIT 1", array(':id' => $_GPC['id']));
-
             if (empty($account)) {
                 $msg['msg'] = '选手不存在！';
                 $msg['title'] = '选手不存在！';
@@ -2566,220 +2235,140 @@ class Wei_voteModuleSite extends WeModuleSite
             $params = array(':acid' => $account['piao'], ':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']);
             $z_total = pdo_fetchall($sql, $params);
             $z_total = count($z_total);
-
             $vote_up = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE `piao` > :acid and hdid=:hdid and uniacid = :uniacid ORDER BY piao LIMIT  1", array(':acid' => $account['piao'], ':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
-
-
             $peiz = $this->settings;//$this->settings;//pdo_fetchall("SELECT * FROM " . tablename('wei_vote_peizhi') . " WHERE uniacid = :uniacid and id = :hdid ORDER BY id DESC  LIMIT 1", array(':uniacid' => $_W['uniacid'],':hdid' => $_GPC['hdid']));
             $zhi = pdo_fetchall("SELECT  DISTINCT  openid, nickname, avatar FROM " . tablename('wei_vote_jilu') . " WHERE pid = :pid and uniacid = :uniacid and hdid =:hdid ORDER BY id DESC LIMIT 10", array(':pid' => $_GPC['id'], ':hdid' => $_GPC['hdid'], ':uniacid' => $_W['uniacid']));
-
             $liwujilu = pdo_fetchall("SELECT openid, createtime,liwuname,shuliang,nickname,piao,jiner,avatar FROM " . tablename('wei_vote_userlog') . " WHERE bianhao = :bianhao  and uniacid = :uniacid and hdid =:hdid and iszhifu =:iszhifu ORDER BY id DESC LIMIT 10", array(':bianhao' => $_GPC['id'], ':hdid' => $_GPC['hdid'], ':uniacid' => $_W['uniacid'], ':iszhifu' => 2));
-
             $liwu = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_liwu') . " WHERE uniacid = :uniacid and hdid =:hdid ORDER BY id DESC", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
             //$liwu_total = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_userlog') . " WHERE  bianhao = :bianhao and hdid = :hdid and uniacid = :uniacid and iszhifu =:iszhifu", array(':bianhao' => $_GPC['id'],':hdid' => $_GPC['hdid'],':uniacid' => $_W['uniacid'],':iszhifu' => 2));
             $account['yuan'] = pdo_fetchcolumn("SELECT SUM(jiner) FROM " . tablename('wei_vote_userlog') . " WHERE uniacid = :uniacid and iszhifu=:iszhifu and bianhao =:bianhao", array(':bianhao' => $_GPC['id'], ':uniacid' => $_W['uniacid'], ':iszhifu' => 2));
-
-
             $mb = $this->style('list', $this->replys['template']);
-
-
             $str = $this->settings[0]['fenxiangbiaotitp'];
             if (empty($str)) {
-
-
                 $this->settings[0]['fenxiangbiaotitp'] = $this->settings[0]['fenxiangbiaoti'];
-
             } else {
-
-
                 $find = '#姓名#';
                 if (strpos($str, $find) !== false) {
-
                     $this->settings[0]['fenxiangbiaotitp'] = str_replace('#姓名#', $account['name'], $this->settings[0]['fenxiangbiaotitp']);
-
                 }
-
                 $str2 = $this->settings[0]['fenxiangbiaotitp'];
                 $find2 = '#编号#';
                 if (strpos($str2, $find2) !== false) {
-
                     $this->settings[0]['fenxiangbiaotitp'] = str_replace('#编号#', $account['bh'], $this->settings[0]['fenxiangbiaotitp']);
-
                 }
-
             }
-
-
             if ($this->settings[0]['muban'] == 0) {
-
                 include $this->template('list');
             } else {
-
                 include $this->template($mb);
             }
-
             /* if ($this->settings[0]['muban'] == 0) {
-
 					include $this->template('list');
 				}else{
-
 					include $this->template('new/list');
 				} */
-
         } else {
-
-
             echo '选手不存在！';
             exit();
-
         }
     }
-
-
     public function doMobileWulist()
     {
         global $_GPC, $_W;
-
         if ($this->settings[0]['toupiaojiequn']) {
-
             $_W['fans'] = mc_oauth_userinfo();
             if (empty($_W['fans']['nickname'])) {
                 mc_oauth_userinfo();
             }
-
-
         }
         $user_total = $this->user_total;//pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid  and hdid = :hdid LIMIT 1", array(':uniacid' => $_W['uniacid'],':hdid' => $_GPC['hdid']));
         $piao_total = $this->piao_total;//pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and hdid = :hdid  LIMIT 1", array(':uniacid' => $_W['uniacid'],':hdid' => $_GPC['hdid']));
-
         if ($_GPC['id']) {
             $account = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE id = :id LIMIT 1", array(':id' => $_GPC['id']));
             $sql = 'SELECT * FROM ' . tablename('wei_vote_up') . ' WHERE `piao` > :acid and hdid=:hdid and uniacid = :uniacid ';
             $params = array(':acid' => $account['piao'], ':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']);
             $z_total = pdo_fetchall($sql, $params);
             $z_total = count($z_total);
-
             $peiz = $this->settings;//$this->settings;//pdo_fetchall("SELECT * FROM " . tablename('wei_vote_peizhi') . " WHERE uniacid = :uniacid and id = :hdid ORDER BY id DESC  LIMIT 1", array(':uniacid' => $_W['uniacid'],':hdid' => $_GPC['hdid']));
             $zhi = pdo_fetchall("SELECT  DISTINCT  openid, nickname, avatar FROM " . tablename('wei_vote_jilu') . " WHERE pid = :pid and uniacid = :uniacid and hdid =:hdid ORDER BY id DESC LIMIT 10", array(':pid' => $_GPC['id'], ':hdid' => $_GPC['hdid'], ':uniacid' => $_W['uniacid']));
-
             $liwujilu = pdo_fetchall("SELECT openid, createtime,liwuname,nickname,piao,jiner,avatar FROM " . tablename('wei_vote_userlog') . " WHERE bianhao = :bianhao  and uniacid = :uniacid and hdid =:hdid and iszhifu =:iszhifu ORDER BY id DESC LIMIT 5", array(':bianhao' => $_GPC['id'], ':hdid' => $_GPC['hdid'], ':uniacid' => $_W['uniacid'], ':iszhifu' => 2));
-
             $liwu = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_liwu') . " WHERE uniacid = :uniacid and hdid =:hdid ORDER BY id", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
             $account['yuan'] = pdo_fetchcolumn("SELECT SUM(jiner) FROM " . tablename('wei_vote_userlog') . " WHERE uniacid = :uniacid and iszhifu=:iszhifu and bianhao =:bianhao", array(':bianhao' => $_GPC['id'], ':uniacid' => $_W['uniacid'], ':iszhifu' => 2));
-
             $mb = $this->style('wulist', $this->replys['template']);
-
             if ($this->settings[0]['muban'] == 0) {
-
                 include $this->template('new/wulist');
             } else {
-
                 include $this->template($mb);
             }
             //include $this->template('new/wulist');
         }
     }
-
     public function doMobileLiwubang()
     {
         global $_GPC, $_W;
         $user_total = $this->user_total;//pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid LIMIT 1", array(':uniacid' => $_W['uniacid']));
         $piao_total = $this->piao_total;//pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid  LIMIT 1", array(':uniacid' => $_W['uniacid']));
-
         $res = pdo_fetchall("SELECT openid, nickname,piao,jiner,liwuname,avatar,shuliang FROM " . tablename('wei_vote_userlog') . " WHERE bianhao = :bianhao  and uniacid = :uniacid and iszhifu =:iszhifu ORDER BY id DESC LIMIT 10", array(':bianhao' => $_GPC['id'], ':uniacid' => $_W['uniacid'], ':iszhifu' => 2));
         include $this->template('liwubang');
-
     }
-
     public function doMobilePaih()
     {
         global $_GPC, $_W;
         $liwujilu = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and hdid =:hdid ORDER BY piao DESC", array(':hdid' => $_GPC['hdid'], ':uniacid' => $_W['uniacid']));
-
         $mb = $this->style('paih', $this->replys['template']);
-
         if ($this->settings[0]['muban'] == 0) {
-
             include $this->template('paih');
         } else {
-
             include $this->template($mb);
         }
         //include $this->template('new/paih');
     }
-
     public function doMobileJp()
     {
         global $_GPC, $_W;
         $mb = $this->style('jp', $this->replys['template']);
-
         if ($this->settings[0]['muban'] == 0) {
-
             include $this->template('new/jp');
         } else {
-
             include $this->template($mb);
         }
         // include $this->template('new/jp');
     }
-
     public function doMobileCgong()
     {
         global $_GPC, $_W;
-
         $vote_up = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and hdid =:hdid and id =:id ORDER BY piao DESC", array(':hdid' => $_GPC['hdid'], ':id' => $_GPC['id'], ':uniacid' => $_W['uniacid']));
-
-
         $mb = $this->style('cgong', $this->replys['template']);
-
         if ($this->settings[0]['muban'] == 0) {
-
             include $this->template('new/jp');
         } else {
-
             include $this->template($mb);
         }
-
-
     }
-
     public function doMobileAjaxresume()
     {
         global $_GPC, $_W;
         $this->settings[0]['paitiaoshu'] = 10;
         $page = $_GPC['page'];
-
         $newpage = $page * $this->settings[0]['paitiaoshu'];
-
-
         $list = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_userlog') . " WHERE  bianhao = :bianhao  and uniacid = :uniacid and iszhifu =:iszhifu  ORDER BY id DESC limit " . $newpage . "," . $this->settings[0]['paitiaoshu'] . "", array(':bianhao' => $_GPC['id'], ':uniacid' => $_W['uniacid'], ':iszhifu' => 2));
-
-
         echo json_encode($list);
     }
-
-
     /* 投票 */
     public function doMobilelistajax()
     {
         global $_GPC, $_W;
-
-
         if (empty($_GPC['inputValue']) && $this->settings['0']['yaz'] == 1) {
-
             $arr1['a'] = '请输入验证码';
             //$arr1['c'] = '1';
             echo json_encode($arr1);
             exit();
-
-
         }
         if (!empty($_GPC['inputValue']) && $this->settings['0']['yaz'] == 1) {
             $verify = $_GPC['inputValue'];
             if (empty($verify)) {
                 //return array('status' => '0', 'msg' => "请输入验证码");
                 $arr1['a'] = '请输入验证码';
-
                 echo json_encode($arr1);
                 exit();
             }
@@ -2787,12 +2376,10 @@ class Wei_voteModuleSite extends WeModuleSite
             if (empty($result)) {
                 //return array('status' => '0', 'msg' => "输入验证码错误");
                 $arr1['a'] = '输入验证码错误';
-
                 echo json_encode($arr1);
                 exit();
             }
         }
-
         if ($this->settings[0]['guanzhu'] == 1) {
             if ($_W['fans']['follow'] != 1) {
                 $arr1['a'] = '还没关注，请先关注投票';
@@ -2812,7 +2399,6 @@ class Wei_voteModuleSite extends WeModuleSite
             $_W['fans']['avatar'] = $fs['avatar'];
             $_W['fans']['nickname'] = $fs['nickname'];
         }
-
         /* if ($this->kaishi) {
 			$userxx = pdo_fetch("SELECT * FROM " . tablename('wei_vote_userxx') . " WHERE openid = :openid and uniacid = :uniacid LIMIT 1", array(':openid' => $_W['openid'], ':uniacid' => $_W['uniacid']));
 			if (!$userxx) {
@@ -2841,41 +2427,31 @@ class Wei_voteModuleSite extends WeModuleSite
         }
         $ip = CLIENT_IP;
         if (empty($this->settings[0]['baidukey'])) {
-
             $this->settings[0]['baidukey'] = 'WoStyQQTGHECWN6d4iOe62lQCTGOnckX';
         }
         if ($ip) {
-
             $ursip = pdo_fetch("SELECT * FROM " . tablename('wei_vote_ip') . " WHERE ip = :ip and uniacid = :uniacid LIMIT 1", array(':ip' => $ip, ':uniacid' => $_W['uniacid']));
             if ($ursip) {
                 $arr1['a'] = 'IP被禁用';
                 echo json_encode($arr1);
                 exit();
             }
-
         }
         if ($_W['openid']) {
-
             $ursip = pdo_fetch("SELECT * FROM " . tablename('wei_vote_ip') . " WHERE ip = :ip and uniacid = :uniacid LIMIT 1", array(':ip' => $_W['openid'], ':uniacid' => $_W['uniacid']));
             if ($ursip) {
                 $arr1['a'] = '微信被禁用';
                 echo json_encode($arr1);
                 exit();
             }
-
         }
         $content = file_get_contents("http://api.map.baidu.com/geocoder/v2/?location={$_GPC['latitude']},{$_GPC['longitude']}&output=json&pois=1&ak=WoStyQQTGHECWN6d4iOe62lQCTGOnckX");
         $jsonAddress = json_decode($content, true);
         //$jsonAddress = $content;
         $jsonAddress = $jsonAddress['result']['addressComponent'];
-
-
         if ($jsonAddress['country'] && !empty($jsonAddress['country'])) {
             $jsonAddress = $jsonAddress['country'] . '-' . $jsonAddress['province'] . '-' . $jsonAddress['city'] . '-' . $jsonAddress['district'] . '-' . $jsonAddress['street'] . '-' . $jsonAddress['street_number'];
-
         } else {
-
-
             /* $ipContent = file_get_contents("http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=$ip");
 			$jsonData = explode("=", $ipContent);
 			$jsonAddress = substr($jsonData[1], 0, -1);
@@ -2887,8 +2463,6 @@ class Wei_voteModuleSite extends WeModuleSite
             $jsonAddress = $jsonData['content']['address_detail'];
             //$shengfu = $jsonAddress['province'];
             $jsonAddress = $jsonAddress['province'] . '-' . $jsonAddress['city'] . '-' . $jsonAddress['district'] . '-' . $jsonAddress['street'] . '-' . $jsonAddress['street_number'];
-
-
         }
         if (!empty($this->settings[0]['diqu'])) {
             $da2 = explode('-', $this->settings[0]['diqu']);
@@ -2902,8 +2476,6 @@ class Wei_voteModuleSite extends WeModuleSite
                 exit();
             }
         }
-
-
         /* if (!empty($this->settings[0]['zongpiaoshu']) && $this->settings[0]['zongpiaoshu'] > 0) {
 			if (!empty($this->settings[0]['fengxiang']) && $this->settings[0]['fengxiang'] > 0) {
 				$wei_fx_jilu = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_fx_jilu') . " WHERE uniacid = :uniacid and openid = :openid", array(':openid' => $_W['openid'], ':uniacid' => $_W['uniacid']));
@@ -2920,40 +2492,26 @@ class Wei_voteModuleSite extends WeModuleSite
 			}
 			$user_zps = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and hdid =:hdid and openid = :openid", array(':openid' => $_W['openid'], ':hdid' => $_GPC['hdid'],':uniacid' => $_W['uniacid']));
 			if ($user_zps >= $jszongpiaoshu) {
-
 				if($this->settings[0]['ischouqian']){
-
 				    $arr1['c'] = 4;
 			    }
-
 				$arr1['a'] = '总投票票数已投完！';
-
 				echo json_encode($arr1);
 				exit();
 			}
 		} */
-
-
         if (!empty($this->settings[0]['zongpiaoshu']) && $this->settings[0]['zongpiaoshu'] > 0) {
-
             $jszongpiaoshu = $this->settings[0]['zongpiaoshu'];
-
             $user_zps = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and hdid =:hdid and openid = :openid", array(':openid' => $_W['openid'], ':hdid' => $_GPC['hdid'], ':uniacid' => $_W['uniacid']));
             if ($user_zps >= $jszongpiaoshu) {
-
                 if ($this->settings[0]['ischouqian']) {
-
                     $arr1['c'] = 4;
                 }
-
                 $arr1['a'] = '总投票票数已投完！';
-
                 echo json_encode($arr1);
                 exit();
             }
         }
-
-
         $y = date("Y");
         $m = date("m");
         $d = date("d");
@@ -2962,53 +2520,38 @@ class Wei_voteModuleSite extends WeModuleSite
         $user_shu = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and hdid =:hdid and openid = :openid and time > :todayTime and time < :todayendTime", array(':todayendTime' => $todayendTime, ':todayTime' => $todayTime, ':openid' => $_W['openid'], ':hdid' => $_GPC['hdid'], ':uniacid' => $_W['uniacid']));
         //$wei_fx_jilu = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_fx_jilu') . " WHERE uniacid = :uniacid and openid = :openid", array(':openid' => $_W['openid'], ':uniacid' => $_W['uniacid']));
         $fx_shu = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_fx_jilu') . " WHERE uniacid = :uniacid and openid = :openid and time > :todayTime and time < :todayendTime", array(':todayendTime' => $todayendTime, ':todayTime' => $todayTime, ':openid' => $_W['openid'], ':uniacid' => $_W['uniacid']));
-
         if ($this->settings[0]['fengxiang'] >= 1) {
-
             if ($fx_shu > $this->settings[0]['fengxiang']) {
-
                 $fx_shu = $this->settings[0]['fengxiang'];
             }
             $this->settings[0]['zuipiao'] = $this->settings[0]['zuipiao'] + $fx_shu;
-
         }
-
         $jingtian_shu = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and hdid =:hdid and pid = :pid and time > :todayTime and time < :todayendTime", array(':todayendTime' => $todayendTime, ':todayTime' => $todayTime, ':pid' => $_GPC['p'], ':hdid' => $_GPC['hdid'], ':uniacid' => $_W['uniacid']));
-
         $renshu = $jingtian_shu / ($this->settings[0]['zuipiao']);
         if ($renshu > 600) {
-
             $spdj = array(
                 'spdj' => 4,
             );
             $ret = pdo_update('wei_vote_up', $spdj, array('id' => $_GPC['p']));
-
         }
         if ($renshu > 500 && $renshu < 600) {
-
             $spdj = array(
                 'spdj' => 3,
             );
             $ret = pdo_update('wei_vote_up', $spdj, array('id' => $_GPC['p']));
-
         }
         if ($renshu > 300 && $renshu < 500) {
-
             $spdj = array(
                 'spdj' => 2,
             );
             $ret = pdo_update('wei_vote_up', $spdj, array('id' => $_GPC['p']));
-
         }
-
         if ($user_shu >= $this->settings[0]['zuipiao']) {
             $arr1['a'] = '今天票数已投完！';
             $arr1['b'] = 1;
             if ($this->settings[0]['ischouqian']) {
-
                 $arr1['c'] = 4;
             }
-
             echo json_encode($arr1);
             exit();
         }
@@ -3019,28 +2562,19 @@ class Wei_voteModuleSite extends WeModuleSite
                 echo json_encode($arr1);
                 exit();
             }
-
-
             $user_shu12 = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and hdid=:hdid and pid=:pid  and openid = :openid and time > :todayTime and time < :todayendTime", array(':todayendTime' => $todayendTime, ':todayTime' => $todayTime, ':pid' => $_GPC['p'], ':openid' => $_W['openid'], ':hdid' => $_GPC['hdid'], ':uniacid' => $_W['uniacid']));
             if ($this->settings[0]['xiangtong'] > 0) {
                 if ($user_shu12 >= $this->settings[0]['xiangtong']) {
-
                     $arr1['a'] = '已投票，请给其他人投票';
                     echo json_encode($arr1);
                     exit();
-
-
                 }
             }
             if ($this->settings[0]['tpiao'] != 1 && $account['openid'] == $_W['openid']) {
-
                 $arr1['a'] = '不可以给自己投票';
                 echo json_encode($arr1);
                 exit();
-
             }
-
-
             if ($this->settings[0]['shenhe'] == 1) {
                 if ($account['isshenhe'] != 2) {
                     $arr1['a'] = '还未审核，暂时无法投票！';
@@ -3048,19 +2582,13 @@ class Wei_voteModuleSite extends WeModuleSite
                     exit();
                 }
             }
-
             if ($this->settings[0]['tpvotetime']) {
-
                 if ($this->getMillisecond() - $account['votetime'] <= $this->settings[0]['tpvotetime']) {
-
                     $arr1['a'] = '投票时间间隔为' . ($this->settings[0]['tpvotetime'] / 1000) . '秒，请稍后再试！';
                     echo json_encode($arr1);
                     exit();
-
                 }
-
             }
-
             $ac = $account['piao'] + 1;
             $user_data = array('piao' => $ac,);
             $user_data['votetime'] = $this->getMillisecond();
@@ -3076,7 +2604,6 @@ class Wei_voteModuleSite extends WeModuleSite
                 $arr['didian'] = $jsonAddress;
                 $res = pdo_insert('wei_vote_jilu', array('didian' => $jsonAddress, 'ip' => CLIENT_IP, 'time' => time(), 'uniacid' => $_W['uniacid'], 'hdid' => $_GPC['hdid'], 'openid' => $_W['openid'], 'nickname' => $_W['fans']['nickname'], 'avatar' => $_W['fans']['avatar'], 'pid' => $_GPC['p'], 'od' => $_GPC['od'], 'sessionid' => $_SESSION['openid']));
                 $res = pdo_insertid();
-
                 if ($res) {
                     $user_data1 = array('time' => time(), 'uniacid' => $_W['uniacid'], 'hdid' => $_GPC['hdid'], 'openid' => $_W['openid'], 'nickname' => $_W['fans']['nickname'], 'avatar' => $_W['fans']['tag']['avatar'], 'toupiao' => 1,);
                     $result = pdo_query("UPDATE " . tablename('wei_vote_toupiao') . " SET toupiao = toupiao+1 WHERE openid = :openid and uniacid= :uniacid and hdid=:hdid", array(':openid' => $_W['openid'], 'uniacid' => $_W['uniacid'], 'hdid' => $_GPC['hdid']));
@@ -3087,7 +2614,6 @@ class Wei_voteModuleSite extends WeModuleSite
                         $template_ids = $this->settings[0]['votetemplateid'];
                         $time = date("Y-m-d H:i:s", time());
                         $ur = $_W['siteroot'] . 'app/' . $this->createMobileUrl('list', array('id' => $_GPC['p'], 'hdid' => $_GPC['hdid']));
-
                         $data58 = array(
                             'first' => array(
                                 'value' => "恭喜您有新的投票！",
@@ -3095,12 +2621,10 @@ class Wei_voteModuleSite extends WeModuleSite
                             ),
                             'keyword1' => array('value' => $this->settings[0]['name'], 'color' => '#173177'),
                             'keyword2' => array('value' => $time, 'color' => '#173177'),
-
                             'remark' => array('value' => '恭喜您有新的投票！投票好友为' . $_W[fans][nickname] . '', 'color' => '#173177'),
                         );
                         $this->doSend($account['openid'], $template_ids, $ur, $data58, $topcolor = '#7B68EE');
                     }
-
                     $arr1['a'] = '投票成功第' . $ac . '票';
                     $arr1['b'] = $ac;
                     echo json_encode($arr1);
@@ -3111,7 +2635,6 @@ class Wei_voteModuleSite extends WeModuleSite
             }
         }
     }
-
     public function checkcode($code)
     {
         global $_W, $_GPC;
@@ -3126,17 +2649,12 @@ class Wei_voteModuleSite extends WeModuleSite
         isetcookie('__code', '');
         return $return;
     }
-
-
     public function doSend($touser, $template_id, $ur, $data, $topcolor = '#7B68EE')
     {
-
-
         $template = array(
             'touser' => $touser,
             'template_id' => $template_id,
             'url' => $ur,
-
             'data' => $data
         );
         $account_api = WeAccount::create();
@@ -3149,16 +2667,12 @@ class Wei_voteModuleSite extends WeModuleSite
             return false;
         }
         return true;
-
     }
-
     public function getMillisecond()
     {
         list($t1, $t2) = explode(' ', microtime());
         return (float)sprintf('%.0f', (floatval($t1) + floatval($t2)) * 1000);
     }
-
-
     public function doMobileIndex()
     {
         global $_GPC, $_W;
@@ -3178,7 +2692,6 @@ class Wei_voteModuleSite extends WeModuleSite
             message('请在微信中打开或还没有报名', $redirect = '', $type = '');
         }
     }
-
     public function doMobileWeiindex()
     {
         global $_GPC, $_W;
@@ -3190,7 +2703,6 @@ class Wei_voteModuleSite extends WeModuleSite
 			$msg['msg']='请在微信中打开，跳转中';
 			$msg['title']='请在微信中打开，跳转中';
 			include $this->template('msg');exit();
-
 		} */
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         if (strpos($user_agent, 'MicroMessenger') === false) {
@@ -3199,15 +2711,10 @@ class Wei_voteModuleSite extends WeModuleSite
             include $this->template('msg');
             exit();
         }
-
         if (!empty($this->settings[0]['bmkaitime'])) {
-
             $bmkaitime = strtotime($this->settings[0]['bmkaitime']);
             $bmendtime = strtotime($this->settings[0]['bmendtime']);
-
-
             if ($bmkaitime > time()) {
-
                 $redirect = $this->createMobileUrl('Voindex', array('hdid' => $_GPC['hdid']));
                 $msg['msg'] = '报名还未开始';
                 $msg['title'] = '报名还未开始';
@@ -3215,12 +2722,8 @@ class Wei_voteModuleSite extends WeModuleSite
                 exit();
                 message('报名还未开始，跳转中', $redirect, $type = 'warning');
                 exit();
-
             }
-
             if ($bmendtime < time()) {
-
-
                 $redirect = $this->createMobileUrl('Voindex', array('hdid' => $_GPC['hdid']));
                 $msg['msg'] = '报名已经结束';
                 $msg['title'] = '报名已经结束';
@@ -3229,26 +2732,18 @@ class Wei_voteModuleSite extends WeModuleSite
                 message('报名已经结束，跳转中', $redirect, $type = 'warning');
                 exit();
             }
-
-
         }
-
-
         $kaitime = strtotime($this->settings[0]['kaitime']);
         $endtime = strtotime($this->settings[0]['endtime']);
         /* if ($kaitime > time()) {
-
 			$redirect = $this->createMobileUrl('Voindex', array('hdid' => $_GPC['hdid']));
 			$msg['msg']='活动还未开始';
 			$msg['title']='活动还未开始';
 			include $this->template('msg');exit();
 			message('活动还未开始，跳转中', $redirect, $type = 'warning');
 			exit();
-
 		} */
         if ($endtime < time()) {
-
-
             $redirect = $this->createMobileUrl('Voindex', array('hdid' => $_GPC['hdid']));
             $msg['msg'] = '活动已经结束';
             $msg['title'] = '活已经结束';
@@ -3257,28 +2752,18 @@ class Wei_voteModuleSite extends WeModuleSite
             message('活已经结束，跳转中', $redirect, $type = 'warning');
             exit();
         }
-
-
         if ($this->settings[0]['guanzhu'] == 1) {
             if ($_W['fans']['follow'] != 1) {
-
-
                 if (empty($this->settings[0]['keyword'])) {
-
                     //$gz = $this->createMobileUrl('Gz', array());;
                     //message('还没关注，跳转中', $gz, $type = 'success');
-
-
                     $redirect = $this->createMobileUrl('Gz', array('hdid' => $_GPC['hdid']));
                     $msg['msg'] = '还没关注，跳转中';
                     $msg['title'] = '还没关注，跳转中';
                     include $this->template('msg');
                     exit();
-
-
                     exit();
                 } else {
-
                     //message('还没关注，跳转中', $this->settings[0]['keyword'], $type = 'success');
                     //exit();
                     $redirect = $this->createMobileUrl('Gz', array('hdid' => $_GPC['hdid']));
@@ -3286,14 +2771,10 @@ class Wei_voteModuleSite extends WeModuleSite
                     $msg['title'] = '还没关注，跳转中';
                     include $this->template('msg');
                     exit();
-
                 }
-
             }
         }
-
         if ($this->settings[0]['display'] == 0) {
-
             $redirect = $this->createMobileUrl('Voindex', array('hdid' => $_GPC['hdid']));
             $msg['msg'] = '报名已关闭请联系管理员！';
             $msg['title'] = '报名已关闭请联系管理员！';
@@ -3301,7 +2782,6 @@ class Wei_voteModuleSite extends WeModuleSite
             exit();
             message('报名已关闭请联系管理员！', $redirect = '', $type = '');
             exit();
-
         }
         $id = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE openid = :openid and hdid=:hdid and uniacid = :uniacid", array(':openid' => $_W['openid'], ':hdid' => $_GPC['hdid'], ':uniacid' => $_W['uniacid']));
         if ($id) {
@@ -3310,7 +2790,6 @@ class Wei_voteModuleSite extends WeModuleSite
             $msg['title'] = '您已经报名了，跳转中';
             include $this->template('msg');
             exit();
-
         }
         if ($this->settings[0]['zhifujiequn'] == 1) {
             $res1 = mc_oauth_userinfo();
@@ -3322,22 +2801,15 @@ class Wei_voteModuleSite extends WeModuleSite
             $this->settings[0]['xingming'] = '姓名';
         }
         $mb = $this->style('weiindex', $this->replys['template']);
-
         if ($this->settings[0]['muban'] == 0) {
-
             include $this->template('weiindex');
         } else {
-
             include $this->template($mb);
         }
-
-
     }
-
     public function doMobileshangadd()
     {
         global $_GPC, $_W;
-
         if ($this->settings[0]['guanzhu'] == 1) {
             if ($_W['fans']['follow'] != 1) {
                 $res['a'] = '关注公众号' . $_W['account']['account'] . '回复投票，正在跳转中';
@@ -3346,8 +2818,6 @@ class Wei_voteModuleSite extends WeModuleSite
                 exit();
             }
         }
-
-
         $id = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE openid = :openid and hdid = :hdid and uniacid = :uniacid", array(':openid' => $_W['openid'], ':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
         if ($id) {
             $res['a'] = '您已经报名了';
@@ -3357,16 +2827,12 @@ class Wei_voteModuleSite extends WeModuleSite
         }
         if ($_GPC['t']) {
             foreach ($_GPC['t'] as $key => $age) {
-
                 if ($key == 0) {
-
                     $f = tomedia($age);
                     $aa = @getimagesize($f);
                     $data['weight'] = $aa['0'];
                     $data['height'] = $aa['1'];
-
                 }
-
                 $arr .= $age . ',';
             }
             if ($this->settings[0]['shenhe'] == 1) {
@@ -3389,7 +2855,6 @@ class Wei_voteModuleSite extends WeModuleSite
             $data['video'] = $_GPC['video'];
             $lastid = pdo_getall('wei_vote_up', array('hdid' => $_GPC['hdid'], 'uniacid' => $_W['uniacid']), array('bh'), '', 'bh DESC', array(1));
             $data['bh'] = $lastid[0]['bh'] + 1;
-
             pdo_insert($this->tb_vote, $data);
             $bmid = $order['id'] = pdo_insertid();
             if ($this->settings[0]['bmhb'] > 0) {
@@ -3402,7 +2867,6 @@ class Wei_voteModuleSite extends WeModuleSite
             } else {
                 $res['b'] = 3;
             }
-
             $res['bmid'] = $bmid;
             echo json_encode($res);
             exit();
@@ -3412,7 +2876,6 @@ class Wei_voteModuleSite extends WeModuleSite
             exit();
         }
     }
-
     public function doMobileshang()
     {
         global $_GPC, $_W;
@@ -3445,38 +2908,29 @@ class Wei_voteModuleSite extends WeModuleSite
                 } else {
                     $result = $name;
                 }
-
-
                 $pathname = 'images/' . $date . '/' . $m;
                 if (!empty($_W['setting']['remote']['type'])) {
                     $remotestatus = file_remote_upload($pathname);
                     if (is_error($remotestatus)) {
                         message('远程附件上传失败，请检查配置并重新上传');
                     } else {
-
                     }
                 }
-
             }
-
             $datas['msg'] = '上传成功';
             $datas['code'] = 10002;
             $datas['images'] = tomedia($result);
             $datas['data'] = $result;
             echo json_encode($datas);
             exit();
-
-
         } else {
             $datas['msg'] = '上传图片失败';
             $datas['code'] = 10001;
             $datas['data'] = '';
             echo json_encode($datas);
             exit();
-
         }
     }
-
     public function doMobileshang1()
     {
         global $_GPC, $_W;
@@ -3509,18 +2963,14 @@ class Wei_voteModuleSite extends WeModuleSite
                 } else {
                     $result[] = $name;
                 }
-
-
                 $pathname = 'images/' . $date . '/' . $m;
                 if (!empty($_W['setting']['remote']['type'])) {
                     $remotestatus = file_remote_upload($pathname);
                     if (is_error($remotestatus)) {
                         echo '远程附件上传失败，请检查配置并重新上传';
                     } else {
-
                     }
                 }
-
             }
             header("Content-type: text/html; charset=utf-8");
             $result = implode(",", $result);
@@ -3530,12 +2980,9 @@ class Wei_voteModuleSite extends WeModuleSite
             echo $res;
         }
     }
-
     public function doMobileshang2()
     {
         global $_GPC, $_W;
-
-
         /* 	$datas['code'] = 10001;
 					$datas['data'] = $_FILES["file"]["type"];
 					$datas['dataT'] = $_POST['author'];
@@ -3547,7 +2994,6 @@ class Wei_voteModuleSite extends WeModuleSite
             $path = mkdir(iconv("UTF-8", "GBK", $path), 0777, true);
             if ($path) {
             } else {
-
                 $datas['msg'] = '目录 $path 创建失败';
                 $datas['code'] = 10005;
                 $datas['data'] = '';
@@ -3555,7 +3001,6 @@ class Wei_voteModuleSite extends WeModuleSite
                 exit();
             }
         }
-
         if ((($_FILES["file"]["type"] == "image/gif") || ($_FILES["file"]["type"] == "video/quicktime")
                 || ($_FILES["file"]["type"] == "image/jpeg")
                 || ($_FILES["file"]["type"] == "image/pjpeg")
@@ -3569,27 +3014,21 @@ class Wei_voteModuleSite extends WeModuleSite
                 $datas['data'] = "Return Code: " . $_FILES["file"]["error"];
                 echo json_encode($datas);
                 exit();
-
             } else {
-
                 if (0) {
-
                     $datas['msg'] = $_FILES["file"]["name"] . " already exists. ";
                     $datas['code'] = 10002;
                     $datas['data'] = $res . "/" . $_FILES["file"]["name"];
                     echo json_encode($datas);
                     exit();
-
                 } else {
                     move_uploaded_file($_FILES["file"]["tmp_name"], $path . "/" . time() . $_FILES["file"]["name"]);
-
                     $datas['msg'] = '上传成功';
                     $datas['code'] = 10003;
                     $datas['data'] = tomedia("mp4/" . $date . '/' . time() . $_FILES["file"]["name"]);
                     $datas['video'] = "mp4/" . $date . '/' . time() . $_FILES["file"]["name"];
                     echo json_encode($datas);
                     exit();
-
                 }
             }
         } else {
@@ -3599,14 +3038,10 @@ class Wei_voteModuleSite extends WeModuleSite
             echo json_encode($datas);
             exit();
         }
-
-
     }
-
     public function doWebVotes()
     {
     }
-
     public function doMobileMyjp()
     {
         global $_GPC, $_W;
@@ -3614,61 +3049,44 @@ class Wei_voteModuleSite extends WeModuleSite
         $piao_total = $this->piao_total;
         $vote_zhong = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_zhong') . " WHERE uniacid = :uniacid and jqopenid = :jqopenid ORDER BY id", array(':uniacid' => $_W['uniacid'], ':jqopenid' => $_W['openid']));
         /* 	if ($this->settings[0]['muban'] == 0) {
-
 					include $this->template('jpym');
 				}else{
-
 					include $this->template('new/jpym');
 				} */
         $mb = $this->style('jpym', $this->replys['template']);
-
         if ($this->settings[0]['muban'] == 0) {
-
             include $this->template('jpym');
         } else {
-
             include $this->template($mb);
         }
-
     }
-
     public function doMobileFenxinajax()
     {
         global $_GPC, $_W;
         $arr1['a'] = '分享成功！';
         $arr1['c'] = '1';
         $user_data = array('uniacid' => $_W['uniacid'], 'openid' => $_W['openid'], 'time' => time());
-
         $result = pdo_insert('wei_fx_jilu', $user_data);
         //$vt = pdo_update('wei_vote_up', array('fxcishu +=' =>  1), array('uniacid' => $_W['uniacid'],'hdid' => $_GPC['hdid']));
         echo json_encode($arr1);
         exit();
     }
-
     public function doWebTianjiaren()
     {
         global $_GPC, $_W;
         if ($_POST) {
             if (empty($_GPC['tupian'])) {
-
-
                 message('必须上传图片！');
             }
             foreach ($_GPC['tupian'] as $key => $age) {
-
                 if ($key == 0) {
-
                     $f = tomedia($age);
                     $aa = @getimagesize($f);
                     $data['weight'] = $aa['0'];
                     $data['height'] = $aa['1'];
-
                 }
-
-
                 $arr .= $age . ',';
             }
-
             $data['feifa'] = $_GPC['manifesto'];
             $data['name'] = $_GPC['vote_title'];
             $data['shouji'] = $_GPC['shouji'];
@@ -3686,52 +3104,35 @@ class Wei_voteModuleSite extends WeModuleSite
             $data['shuoming'] = $_GPC['shuoming'];
             $lastid = pdo_getall('wei_vote_up', array('hdid' => $_GPC['hdid'], 'uniacid' => $_W['uniacid']), array('bh'), '', 'bh DESC', array(1));
             $data['bh'] = $lastid[0]['bh'] + 1;
-
             $result = pdo_insert('wei_vote_up', $data);
             if (!empty($result)) {
                 $uid = pdo_insertid();
-
                 message('添加用户成功', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])), $type = '');
             }
         } else {
-
-
             include $this->template('tianjiaren');
         }
     }
-
     public function doWebSignup()
     {
         global $_GPC, $_W;
         load()->func('tpl');
-
-
         if ($_GPC['tupian']) {
-
             if (!empty($_POST['tupian'])) {
                 foreach ($_POST['tupian'] as $key => $v) {
-
                     if ($key == 0) {
-
                         $f = tomedia($v);
                         $aa = @getimagesize($f);
                         $data['weight'] = $aa['0'];
                         $data['height'] = $aa['1'];
-
                     }
-
-
                     $str .= $v . ',';
                 }
-
                 $data['tupian'] = $str;
             }
-
-
             $data['feifa'] = $_GPC['manifesto'];
             $data['name'] = $_GPC['vote_title'];
             $data['shouji'] = $_GPC['shouji'];
-
             $data['piao'] = $_GPC['vote_count'];
             $data['video'] = tomedia($_GPC['video']);
             $data['zidingyi1'] = $_GPC['zidingyi1'];
@@ -3764,51 +3165,32 @@ class Wei_voteModuleSite extends WeModuleSite
                     'start_date' => time(),
                     'trade' => $resultapi['trade'],
                     'description' => $resultinfo['description'],
-
                 );
                 load()->func('communication');
                 //$response = ihttp_post($sendapi, $data);
                 //print_r($response);
-
                 $pindex = max(1, intval($_GPC['page']));
                 $psize = 25;
-
                 $condition = "";
-
                 if (!empty($_GPC['keyword'])) {
                     $condition .= " AND CONCAT(`noid`,`name`,`joindata`) LIKE '%{$_GPC['keyword']}%'";
                 }
                 if (!empty($_GPC['bh'])) {
                     $condition .= " and  bh= '" . $_GPC['bh'] . "'";
                 }
-
                 if ($_GPC['sty'] == 1) {
-
                     $condition .= " AND isshenhe=1";
-
                 } elseif ($_GPC['sty'] == 2) {
-
                     $condition .= " AND isshenhe=2";
-
                 }
-
                 if ($_GPC['ranking'] == "") {
-
                     $condition .= " ORDER BY id DESC ";
-
                 } elseif ($_GPC['ranking'] == 1) {
-
                     $condition .= " ORDER BY liwushuliang DESC,piao DESC,id DESC ";
-
                 } elseif ($_GPC['ranking'] == 2) {
-
                     $condition .= " ORDER BY piao DESC,liwushuliang DESC,id DESC ";
-
                 }
-
-
                 $urs = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and hdid = :hdid $condition LIMIT " . ($pindex - 1) * $psize . ",{$psize}", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
-
                 pdo_fetchcolumn('SELECT sum(piao-liwushuliang-xunishuliang) FROM ' . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and hdid=:hdid", array(':uniacid' => $_W['uniacid'], ':hdid' => $value['id']));
                 foreach ($urs as $key => $value) {
                     $tmp = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('wei_fx_jilu') . " WHERE uniacid = :uniacid and openid=:openid", array(':uniacid' => $_W['uniacid'], ':openid' => $value['openid']));
@@ -3826,13 +3208,9 @@ class Wei_voteModuleSite extends WeModuleSite
                 $data3 = array('lahei' => 2,);
                 $result3 = pdo_update('wei_vote_up', $data3, array('uniacid' => $_W['uniacid'], 'id' => $_GPC['id']));
                 if ($result3) {
-
                     message('拉黑成功！', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])), $type = '');
-
                 } else {
-
                     message('拉黑失败！', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])), $type = '');
-
                 }
             }
             if ($op == 'quxiaolahei') {
@@ -3840,12 +3218,8 @@ class Wei_voteModuleSite extends WeModuleSite
                 $result3 = pdo_update('wei_vote_up', $data3, array('uniacid' => $_W['uniacid'], 'id' => $_GPC['id']));
                 if ($result3) {
                     message('取消拉黑成功！', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])), $type = '');
-
-
                 } else {
-
                     message('取消拉黑失败！', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])), $type = '');
-
                 }
             }
             if ($op == 'edit') {
@@ -3857,16 +3231,13 @@ class Wei_voteModuleSite extends WeModuleSite
                     $user_data['tupian'] = stripslashes($user_data['tupian']);
                     $user_data['tupian'] = explode(",", $user_data['tupian']);
                     $user_data['tupian'] = array_filter($user_data['tupian']);
-
                 }
-
                 include $this->template('edit');
             }
             if ($op == 'del') {
                 $ew = pdo_delete('wei_vote_up', array('id' => $_GPC['id']));
                 if ($ew) {
                     message('删除成功', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])));
-
                 } else {
                     message('删除失败！', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])), $type = '');
                 }
@@ -3874,67 +3245,44 @@ class Wei_voteModuleSite extends WeModuleSite
             if ($op == 'zp') {
                 // "pm": pm,"xsid":xsid
                 $vote_up = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and id=:id and hdid = :hdid", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':id' => $_GPC['xsid']));
-
                 if ($vote_up) {
-
                     $vt = pdo_update('wei_vote_up', array('piao +=' => $_GPC['pm']), array('uniacid' => $_W['uniacid'], 'hdid' => $_GPC['hdid'], 'id' => $_GPC['xsid']));
                     $vt = pdo_update('wei_vote_up', array('xunishuliang +=' => $_GPC['pm']), array('uniacid' => $_W['uniacid'], 'hdid' => $_GPC['hdid'], 'id' => $_GPC['xsid']));
                     if ($vt) {
                         $res['code'] = 30001;
                         $res['msg'] = '给选手' . $vote_up['name'] . '增加' . $_GPC['pm'] . '票成功';
                         return json_encode($res);
-
                     } else {
                         $res['info'] = $vt;
                         $res['code'] = 30002;
                         $res['msg'] = '增加失败';
                         return json_encode($res);
-
                     }
-
                 } else {
                     $res['code'] = 30003;
                     $res['info'] = $vote_up;
                     $res['msg'] = '增加失败';
                     return json_encode($res);
-
                 }
             }
             if ($op == 'songli') {
                 if ($this->settings[0]['liwupid']) {
-
                     $liwu = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_liwu') . " WHERE uniacid = :uniacid and id=:id and hdid = :hdid", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':id' => $this->settings[0]['liwupid']));
-
                 } else {
-
                     $liwu = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_liwu') . " WHERE uniacid = :uniacid and hdid = :hdid", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
-
                 }
-
                 $str = $this->settings[0]['moniuid'];
-
                 if (empty($str)) {
-
                     $fans = pdo_fetchall("SELECT uid FROM " . tablename('mc_mapping_fans') . " WHERE uniacid = :uniacid and uid>:uid ORDER BY acid DESC limit 100", array(':uniacid' => $_W['uniacid'], ':uid' => 1));
-
                     $huiyuan = array_rand($fans, 5);
-
-
                 } else {
-
                     $huiyuan = explode(",", $str);
                 }
-
                 foreach ($huiyuan as $k => $y) {
                     $fens = mc_fetch($y);
-
-
                     $keyliwu = array_rand($liwu, 1);
-
                     $order_date = date('Y-m-d');
                     $order_id_main = date('YmdHis') . rand(10000000, 99999999);
-
-
                     $user_data = array(
                         'openid' => $fens['openid'],
                         'uniacid' => $_W['uniacid'],
@@ -3948,63 +3296,41 @@ class Wei_voteModuleSite extends WeModuleSite
                         'dingdanghao' => $order_id_main,
                         'shuliang' => 1,
                         'liwuname' => $liwu[$keyliwu]['name'], 'hdid' => $_GPC['hdid'],
-
                         'iszhifu' => 2,
                         'wxuniontid' => $order_id_main,
                         'wxtransaction_id' => $order_id_main,
                         'type' => 'JSAPI', 'isxuli' => 2,
                         'wxfee' => $liwu[$keyliwu]['jiner']
                     );
-
                     $result = pdo_insert('wei_vote_userlog', $user_data);
                     $uid = pdo_insertid();
-
-
                     pdo_update('wei_vote_up', array('piao +=' => $liwu[$keyliwu]['piao'], 'liwushuliang1 +=' => $liwu[$keyliwu]['piao'], 'yuan1 +=' => $liwu[$keyliwu]['jiner']), array('id' => $_GPC['id']));
-
-
                 }
                 message('执行成功', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])));
-
             }
-
             if ($op == 'toupiao') {
                 $account = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE id = :id LIMIT 1", array(':id' => $_GPC['id']));
-
                 $str = $this->settings[0]['moniuid'];
-
                 if (empty($str)) {
-
                     $fans = pdo_fetchall("SELECT uid FROM " . tablename('mc_mapping_fans') . " WHERE uniacid = :uniacid and uid>:uid ORDER BY acid DESC limit 2000", array(':uniacid' => $_W['uniacid'], ':uid' => 1));
-
                     $huiyuan = array_rand($fans, 50);
-
-
                 } else {
-
                     $huiyuan = explode(",", $str);
                 }
                 $jsonAddress = '';
                 $i = 1;
                 foreach ($huiyuan as $k => $y) {
                     $fens = mc_fetch($y);
-
-
                     $i++;
                     $result = pdo_update('wei_vote_up', array('piao +=' => 1), array('id' => $_GPC['id']));
                     $fens['openid'] = random(26);;
                     if (!empty($result)) {
-
-
                         $res = pdo_insert('wei_vote_jilu', array('isxulitp' => 2, 'didian' => $jsonAddress, 'timeopenid' => time() . $fens['openid'], 'ip' => CLIENT_IP, 'time' => time() + $i, 'uniacid' => $_W['uniacid'], 'hdid' => $_GPC['hdid'], 'openid' => $fens['openid'], 'nickname' => $fens['nickname'], 'avatar' => $fens['avatar'], 'pid' => $_GPC['id'], 'od' => $_GPC['od'], 'sessionid' => $fens['openid']));
-
                         if ($res) {
-
                             if ($this->settings[0]['votetemplateid']) {
                                 $template_ids = $this->settings[0]['votetemplateid'];
                                 $time = date("Y-m-d H:i:s", time());
                                 $ur = $_W['siteroot'] . 'app/' . $this->createMobileUrl('list', array('id' => $_GPC['id'], 'hdid' => $_GPC['hdid']));
-
                                 $data58 = array(
                                     'first' => array(
                                         'value' => "恭喜您有新的投票！",
@@ -4012,41 +3338,28 @@ class Wei_voteModuleSite extends WeModuleSite
                                     ),
                                     'keyword1' => array('value' => $this->settings[0]['name'], 'color' => '#173177'),
                                     'keyword2' => array('value' => $time, 'color' => '#173177'),
-
                                     'remark' => array('value' => '恭喜您有新的投票！投票好友为' . $fens[nickname] . '', 'color' => '#173177'),
                                 );
                                 $this->doSend($account['openid'], $template_ids, $ur, $data58, $topcolor = '#7B68EE');
                             }
-
-
                         }
                     }
-
-
                 }
                 message('执行成功', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])));
-
             }
-
-
         }
     }
-
     public function doWebShen()
     {
         global $_GPC, $_W;
         $data3 = array('isshenhe' => 2);
         $result3 = pdo_update('wei_vote_up', $data3, array('uniacid' => $_W['uniacid'], 'id' => $_GPC['id']));
         $user_data = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE id = :id LIMIT 1", array(':id' => $_GPC['id']));
-
         if ($result3) {
-
-
             if ($this->settings[0]['templateid']) {
                 $template_id = $this->settings[0]['templateid'];
                 $time = date("Y-m-d H:i:s", time());
                 $ur = $_W['siteroot'] . 'app/' . $this->createMobileUrl('list', array('id' => $_GPC['id'], 'hdid' => $_GPC['hdid']));
-
                 $data58 = array(
                     'first' => array(
                         'value' => "恭喜您活动审核通过！",
@@ -4054,20 +3367,15 @@ class Wei_voteModuleSite extends WeModuleSite
                     ),
                     'keyword1' => array('value' => $user_data['name'], 'color' => '#173177'),
                     'keyword2' => array('value' => $time, 'color' => '#173177'),
-
                     'remark' => array('value' => '感谢您的参与。', 'color' => '#173177'),
                 );
                 $this->doSend($user_data['openid'], $template_id, $ur, $data58, $topcolor = '#7B68EE');
             }
-
-
             message('成功！', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])));
-
         } else {
             message('失败！', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])));
         }
     }
-
     public function doWebJiefengjin()
     {
         global $_GPC, $_W;
@@ -4079,7 +3387,6 @@ class Wei_voteModuleSite extends WeModuleSite
             message('失败！', $this->createWebUrl('Fengjin'));
         }
     }
-
     public function doWebButongguo()
     {
         global $_GPC, $_W;
@@ -4091,7 +3398,6 @@ class Wei_voteModuleSite extends WeModuleSite
             message('失败！', $this->createWebUrl('signup', array('hdid' => $_GPC['hdid'])));
         }
     }
-
     public function doWebEdit()
     {
         global $_GPC, $_W;
@@ -4100,15 +3406,12 @@ class Wei_voteModuleSite extends WeModuleSite
             include $this->template('Edit');
         }
     }
-
     public function doMobileGeren()
     {
     }
-
     public function doMobileKuaijian()
     {
     }
-
     public function doWebXqchakan()
     {
         global $_GPC, $_W;
@@ -4123,7 +3426,6 @@ class Wei_voteModuleSite extends WeModuleSite
             echo "无信息查看！";
         }
     }
-
     public function doWebToupiao()
     {
         global $_GPC, $_W;
@@ -4148,14 +3450,11 @@ class Wei_voteModuleSite extends WeModuleSite
             $lew = pdo_delete('wei_vote_jilu', array('uniacid' => $_W['uniacid']));
             if ($lew) {
                 message('删除成功', $this->createWebUrl('Toupiao', array('hdid' => $_GPC['hdid'])));
-
             } else {
                 message('删除失败！', $this->createWebUrl('Toupiao', array('hdid' => $_GPC['hdid'])));
-
             }
         }
     }
-
     public function doWebPeizi()
     {
         global $_GPC, $_W;
@@ -4179,7 +3478,6 @@ class Wei_voteModuleSite extends WeModuleSite
             }
             $save_file = $wxcertdir . "/" . $_W["uniacid"] . "." . $ext;
             file_move($_FILES['nbfwpaycert']['tmp_name'], $save_file);
-
             $this->unzip($save_file, $wxcertdir);
             $certpath = $wxcertdir . "/apiclient_cert.pem";
             $keypath = $wxcertdir . "/apiclient_key.pem";
@@ -4258,13 +3556,9 @@ class Wei_voteModuleSite extends WeModuleSite
         $data['isliwu'] = $_GPC['isliwu'];
         $data['zjcishu'] = $_GPC['zjcishu'];
         $data['choujiangcishu'] = $_GPC['choujiangcishu'];
-
         $data['choujianjiesao'] = $_GPC['choujianjiesao'];
-
         $data['audio'] = $_GPC['audio'];
-
         $data['huancun'] = $_GPC['huancun'];
-
         $user = pdo_fetch("SELECT id FROM " . tablename('wei_vote_peizhi') . " WHERE uniacid = :uniacid LIMIT 1", array(':uniacid' => $_W['uniacid']));
         if ($user) {
             $result = pdo_update('wei_vote_peizhi', $data, array('uniacid' => $_W['uniacid']));
@@ -4281,7 +3575,6 @@ class Wei_voteModuleSite extends WeModuleSite
             }
         }
     }
-
     public function unzip($zipfile, $to, $index = Array(-1))
     {
         $ok = 0;
@@ -4313,7 +3606,6 @@ class Wei_voteModuleSite extends WeModuleSite
         fclose($zip);
         return $stat;
     }
-
     private function ReadCentralDir($zip, $zipfile)
     {
         $size = filesize($zipfile);
@@ -4325,7 +3617,6 @@ class Wei_voteModuleSite extends WeModuleSite
             $byte = @fread($zip, 1);
             $bytes = ($bytes << 8) | Ord($byte);
             $pos++;
-
             if (strrpos(strtolower(PHP_OS), "win") === FALSE && substr(dechex($bytes), -8, 8) == '504b0506') {
                 break;
             } elseif ($bytes == 0x504b0506) {
@@ -4342,7 +3633,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $centd['disk'] = $data['disk'];
         return $centd;
     }
-
     private function ReadCentralFileHeaders($zip)
     {
         $binary_data = fread($zip, 46);
@@ -4368,7 +3658,6 @@ class Wei_voteModuleSite extends WeModuleSite
         }
         return $header;
     }
-
     private function ExtractFile($header, $to, $zip)
     {
         $header = $this->readfileheader($zip);
@@ -4447,7 +3736,6 @@ class Wei_voteModuleSite extends WeModuleSite
         }
         return true;
     }
-
     private function ReadFileHeader($zip)
     {
         $binary_data = fread($zip, 30);
@@ -4476,7 +3764,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $header['status'] = "ok";
         return $header;
     }
-
     public function doMobileSos()
     {
         global $_GPC, $_W;
@@ -4484,20 +3771,13 @@ class Wei_voteModuleSite extends WeModuleSite
         $sql = 'SELECT * FROM ' . tablename('wei_vote_up') . ' WHERE (name like :name OR bh = :bh)  and uniacid = :uniacid and hdid= :hdid limit 1';
         $params = array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':name' => $m, ':bh' => $m);
         $res = pdo_fetch($sql, $params);
-
         if (empty($res)) {
-
             $url = $this->createMobileUrl('voindex', array('hdid' => $_GPC['hdid']));
-
         } else {
-
             $url = $this->createMobileUrl('list', array('id' => $res['id'], 'hdid' => $_GPC['hdid']));
-
         }
         header("location:$url");
-
     }
-
     public function doMobileSo()
     {
         global $_GPC, $_W;
@@ -4507,27 +3787,19 @@ class Wei_voteModuleSite extends WeModuleSite
         $sql = 'SELECT * FROM ' . tablename('wei_vote_up') . ' WHERE (name like :name OR bh = :bh)  and uniacid = :uniacid and hdid= :hdid';
         $params = array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':name' => '%' . $m . '%', ':bh' => $m);
         $res = pdo_fetchall($sql, $params);
-
         $mb = $this->style('so', $this->replys['template']);
-
         if ($this->settings[0]['muban'] == 0) {
-
             include $this->template('so');
         } else {
-
             include $this->template($mb);
         }
-
         /* 	if ($this->settings[0]['muban'] == 0) {
-
 			include $this->template('so');
 		}else{
-
 			include $this->template('new/so');
 		}
 	 */
     }
-
     public function doMobileXianqing()
     {
         global $_GPC, $_W;
@@ -4536,7 +3808,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $peiz = $this->settings;
         include $this->template('xianqing');
     }
-
     public function doMobileXiaoheajax()
     {
         global $_GPC, $_W;
@@ -4559,7 +3830,6 @@ class Wei_voteModuleSite extends WeModuleSite
             echo json_encode($res);
         }
     }
-
     public function doMobileChouqiang()
     {
         global $_GPC, $_W;
@@ -4571,36 +3841,24 @@ class Wei_voteModuleSite extends WeModuleSite
         }
         $user_total = $this->user_total;
         $piao_total = $this->piao_total;
-
         $zhong = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_zhong') . " WHERE uniacid = :uniacid LIMIT 70", array('uniacid' => $_W['uniacid']));
-
         /* 	if ($this->settings[0]['muban'] == 0) {
-
 					include $this->template('choujiang');
 				}else{
-
 					include $this->template('new/choujiang');
 				} */
         $mb = $this->style('choujiang', $this->replys['template']);
-
         if ($this->settings[0]['muban'] == 0) {
-
             include $this->template('choujiang');
         } else {
-
             include $this->template($mb);
         }
     }
-
     public function doMobileGz()
     {
         global $_W;
-
-
         include $this->template('gz');
-
     }
-
     public function doMobileZhongjiang()
     {
         global $_GPC, $_W;
@@ -4612,20 +3870,17 @@ class Wei_voteModuleSite extends WeModuleSite
                 exit();
             }
         }
-
         if ($user1['toupiao'] <= $user1['choujiang']) {
             $res['yes']['q'] = '抽奖次数用完';
             echo json_encode($res);
             exit();
         }
-
         $y = date("Y");
         $m = date("m");
         $d = date("d");
         $todayTime = mktime(0, 0, 0, $m, $d, $y);
         $todayendTime = mktime(23, 59, 59, $m, $d, $y);
         $zj_shu = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('wei_vote_zhong') . " WHERE uniacid = :uniacid and hdid = :hdid and openid = :openid and createtime > :todayTime and createtime < :todayendTime", array(':todayendTime' => $todayendTime, ':todayTime' => $todayTime, ':openid' => $_W['openid'], ':uniacid' => $_W['uniacid'], 'hdid' => $_GPC['hdid']));
-
         $kk = 100 - ($this->settings[0]['cr_4'] + $this->settings[0]['cr_3'] + $this->settings[0]['cr_2'] + $this->settings[0]['cr_1']);
         if ($kk < 1) {
             $kk == 1;
@@ -4635,17 +3890,13 @@ class Wei_voteModuleSite extends WeModuleSite
             $arr[$val['id']] = $val['v'];
         }
         $rid = $this->get_rand($arr);
-
         $rd = (int)$prize_arr[$rid - 1]['m'] - 1;
         if ($rd < 0) {
             $rid = 5;
         }
-
         if ($zj_shu >= $this->settings[0]['zjcishu']) {
-
             $rid = 5;
         }
-
         if ($rid != 5) {
             $user_data = array($prize_arr[$rid - 1]['c'] => $rd,);
             $result = pdo_update('wei_vote_peizhi', $user_data, array('uniacid' => $_W['uniacid'], 'id' => $_GPC['hdid']));
@@ -4672,7 +3923,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $res['no'] = $pr;
         echo json_encode($res);
     }
-
     public function doWebJiangp()
     {
         global $_GPC, $_W;
@@ -4692,13 +3942,11 @@ class Wei_voteModuleSite extends WeModuleSite
                 message('兑换成功', $this->createWebUrl('Jiangp', array('hdid' => $_GPC['hdid'])));
             } else {
                 message('兑换失败！', $this->createWebUrl('Jiangp', array('hdid' => $_GPC['hdid'])));
-
             }
         }
         if ($op == 'fahoubao') {
             $user = pdo_fetch("SELECT * FROM " . tablename('wei_vote_zhong') . " WHERE id = :uid and uniacid = :uniacid LIMIT 1", array(':uid' => $_GPC['id'], 'uniacid' => $_W['uniacid']));
             if ($user['hongbao'] <= 0) {
-
                 message('此奖品是实物奖品，不能发红包，点兑换！', $this->createWebUrl('Jiangp', array('hdid' => $_GPC['hdid'])));
             }
             if ($user['isok'] == 0 && $user['hongbao'] > 0) {
@@ -4715,41 +3963,29 @@ class Wei_voteModuleSite extends WeModuleSite
                     message($res2['return_msg'], $redirect = '', $type = '');
                 }
             } else {
-
                 message('以兑换，无须再兑换！', $this->createWebUrl('Jiangp', array('hdid' => $_GPC['hdid'])));
-
             }
         }
         if ($op == 'del') {
             $ew = pdo_delete('wei_vote_zhong', array('id' => $_GPC['id']));
             if ($ew) {
                 message('删除成功', $this->createWebUrl('Jiangp', array('hdid' => $_GPC['hdid'])));
-
-
             } else {
                 message('删除失败！', $this->createWebUrl('Jiangp', array('hdid' => $_GPC['hdid'])));
-
-
             }
         }
     }
-
     public function doWebStaff()
     {
         global $_W, $_GPC;
         if (empty($_GPC['id'])) {
-
             $list = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and hdid=:hdid ORDER BY id DESC ", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid']));
-
         } else {
-
             $list = pdo_fetchall("SELECT * FROM " . tablename('wei_vote_jilu') . " WHERE uniacid = :uniacid and hdid=:hdid and pid =:pid ORDER BY id DESC ", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':pid' => $_GPC['id']));
-
         }
         $this->mexport($list);
         exit;
     }
-
     public function doWebSignupdaochu()
     {
         global $_W, $_GPC;
@@ -4757,7 +3993,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $this->mexportsignup($urs);
         exit;
     }
-
     private function mexportsignup($urs)
     {
         include_once 'excel.php';
@@ -4788,7 +4023,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $exceler->setContent($excel_data);
         $exceler->export();
     }
-
     private function mexport($list)
     {
         include_once 'excel.php';
@@ -4819,7 +4053,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $exceler->setContent($excel_data);
         $exceler->export();
     }
-
     public function doWebToujiang()
     {
         global $_W, $_GPC;
@@ -4840,69 +4073,45 @@ class Wei_voteModuleSite extends WeModuleSite
                 message('删除失败！', $redirect = '', $type = '');
             }
         }
-
     }
-
-
     public function doWebDelajax()
     {
         global $_W, $_GPC;
-
-
         $checkval = $_GPC['checkval'];
         $checkval = implode(',', $checkval);
-
-
         $sql = 'DELETE FROM ' . tablename('wei_vote_up') . " WHERE `uniacid`='{$_W['uniacid']}' AND `id` IN ({$checkval})";
-
         $result = pdo_query($sql);
         if ($result) {
-
             $res['msg'] = '删除成功！';
-
         } else {
-
             $res['msg'] = '删除失败！';
-
         }
         echo json_encode($res);
         exit();
-
-
     }
-
     public function doWebYijian()
     {
         global $_W, $_GPC;
-
         $vote_up = pdo_fetch("SELECT * FROM " . tablename('wei_vote_up') . " WHERE uniacid = :uniacid and id=:id and hdid = :hdid", array(':uniacid' => $_W['uniacid'], ':hdid' => $_GPC['hdid'], ':id' => $_GPC['zdid']));
-
         if ($vote_up) {
-
             $vt = pdo_update('wei_vote_up', array('piao +=' => $_GPC['my']), array('uniacid' => $_W['uniacid'], 'hdid' => $_GPC['hdid'], 'id' => $_GPC['zdid']));
             if ($vt) {
                 $res['code'] = 30001;
                 $res['msg'] = '给选手' . $vote_up['name'] . '增加' . $_GPC['my'] . '票成功';
                 return json_encode($res);
-
             } else {
                 $res['info'] = $vt;
                 $res['code'] = 30002;
                 $res['msg'] = '增加失败';
                 return json_encode($res);
-
             }
-
         } else {
             $res['code'] = 30003;
             $res['info'] = $vote_up;
             $res['msg'] = '增加失败';
             return json_encode($res);
-
         }
-
     }
-
     public function doWebDelajaxjilu()
     {
         global $_W, $_GPC;
@@ -4911,21 +4120,13 @@ class Wei_voteModuleSite extends WeModuleSite
         $sql = 'DELETE FROM ' . tablename('wei_vote_jilu') . " WHERE `uniacid`='{$_W['uniacid']}' AND `id` IN ({$checkval})";
         $result = pdo_query($sql);
         if ($result) {
-
             $res['msg'] = '删除成功！';
-
         } else {
-
             $res['msg'] = '删除失败！';
-
         }
         echo json_encode($res);
         exit();
-
-
     }
-
-
     public function doWebDelajaxzhong()
     {
         global $_W, $_GPC;
@@ -4934,43 +4135,28 @@ class Wei_voteModuleSite extends WeModuleSite
         $sql = 'DELETE FROM ' . tablename('wei_vote_zhong') . " WHERE `uniacid`='{$_W['uniacid']}' AND `id` IN ({$checkval})";
         $result = pdo_query($sql);
         if ($result) {
-
             $res['msg'] = '删除成功！';
-
         } else {
-
             $res['msg'] = '删除失败！';
-
         }
         echo json_encode($res);
         exit();
-
-
     }
-
     public function doWebDelajaxtoupiao()
     {
         global $_W, $_GPC;
-
         $checkval = $_GPC['checkval'];
         $checkval = implode(',', $checkval);
         $sql = 'DELETE FROM ' . tablename(wei_vote_toupiao) . " WHERE `uniacid`='{$_W['uniacid']}' AND `id` IN ({$checkval})";
         $result = pdo_query($sql);
         if ($result) {
-
             $res['msg'] = '删除成功！';
-
         } else {
-
             $res['msg'] = '删除失败！';
-
         }
         echo json_encode($res);
         exit();
-
-
     }
-
     public function doWebDelajaxuserlog()
     {
         global $_W, $_GPC;
@@ -4979,20 +4165,13 @@ class Wei_voteModuleSite extends WeModuleSite
         $sql = 'DELETE FROM ' . tablename(wei_vote_userlog) . " WHERE `uniacid`='{$_W['uniacid']}' AND `id` IN ({$checkval})";
         $result = pdo_query($sql);
         if ($result) {
-
             $res['msg'] = '删除成功！';
-
         } else {
-
             $res['msg'] = '删除失败！';
-
         }
         echo json_encode($res);
         exit();
-
-
     }
-
     public function doMobileQiye()
     {
         global $_W, $_GPC;
@@ -5003,7 +4182,6 @@ class Wei_voteModuleSite extends WeModuleSite
             die('请在微信中打开');
         }
         load()->model('mc');
-
         $fee = $_GPC['jieer'] * 100;
         $arr['openid'] = $_W['openid'];
         $arr['hbname'] = '投票活动';
@@ -5011,41 +4189,31 @@ class Wei_voteModuleSite extends WeModuleSite
         $arr['fee'] = $fee;
         $res = $this->qiyefukuan($arr);
         if ($res['result_code'] == 'SUCCESS') {
-
             echo '恭喜你提现成功请注意查收';
         } else {
-
             var_dump($res['return_msg']);
         }
-
     }
-
     public function style($filename, $tmp = "")
     {
         if (empty($tmp)) {
             return $filename;
         } else {
-
             return $tmp . "/" . $filename;
         }
     }
-
     public function qiyefukuan($arr)
     {
         global $_W, $_GPC;
         $data['mch_appid'] = $this->settings[0]['appid'];
         $data['mchid'] = $this->settings[0]['mchid'];
         $data['nonce_str'] = $this->createNoncestr();
-
         $data['partner_trade_no'] = $data['mch_id'] . date("Ymd", time()) . date("His", time()) . rand(1111, 9999);
         $data['openid'] = $arr['openid'];
         $data['check_name'] = 'NO_CHECK';
         $data['amount'] = $arr['fee'];
-
         $data['spbill_create_ip'] = $_SERVER['REMOTE_ADDR'];
         $data['desc'] = '投票活动';
-
-
         $data['sign'] = $this->getSign($data);
         $xml = $this->arrayToXml($data);
         $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
@@ -5053,7 +4221,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $rearr = $this->xmlToArray($re);
         return $rearr;
     }
-
     /*  商户账号appid mch_appid 是 wx8888888888888888 String 微信分配的账号ID（企业号corpid即为此appId）
 		商户号 mchid 是 1900000109 String(32) 微信支付分配的商户号
 		设备号 device_info 否 013467007045764 String(32) 微信支付分配的终端设备号
@@ -5069,7 +4236,6 @@ class Wei_voteModuleSite extends WeModuleSite
 		金额 amount 是 10099 int 企业付款金额，单位为分
 		企业付款描述信息 desc 是 理赔 String 企业付款操作说明信息。必填。
 		Ip地址 spbill_create_ip 是 192.168.0.1 String(32) 调用接口的机器Ip地址  */
-
     public function doMobileTixian()
     {
         global $_W;
@@ -5081,15 +4247,11 @@ class Wei_voteModuleSite extends WeModuleSite
         }
         load()->model('mc');
         if ($this->settings[0]['toupiaojiequn']) {
-
             $userinfo = $_W['fans'] = mc_oauth_userinfo();
             if (empty($_W['fans']['nickname'])) {
                 mc_oauth_userinfo();
             }
-
-
         }
-
         $user_8 = pdo_fetch("SELECT * FROM " . tablename('zhou_hongbao_jiefen') . " WHERE uniacid = :uniacid and openid = :openid LIMIT 1", array(':uniacid' => $_W['uniacid'], ':openid' => $_W['openid']));
         if ($user_8['fenshu'] < $_POST['jieer']) {
             die('您当前提现金额超出了您所得总金额！');
@@ -5111,7 +4273,6 @@ class Wei_voteModuleSite extends WeModuleSite
                 $answerer['qita'] = 1;
                 $answerer['phone'] = $_POST['phone'];
                 $user_data = array('fenshu' => $user_8['fenshu'] - $_POST['jieer'],
-
                 );
                 $result2 = pdo_update('zhou_hongbao_jiefen', $user_data, array('id' => $user_8['id']));
                 pdo_insert('zhou_hongbao_tixian', $answerer);
@@ -5131,7 +4292,6 @@ class Wei_voteModuleSite extends WeModuleSite
             }
         }
     }
-
     public function sendhongbaoto($arr)
     {
         global $_W, $_GPC;
@@ -5159,7 +4319,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $rearr = $this->xmlToArray($re);
         return $rearr;
     }
-
     function trimString($value)
     {
         $ret = null;
@@ -5171,7 +4330,6 @@ class Wei_voteModuleSite extends WeModuleSite
         }
         return $ret;
     }
-
     public function createNoncestr($length = 32)
     {
         $chars = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -5181,7 +4339,6 @@ class Wei_voteModuleSite extends WeModuleSite
         }
         return $str;
     }
-
     function formatBizQueryParaMap($paraMap, $urlencode)
     {
         $buff = "";
@@ -5198,7 +4355,6 @@ class Wei_voteModuleSite extends WeModuleSite
         }
         return $reqPar;
     }
-
     public function getSign($Obj)
     {
         foreach ($Obj as $k => $v) {
@@ -5212,7 +4368,6 @@ class Wei_voteModuleSite extends WeModuleSite
         $result_ = strtoupper($String);
         return $result_;
     }
-
     public function arrayToXml($arr)
     {
         $xml = "<xml>";
@@ -5224,13 +4379,11 @@ class Wei_voteModuleSite extends WeModuleSite
         $xml .= "</xml>";
         return $xml;
     }
-
     public function xmlToArray($xml)
     {
         $array_data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
         return $array_data;
     }
-
     public function wxHttpsRequestPem($vars, $url, $second = 30, $aHeader = array())
     {
         global $_W;
@@ -5262,7 +4415,6 @@ class Wei_voteModuleSite extends WeModuleSite
             return false;
         }
     }
-
     public function get_rand($proArr)
     {
         $result = '';
@@ -5279,29 +4431,21 @@ class Wei_voteModuleSite extends WeModuleSite
         unset($proArr);
         return $result;
     }
-
     public function doWebTest()
     {
         global $_GPC, $_W;
         load()->func('communication');
         load()->model('cloud');
         load()->func('db');
-
-
         $cars[0]['sql'] = "wei_fx_jilu";
         $cars[1]['sql'] = "wei_vote_ip";
         $cars[2]['sql'] = "wei_vote_jilu";
-
-
         $cars[3]['sql'] = "wei_vote_liwu";
         $cars[4]['sql'] = "wei_vote_peizhi";
         $cars[5]['sql'] = "wei_vote_toupiao";
-
         $cars[6]['sql'] = "wei_vote_up";
         $cars[7]['sql'] = "wei_vote_userlog";
         $cars[8]['sql'] = "wei_vote_zhong";
-
-
         foreach ($cars as $key => $vals) {
             $local = '';
             $local = db_table_schema(pdo(), $vals['sql']);
@@ -5315,9 +4459,5 @@ class Wei_voteModuleSite extends WeModuleSite
 		$param = array(':uniacid' => $_W['uniacid']);
 		$owner_list = pdo_fetchall($sql, $param);
 		print_r($owner_list);*/
-
-
     }
-
-
 }

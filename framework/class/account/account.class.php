@@ -784,7 +784,6 @@ abstract class WeBase {
 	
 	public $__define;
 
-	
 	public function saveSettings($settings) {
 		global $_W;
 		$pars = array('module' => $this->modulename, 'uniacid' => $_W['uniacid']);

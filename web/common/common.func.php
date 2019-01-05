@@ -7,11 +7,9 @@ defined('IN_IA') or exit('Access Denied');
 
 load()->model('module');
 
-
 function url($segment, $params = array()) {
 	return wurl($segment, $params);
 }
-
 
 function message($msg, $redirect = '', $type = '', $tips = false, $extend = array()) {
 	global $_W, $_GPC;

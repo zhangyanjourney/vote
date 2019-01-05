@@ -1,304 +1,800 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-        
-        <head>
-                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-                <title><?php echo $this->settings[0]['name'];?></title>
-                <meta name="apple-mobile-web-app-capable" content="yes">
-                <meta name="apple-mobile-web-app-status-bar-style" content="black">
-                <meta name="format-detection" content="telephone=no">
-                <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=no" />-->
-                <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
-                {php echo register_jssdk(false);}
-				
-				<link rel="stylesheet" type="text/css" href="{TEMPLATE_PATH}new5/style.css">
-                <link rel="stylesheet" type="text/css" href="{TEMPLATE_PATH}new5/style_PageDefault.css">
-                <link rel="stylesheet" type="text/css" href="{TEMPLATE_PATH}new5/style_PageMaster.css">
-                <link rel="stylesheet" type="text/css" href="{TEMPLATE_PATH}new5/swiper.min.css">
-         
-                <link rel="stylesheet" type="text/css" href="{TEMPLATE_PATH}new5/zqa.css">
-				<script type="text/javascript" src="{TEMPLATE_PATH}js/jquery-1.8.3.min.js"></script>
-			
-				
-				
-                <script type="text/javascript">$(function() {
-                                $("#fly_page").hide();
-                                //$("#TopTipClose").click();//执行关闭
-                                $("#TopTipHolder").hide();
-                        });</script>
-                <style>
-				
-				#ul_page{width:95%;float:left; left:2.5%} #ul_page ol{ width:47%;} .page a{ background: #ffffff none repeat scroll 0 0; border-radius: 4px;padding: 5px 10px 5px;color: #fe5842;margin-left:3.5px;} .page .current{border:1px #2dcc70 solid; background: #2dcc70 none repeat scroll 0 0; border-radius: 4px;padding: 5px 10px 5px;color: #FFFFFF;margin-left:3.5px;} .img_po{height:28px;left: 0;position:absolute;width:100%;top:0%;} .img_po_div{background: #000000 none repeat scroll 0 0;height: 28px;opacity: 0.3;position: absolute;width: 100%;left: 1px;top: 0px;} #setdiv{margin-bottom:10px;width:80%;} .img_po_txt{ color: #ffffff;line-height: 30px;padding-left: 5px;position: absolute;} #content_tab{width:98%;padding:1%;} #content_result{padding-bottom: 10px;} #position{bottom:10px;} #faq ul{margin: 0;padding: 0;display: inline;} #faq li{line-height: 30px;padding: 0 0 5px 22px;border-bottom:1px #ccc solid;height:30px;} .STYLE1 { color: #585656; } #content_button{ background-color:#fff; border:solid 1px #585656; 
-				
-				
-				}
-				
-			
-				
-				</style></head>
-        
-        <body id="body">
-		<style>
-		
-		     .gdt{
-				
-					
-				
-					position: fixed; z-index: 999; top: 0; left: 0; width: 100%; text-align: center; padding: 6px 10px; border: 1px solid transparent; color: #FFFFFF; background-color: rgba(0, 0, 0, 0.5);
-				}
-				
-				
-				
-		</style>
-			
-			 {if !empty($this->settings[0]['gdgg'])}
-				
-				
-				<div class="gdt">
-					<span class=""><marquee direction="left">{php echo $this->settings[0]['gdgg']}</marquee></span>
-				</div>
-			{/if}
-			
-		
-		
-		
-                <input value="<?php echo strtotime($this->settings[0]['endtime'])-time()?>" id="djstime" type="hidden">
-                <div id="div">
-                        <!-- <div id="content_pic">
-                                <div class="addWrap">
-                                        <div class="swipe" id="mySwipe" style="visibility: visible;">
-                                                <div class="swipe-wrap" style="width: 414px;">
-                                                        <div data-index="0" style="width: 414px; left: 0px; transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
-                                                                <a href="javascript:;">
-                                                                        <img class="img-responsive" src="{php echo tomedia($this->settings[0]['touimg'])}"></a>
-                                                        </div>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{if !empty($_W['page']['sitename'])}{$_W['page']['sitename']}{else}{$_W['account']['name']}{/if}{if !empty($title)}{$title} {/if}</title>
+    <meta name="format-detection" content="telephone=no, address=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="keywords" content="{if empty($_W['page']['keywords'])}{else}{$_W['page']['keywords']}{/if}" />
+    <meta name="description" content="{if empty($_W['page']['description'])}{else}{$_W['page']['description']}{/if}" />
+    <link rel="shortcut icon" href="{$_W['siteroot']}{$_W['config']['upload']['attachdir']}/{if !empty($_W['setting']['copyright']['icon'])}{$_W['setting']['copyright']['icon']}{else}images/global/wechat.jpg{/if}" />
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script type="text/javascript" src="{$_W['siteroot']}app/resource/js/app/util.js"></script>
+    <script src="{$_W['siteroot']}app/resource/js/require.js"></script>
+    <script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js?v=20160906"></script>
+    <script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/mui.min.js?v=20160906"></script>
+    <script type="text/javascript" src="{$_W['siteroot']}app/resource/js/app/common.js?v=20160906"></script>
+    <link href="{$_W['siteroot']}app/resource/css/bootstrap.min.css?v=20160906" rel="stylesheet">
+    <link href="{$_W['siteroot']}app/resource/css/common.min.css?v=20160906" rel="stylesheet">
+    <link href="{MODULE_URL}/template/static/css/weui1.0.1.min.css" rel="stylesheet">
+    <link href="{MODULE_URL}/template/static/css/index.css?a=11" rel="stylesheet">
+    <script type="text/javascript">
+        if(navigator.appName == 'Microsoft Internet Explorer'){
+            if(navigator.userAgent.indexOf("MSIE 5.0")>0 || navigator.userAgent.indexOf("MSIE 6.0")>0 || navigator.userAgent.indexOf("MSIE 7.0")>0) {
+                alert('您使用的 IE 浏览器版本过低, 推荐使用 Chrome 浏览器或 IE8 及以上版本浏览器.');
+            }
+        }
+        window.sysinfo = {
+        {if !empty($_W['uniacid'])}'uniacid': '{$_W['uniacid']}',{/if}
+        {if !empty($_W['acid'])}'acid': '{$_W['acid']}',{/if}{if !empty($_W['openid'])}'openid': '{$_W['openid']}',{/if}
+        {if !empty($_W['uid'])}'uid': '{$_W['uid']}',{/if}
+        'siteroot': '{$_W['siteroot']}',
+            'siteurl': '{$_W['siteurl']}',
+            'attachurl': '{$_W['attachurl']}',
+            'attachurl_local': '{$_W['attachurl_local']}',
+            'attachurl_remote': '{$_W['attachurl_remote']}',
+            {if defined('MODULE_URL')}'MODULE_URL': '{MODULE_URL}',{/if}
+        'cookie' : {'pre': '{$_W['config']['cookie']['pre']}'}
+        };
+        // jssdk config 对象
+        jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+        // 是否启用调试
+        jssdkconfig.debug = false;
+        jssdkconfig.jsApiList = [
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'hideMenuItems',
+            'showMenuItems',
+            'hideAllNonBaseMenuItem',
+            'showAllNonBaseMenuItem',
+            'translateVoice',
+            'startRecord',
+            'stopRecord',
+            'onRecordEnd',
+            'playVoice',
+            'pauseVoice',
+            'stopVoice',
+            'uploadVoice',
+            'downloadVoice',
+            'chooseImage',
+            'previewImage',
+            'uploadImage',
+            'downloadImage',
+            'getNetworkType',
+            'openLocation',
+            'getLocation',
+            'hideOptionMenu',
+            'showOptionMenu',
+            'closeWindow',
+            'scanQRCode',
+            'chooseWXPay',
+            'openProductSpecificView',
+            'addCard',
+            'chooseCard',
+            'openCard'
+        ];
+    </script>
+</head>
+<body>
+
+<ul class="Side_nav">
+    <li style=""><a href="{php echo $this->createMobileUrl('voindex',array('hdid'=>$_GPC['hdid']))}" class="Side_navf">首页</a></li>
+    <li><a href="javascript:;" id="jubao" class="Side_navf" data-id={$_GPC['hdid']} data-title="{if !empty($_W['page']['sitename'])}{$_W['page']['sitename']}{else}{$_W['account']['name']}{/if}{if !empty($title)}{$title} {/if}">举报</a></li>
+</ul>
+<div id="votetousu" style="background: rgb(242, 242, 242); min-height: 572px; display: none;">
+    <!--返回部分-->
+    <header class="page-header zindex3 sgyingyin" style="margin:0 auto">
+        <a class="arrow-wrap" href="javascript:;" id="tousufanhui">
+            <span class="arrow-lefts"></span><i class="fanhuib">返回</i>
+        </a>
+        <div class="toptext">我要举报</div>
+    </header>
+    <form>
+        <!--投诉原因选择-->
+        <div class="complaint" style="display: block;">
+            <div class="complaint01">请选择您要举报该网页的原因：</div>
+            <ol class="complaint02">
+                <li><span class="selected">虚假活动、活动不真实</span><em></em></li>
+                <li><span>诱导分享、诱导关注</span><em></em></li>
+                <li><span>欺诈、违法</span><em></em></li>
+                <li><span>色情、暴力</span><em></em></li>
+                <li><span>其他</span><em></em></li>
+            </ol>
+        </div>
+        <!--describe：描述-->
+        <div class="describe" style="display: none;">
+            <div class="describe01">举报描述</div>
+            <div class="describe02">
+                <textarea class="describe021" id="feedbackmark" placeholder="请输入举报具体内容，最少20字。"></textarea>
+                <div class="describe022"><em>0</em><span>/200</span></div>
+            </div>
+            <div class="describe03">联系方式</div>
+            <div class="describe04">
+                <input type="number" id="feedbacktel" pattern="[0-9]*" placeholder="请填写您的手机号，以便联系">
+            </div>
+            <div class="describe06">提交</div>
+            <div class="describe05">上一步</div>
+        </div>
+        <!--success：投诉成功-->
+        <div class="success">
+            <div class="success01"><img src="{MODULE_URL}/template/static/images/correct.png"></div>
+            <div class="success02">投诉已提交</div>
+            <span class="success03">我们将尽快核实，并通过手机号通知您审核结果。感谢您的支持。</span>
+            <div class="success04">关闭</div>
+        </div>
+    </form>
+
+</div>
+<style>
+    .Side_nav {
+        overflow: hidden;
+        position: fixed;
+        top: 45px;
+        left: 85%;
+        z-index: 111;
+    }
+    .Side_nav li {
+        width: 40px;
+        height: 40px;
+        border-radius: 50px;
+        background: rgba(255,255,255,.6);
+        margin-bottom: 10px;
+        overflow: hidden;
+        text-align: center;
+    }
+    .Side_navf {
+        font-size: 14px;
+        color: #fff;
+        line-height: 40px;
+        display: block;
+    }
+    .page-header {
+        position: relative;
+        height: 44px;
+        background-color: #ed414a;
+    }
+    .zindex3 {
+        z-index: 3;
+    }
+    .arrow-wrap {
+        float: left;
+        height: 100%;
+        width: 62px;
+        padding: 0 16px;
+        position: relative;
+    }
+    .toptext {
+        margin: 0 100px;
+        text-align: center;
+        line-height: 44px;
+        font-size: 18px;
+        color: #fff;
+    }
+    .arrow-lefts {
+        display: block;
+        width: 13px;
+        height: 13px;
+        margin-top: 15px;
+        border: 2px solid #fff;
+        border-width: 2px 0 0 2px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+    }
+
+    .fanhuib {
+        color: #fff;
+        font-style: normal;
+        position: absolute;
+        left: 30px;
+        top: 11px;
+    }
+    .complaint {
+        width: 100%;
+        height: auto !important;
+        display: block
+    }
+
+    .complaint .complaint01 {
+        height: 30px;
+        line-height: 30px;
+        width: 94%;
+        margin-left: 3%;
+        font-size: 13px;
+        color: #999
+    }
+
+    .complaint .complaint02 {
+        height: auto !important;
+        background-color: #fff;
+        border: 1px #eee solid
+    }
+
+    .complaint02>li {
+        height: 45px;
+        line-height: 45px;
+        width: 94%;
+        margin-left: 3%;
+        border-bottom: 1px #eee solid;
+        box-sizing: border-box;
+        color: #666;
+        position: relative
+    }
+
+    .complaint02>li>em {
+        width: 7px;
+        height: 7px;
+        border: 1px #ccc solid;
+        border-width: 1px 0px 0px 1px;
+        float: right;
+        transform: rotate(135deg);
+        margin-top: 20px;
+        margin-right: 10px
+    }
+
+    .complaint02>li .duihao {
+        background: url(../images/select.png) no-repeat;
+        background-size: 20px
+    }
+
+    .complaint02>li:last-child {
+        border-bottom: 0px #eee solid
+    }
+
+    .describe {
+        width: 100%;
+        height: auto !important;
+        display: none
+    }
+
+    .describe .describe01 {
+        height: 30px;
+        line-height: 30px;
+        width: 94%;
+        margin-left: 3%;
+        font-size: 13px;
+        color: #999
+    }
+
+    .describe .describe02 {
+        width: 100%;
+        background-color: #fff;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        padding-top: 10px
+    }
+
+    .describe .describe02 em {
+        font-style: normal;
+    }
+
+    .describe02 .describe021 {
+        width: calc(88% - 2px);
+        margin-left: 3%;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        margin-bottom: 30px;
+        height: 100px;
+        font-size: 14px;
+        line-height: 24px;
+        overflow: scroll;
+        padding: 4px 3% 0;
+        -webkit-appearance: none
+    }
+
+    .describe02 .describe022 {
+        float: right;
+        margin-right: 3%;
+        margin-top: -25px;
+        z-index: 100;
+        font-size: 14px;
+        color: #999
+    }
+
+    .describe .describe03 {
+        height: 30px;
+        line-height: 30px;
+        width: 94%;
+        margin-left: 3%;
+        font-size: 13px;
+        color: #999
+    }
+
+    .describe .describe04 {
+        height: 45px;
+        line-height: 45px;
+        width: 100%;
+        color: #999;
+        background-color: #fff;
+        border: 1px solid #eee
+    }
+
+    .describe04>input {
+        border: 0px;
+        width: 94%;
+        margin-left: 3%;
+        height: 30px;
+        line-height: 30px;
+        font-size: 14px
+    }
+
+    .describe .describe05 {
+        width: 96%;
+        margin-left: 2%;
+        background-color: #ccc;
+        color: #fff;
+        height: 45px;
+        text-align: center;
+        line-height: 45px;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-top: 25px
+    }
+
+    .describe .describe06 {
+        width: 96%;
+        margin-left: 2%;
+        background-color: #ed414a;
+        color: #fff;
+        height: 45px;
+        text-align: center;
+        line-height: 45px;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-top: 25px
+    }
+
+    .success {
+        width: 100%;
+        height: auto !important;
+        display: none;
+        background: #fff;
+        padding-bottom: 25px
+    }
+
+    .success .success01 {
+        width: 100%;
+        height: auto !important;
+        text-align: center;
+        padding-top: 20px
+    }
+
+    .success01>img {
+        margin: 15px 0px;
+        width: 27%
+    }
+
+    .success .success02 {
+        width: 100%;
+        height: auto !important;
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 20px
+    }
+
+    .success .success03 {
+        display: inline-block;
+        width: 90%;
+        height: auto !important;
+        margin-left: 5%;
+        line-height: 24px;
+        text-align: center;
+        margin-bottom: 20px
+    }
+
+    .success .success04 {
+        width: 90%;
+        margin-left: 5%;
+        background-color: #ed414a;
+        color: #fff;
+        height: 45px;
+        text-align: center;
+        line-height: 45px;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-top: 25px
+    }
+</style>
+<script>
+    $(".describe06").click(function(){
+        var self = $(this);
+        var text=self.text();
+        //正在处理
+        if(self.hasClass("doing")) {
+            return false;
+        }
+        self.addClass("doing").text('正在处理中...');
+        $.ajax({
+            url: "{php echo $this->createMobileUrl('feedback')}&t="+Date.parse(new Date())/1000,
+            type: "post",
+            dataType: "json",
+            data: {
+                rid: $("#jubao").data("id"),
+                title:$(".complaint02 .selected").html(),
+                feedbackmark: $("#feedbackmark").val(),
+                feedbacktel: $("#feedbacktel").val(),
+                rtitle:$("#jubao").data("title")
+            },
+            success: function(i) {
+                if (i.status == "1") {
+                    $(".describe").css("display","none");
+                    $(".success").css("display","block");
+                }else if(i.status == "0"){
+                    alert('提交失败请稍后再试')
+                }
+                self.removeClass("doing").text(text);
+            },
+            error:function(){
+                alert('网络异常请稍后再试');
+            }
+        })
+        return false;
+    });
+    //为投诉页面选择投诉原因：
+    $(".complaint02>li").click(function(){
+        $(this).children("span").addClass("selected");
+        $(this).parents(".complaint").css("display","none");
+        $(".describe").css("display","block");
+    });
+    $(".describe05").click(function(){
+        $(".describe").css("display","none");
+        $(".complaint").css("display","block");
+    });
+    //投诉成功之后，关闭页面
+    $(".success04").click(function(){
+        wx.closeWindow();
+    });
+    //多行文本框限制输入的内容
+    $(".describe021").keyup(function(){
+        var text_len=$(this).val().length;
+        if(text_len<=200){
+            $(".describe022>em").text(text_len);
+        }else{
+            var vals=$(".describe021").val().substr(0,200);
+            $(".describe021").val(vals);
+        };
+    });
+    $(".describe021").blur(function(){
+        var text_len=$(this).val().length;
+        if(text_len<=200){
+            $(".describe022>em").text(text_len);
+        }else{
+            var vals=$(".describe021").val().substr(0,200);
+            $(".describe021").val(vals);
+        };
+    });
+    $("#tousufanhui").click(function(){
+        $("#votetousu").hide();
+        $("#votedetails").show();
+    });
+    $("#jubao").click(function(){
+        var h=$(window).height();
+        $("#votetousu").css("min-height",h+"px");
+        $("#votetousu").show();
+        $("#votedetails").hide();
+    });
+</script>
+
+<div id="votedetails" class="container container-fill" {if $reply['notice']} style="padding-top:36px;" {/if}>
+{if $reply['notice']}
+    <div class="notice"><marquee style="WIDTH: 100%; HEIGHT: 18px" scrollamount="6" Align="Middle"  hspace="0" direction="Left" >{$reply['notice']}</marquee>
+    </div>
+{/if}
+{if $reply['status']==0 || $reply['status']=="" || $reply['endtime']< TIMESTAMP }
+    <div id="replystatus" >
+        <div class="alert alert-danger alert-dismissible" style="text-align:center;position: fixed;top:40%;z-index: 2; width:80%;margin:0 10%;z-index:9000000" role="alert">
+            <button type="button" class="close"  onclick="hidemod('replystatus')" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <strong>活动已结束！</strong>
+        </div>
+        <div class="weui-mask"></div>
+    </div>
+{/if}
+
+
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title><?php echo $this->settings[0]['name'];?></title>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="format-detection" content="telephone=no">
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=no" />-->
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+        {php echo register_jssdk(false);}
+
+        <link rel="stylesheet" type="text/css" href="{TEMPLATE_PATH}new5/style.css">
+        <link rel="stylesheet" type="text/css" href="{TEMPLATE_PATH}new5/style_PageDefault.css">
+        <link rel="stylesheet" type="text/css" href="{TEMPLATE_PATH}new5/style_PageMaster.css">
+        <link rel="stylesheet" type="text/css" href="{TEMPLATE_PATH}new5/swiper.min.css">
+
+        <link rel="stylesheet" type="text/css" href="{TEMPLATE_PATH}new5/zqa.css">
+        <script type="text/javascript" src="{TEMPLATE_PATH}js/jquery-1.8.3.min.js"></script>
+
+
+
+        <script type="text/javascript">$(function() {
+                        $("#fly_page").hide();
+                        //$("#TopTipClose").click();//执行关闭
+                        $("#TopTipHolder").hide();
+                });</script>
+        <style>
+
+        #ul_page{width:95%;float:left; left:2.5%} #ul_page ol{ width:47%;} .page a{ background: #ffffff none repeat scroll 0 0; border-radius: 4px;padding: 5px 10px 5px;color: #fe5842;margin-left:3.5px;} .page .current{border:1px #2dcc70 solid; background: #2dcc70 none repeat scroll 0 0; border-radius: 4px;padding: 5px 10px 5px;color: #FFFFFF;margin-left:3.5px;} .img_po{height:28px;left: 0;position:absolute;width:100%;top:0%;} .img_po_div{background: #000000 none repeat scroll 0 0;height: 28px;opacity: 0.3;position: absolute;width: 100%;left: 1px;top: 0px;} #setdiv{margin-bottom:10px;width:80%;} .img_po_txt{ color: #ffffff;line-height: 30px;padding-left: 5px;position: absolute;} #content_tab{width:98%;padding:1%;} #content_result{padding-bottom: 10px;} #position{bottom:10px;} #faq ul{margin: 0;padding: 0;display: inline;} #faq li{line-height: 30px;padding: 0 0 5px 22px;border-bottom:1px #ccc solid;height:30px;} .STYLE1 { color: #585656; } #content_button{ background-color:#fff; border:solid 1px #585656;
+
+
+        }
+
+
+
+        </style></head>
+<body id="body">
+<style>
+
+     .gdt{
+
+
+
+            position: fixed; z-index: 999; top: 0; left: 0; width: 100%; text-align: center; padding: 6px 10px; border: 1px solid transparent; color: #FFFFFF; background-color: rgba(0, 0, 0, 0.5);
+        }
+
+
+
+</style>
+
+     {if !empty($this->settings[0]['gdgg'])}
+
+
+        <div class="gdt">
+            <span class=""><marquee direction="left">{php echo $this->settings[0]['gdgg']}</marquee></span>
+        </div>
+    {/if}
+
+
+
+
+        <input value="<?php echo strtotime($this->settings[0]['endtime'])-time()?>" id="djstime" type="hidden">
+        <div id="div">
+                <!-- <div id="content_pic">
+                        <div class="addWrap">
+                                <div class="swipe" id="mySwipe" style="visibility: visible;">
+                                        <div class="swipe-wrap" style="width: 414px;">
+                                                <div data-index="0" style="width: 414px; left: 0px; transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
+                                                        <a href="javascript:;">
+                                                                <img class="img-responsive" src="{php echo tomedia($this->settings[0]['touimg'])}"></a>
                                                 </div>
                                         </div>
-                                        <ul id="position"></ul>
                                 </div>
-                        </div> -->
-						
-					   <div class="swiper-container">
-						  <div class="swiper-wrapper">
-						  {if $this->settings[0]['touimg'] != ''}
-						  <div class="swiper-slide"> <img style="width:100%" src="{php echo tomedia($this->settings[0]['touimg'])}"></div>
-							{/if}
-							{if $this->settings[0]['singleimage1'] != ''}
-							<div class="swiper-slide"> <img style="width:100%" src="{php echo tomedia($this->settings[0]['singleimage1'])}"></div>
-							{/if}
-							
-							{if $this->settings[0]['singleimage2'] != ''}
-							<div class="swiper-slide"> <img style="width:100%" src="{php echo tomedia($this->settings[0]['singleimage2'])}"></div>
-							{/if}
-							{if $this->settings[0]['singleimage3'] != ''}
-							<div class="swiper-slide"> <img style="width:100%" src="{php echo tomedia($this->settings[0]['singleimage3'])}"></div>
-							{/if}
-							{if $this->settings[0]['singleimage4'] != ''}
-							<div class="swiper-slide"> <img style="width:100%" src="{php echo tomedia($this->settings[0]['singleimage4'])}"></div>
-								{/if}
-
-
-						 </div>
-						</div>
-						
-                        <div id="main">
-                                <div id="main_1">
-                                        <div id="main_1_1">参与选手</div>
-                                        <div id="main_a"><?php echo $user_total+$this->settings[0]['censai'] ?></div></div>
-                                <div id="main_1">
-                                        <div id="main_1_1">累计投票</div>
-                                        <div id="main_b"><?php echo $piao_total+$this->settings[0]['toupiaorenshu'] ?></div></div>
-                                <div id="main_2">
-                                        <div id="main_1_1">访问量</div>
-                                        <div id="main_c"><?php echo $this->settings[0]['liulan']+$this->settings[0]['liulanrenshu'] ?></div></div>
+                                <ul id="position"></ul>
                         </div>
-                        <!--参与 -->
-                        <nav id="article">
-                                <div id="faq">
-                                        <ul>
-                                                <li>
+                </div> -->
+
+               <div class="swiper-container">
+                  <div class="swiper-wrapper">
+                  {if $this->settings[0]['touimg'] != ''}
+                  <div class="swiper-slide"> <img style="width:100%" src="{php echo tomedia($this->settings[0]['touimg'])}"></div>
+                    {/if}
+                    {if $this->settings[0]['singleimage1'] != ''}
+                    <div class="swiper-slide"> <img style="width:100%" src="{php echo tomedia($this->settings[0]['singleimage1'])}"></div>
+                    {/if}
+
+                    {if $this->settings[0]['singleimage2'] != ''}
+                    <div class="swiper-slide"> <img style="width:100%" src="{php echo tomedia($this->settings[0]['singleimage2'])}"></div>
+                    {/if}
+                    {if $this->settings[0]['singleimage3'] != ''}
+                    <div class="swiper-slide"> <img style="width:100%" src="{php echo tomedia($this->settings[0]['singleimage3'])}"></div>
+                    {/if}
+                    {if $this->settings[0]['singleimage4'] != ''}
+                    <div class="swiper-slide"> <img style="width:100%" src="{php echo tomedia($this->settings[0]['singleimage4'])}"></div>
+                        {/if}
+
+
+                 </div>
+                </div>
+
+                <div id="main">
+                        <div id="main_1">
+                                <div id="main_1_1">参与选手</div>
+                                <div id="main_a"><?php echo $user_total+$this->settings[0]['censai'] ?></div></div>
+                        <div id="main_1">
+                                <div id="main_1_1">累计投票</div>
+                                <div id="main_b"><?php echo $piao_total+$this->settings[0]['toupiaorenshu'] ?></div></div>
+                        <div id="main_2">
+                                <div id="main_1_1">访问量</div>
+                                <div id="main_c"><?php echo $this->settings[0]['liulan']+$this->settings[0]['liulanrenshu'] ?></div></div>
+                </div>
+                <!--参与 -->
+                <nav id="article">
+                        <div id="faq">
+                                <ul>
+                                        <li>
+                                                <div id="article_pic">
+                                                        <img src="{TEMPLATE_PATH}new5/tubiao_02.png"></div>
+                                                <div id="article_word">投票日期：<?php echo date("Y-m-d", strtotime($this->settings[0]['kaitime']));?>到<?php echo date("Y-m-d", strtotime($this->settings[0]['endtime']));?></div></li>
+                                </ul>
+                                <dl>
+                                        <a href="javascript:;" onclick="window.location.href=&#39;&#39;">
+                                                <dt>
                                                         <div id="article_pic">
-                                                                <img src="{TEMPLATE_PATH}new5/tubiao_02.png"></div>
-                                                        <div id="article_word">投票日期：<?php echo date("Y-m-d", strtotime($this->settings[0]['kaitime']));?>到<?php echo date("Y-m-d", strtotime($this->settings[0]['endtime']));?></div></li>
-                                        </ul>
-                                        <dl>
-                                                <a href="javascript:;" onclick="window.location.href=&#39;&#39;">
-                                                        <dt>
-                                                                <div id="article_pic">
-                                                                        <img src="{TEMPLATE_PATH}new5/tubiao_02.png" style="width:20px;height:20px;"></div>
-                                                                <div id="article_word" style="padding-left:10px;">活动剩余：
-                                                                        <span id="djs"></span></div>
-                                                        </dt>
-                                                </a>
-                                        </dl>
-                                </div>
-                        </nav>
-                        <div id="sec">
-                                <form id="form_search" name="form1" method="post" action="{php echo $this->createMobileUrl('Sos',array('hdid'=>$_GPC['hdid']))}">
-                                        <div id="sec_div">
-                                                <label for="txt"></label>
-                                                <div id="sec_form">
-                                                        
-                                                        <input type="text" name="key_word" id="txt" placeholder="输入编号、名称" value="" class="sec_input" style="padding-left:10%;"></div>
-                                                <div id="sec_div2">
-                                                        <button id="sec_butt">
-                                                                <div id="sec_sec">
-                                                                        <img src="{TEMPLATE_PATH}new5/daohang_02.png" width="20" height="20" onclick="search()"></div>&nbsp;&nbsp;搜索</button>
-                                                </div>
-                                        </div>
-                                </form>
+                                                                <img src="{TEMPLATE_PATH}new5/tubiao_02.png" style="width:20px;height:20px;"></div>
+                                                        <div id="article_word" style="padding-left:10px;">活动剩余：
+                                                                <span id="djs"></span></div>
+                                                </dt>
+                                        </a>
+                                </dl>
                         </div>
-                        <div id="zbottom">
-                                <span onclick="guize()">规则/奖品</span>
-                                <span onclick="btnclick()">比赛排名</span>
-                                <span onclick="apply()">我要报名</span></div>
-                        <div style="clear:both;"></div>
-                        <!--内容 -->
-                        <div style="clear:both"></div>
-                        <!-- <form id="form1" name="form1" method="post" action=" ">-->
-                        <div id="content">
-                                <!--主体 -->
-                                <div class="content_left">
+                </nav>
+                <div id="sec">
+                        <form id="form_search" name="form1" method="post" action="{php echo $this->createMobileUrl('Sos',array('hdid'=>$_GPC['hdid']))}">
+                                <div id="sec_div">
+                                        <label for="txt"></label>
+                                        <div id="sec_form">
+
+                                                <input type="text" name="key_word" id="txt" placeholder="输入编号、名称" value="" class="sec_input" style="padding-left:10%;"></div>
+                                        <div id="sec_div2">
+                                                <button id="sec_butt">
+                                                        <div id="sec_sec">
+                                                                <img src="{TEMPLATE_PATH}new5/daohang_02.png" width="20" height="20" onclick="search()"></div>&nbsp;&nbsp;搜索</button>
+                                        </div>
+                                </div>
+                        </form>
+                </div>
+                <div id="zbottom">
+                        <span onclick="guize()">规则/奖品</span>
+                        <span onclick="btnclick()">比赛排名</span>
+                        <span onclick="apply()">我要报名</span></div>
+                <div style="clear:both;"></div>
+                <!--内容 -->
+                <div style="clear:both"></div>
+                <!-- <form id="form1" name="form1" method="post" action=" ">-->
+                <div id="content">
+                        <!--主体 -->
+                        <div class="content_left">
+                                <!--头部 -->
+                                <div class="settab">
+                                        <div id="setdiv">
+                                                <dl id="J_setTabANav" class="tabnav" style="width:100%">
+                                                        <dd id="new" class="tab-menu <?php if($_GPC['type']=='new'||$_GPC['type']=='' ){echo 'hover';}?>" style="width:50%" onclick="change('new')">
+                                                                <span>人气选手</span></dd>
+                                                        <dd id="all" class="tab-menu <?php if($_GPC['type']=='all'){echo 'hover';}?>" style="width:50%" onclick="change('all')">
+                                                                <span>最新参与</span></dd>
+                                                </dl>
+                                        </div>
                                         <!--头部 -->
-                                        <div class="settab">
-                                                <div id="setdiv">
-                                                        <dl id="J_setTabANav" class="tabnav" style="width:100%">
-                                                                <dd id="new" class="tab-menu <?php if($_GPC['type']=='new'||$_GPC['type']=='' ){echo 'hover';}?>" style="width:50%" onclick="change('new')">
-                                                                        <span>人气选手</span></dd>
-                                                                <dd id="all" class="tab-menu <?php if($_GPC['type']=='all'){echo 'hover';}?>" style="width:50%" onclick="change('all')">
-                                                                        <span>最新参与</span></dd>
-                                                        </dl>
-                                                </div>
-                                                <!--头部 -->
-                                                <!--查看 -->
-                                                <div id="J_setTabABox" class="tabbox" style="width:100%">
-                                                        <div id="detail" class="detail" style="display: block">
-                                                                <div id="ul_page" style="position:absolute;  ">
-																{loop $res $i $item}
-																 <?php
-																		$item['tupian'] = str_replace("&quot;","",$item['tupian']);
-																			$item['tupian'] =  htmlspecialchars_decode($item['tupian']);
-																			$item['tupian'] = stripslashes($item['tupian']);
-																			$he = (explode(",",$item['tupian'])); 
-																			$f = $he[0];
-															
-																	?>
-                                                                        <ol class="li" style="">
-                                                                                <div id="content_tab">
-                                                                                        <div>
-                                                                                                <div id="content_pic" style="position: relative;">
-                                                                                                        <div class="img_po">
-                                                                                                                <div class="img_po_div"></div>
-                                                                                                                <div class="img_po_txt">编号: {$item['bh']}</div></div>
-                                                                                                        <a href="{php echo $this->createMobileUrl('list',array('type'=>'uids','id'=>$item['id'],'hdid'=>$_GPC['hdid']))}" style="display:block">
-                                                                                                                <img class="tuimg185370" src="{media $f}" onerror="javascript:this.src={media $f};"></a>
-                                                                                                        <div style="position:absolute;bottom: 10px;left: 10px;overflow:hidden;zoom:1;right: 10px;"></div>
-                                                                                                </div>
-                                                                                        </div>
-                                                                                        <div style="overflow: hidden" class="tutitle185370" id="content_xinxi">{$item['name']}</div>
-                                                                                        <div id="content_result">
-                                                                                                <div id="content_rebu">
-                                                                                                        <button class="STYLE1" id="content_button" onclick="vote({$item['id']})">投票</button></div>
-                                                                                                <div class="content_piao_185370" id="content_piao">{$item['piao']}票</div>
-                                                                                                <div style="clear:both"></div>
+                                        <!--查看 -->
+                                        <div id="J_setTabABox" class="tabbox" style="width:100%">
+                                                <div id="detail" class="detail" style="display: block">
+                                                        <div id="ul_page" style="position:absolute;  ">
+                                                        {loop $res $i $item}
+                                                         <?php
+                                                                $item['tupian'] = str_replace("&quot;","",$item['tupian']);
+                                                                    $item['tupian'] =  htmlspecialchars_decode($item['tupian']);
+                                                                    $item['tupian'] = stripslashes($item['tupian']);
+                                                                    $he = (explode(",",$item['tupian']));
+                                                                    $f = $he[0];
+
+                                                            ?>
+                                                                <ol class="li" style="">
+                                                                        <div id="content_tab">
+                                                                                <div>
+                                                                                        <div id="content_pic" style="position: relative;">
+                                                                                                <div class="img_po">
+                                                                                                        <div class="img_po_div"></div>
+                                                                                                        <div class="img_po_txt">编号: {$item['bh']}</div></div>
+                                                                                                <a href="{php echo $this->createMobileUrl('list',array('type'=>'uids','id'=>$item['id'],'hdid'=>$_GPC['hdid']))}" style="display:block">
+                                                                                                        <img class="tuimg185370" src="{media $f}" onerror="javascript:this.src={media $f};"></a>
+                                                                                                <div style="position:absolute;bottom: 10px;left: 10px;overflow:hidden;zoom:1;right: 10px;"></div>
                                                                                         </div>
                                                                                 </div>
-                                                                        </ol>
-																{/loop}		
-                                                             
-                                                                      
-                                                                                {$pager}
-																	
-                                                                </div>
+                                                                                <div style="overflow: hidden" class="tutitle185370" id="content_xinxi">{$item['name']}</div>
+                                                                                <div id="content_result">
+                                                                                        <div id="content_rebu">
+                                                                                                <button class="STYLE1" id="content_button" onclick="vote({$item['id']})">投票</button></div>
+                                                                                        <div class="content_piao_185370" id="content_piao">{$item['piao']}票</div>
+                                                                                        <div style="clear:both"></div>
+                                                                                </div>
+                                                                        </div>
+                                                                </ol>
+                                                        {/loop}
+
+
+                                                                        {$pager}
+
                                                         </div>
-                                                        <!--查看 </div>--></div>
-                                        </div>
-                                        <br>
-                                        <br>
-                                        <!--主体 -->
-                                        <style>body,h1,p,form,ul,li,dl,dd,input,h2,h3,th,td,table,tr,td,tbody,thead{margin:0;padding:0}</style>
-                                        <style>
-										.mui-bar-tab {
-											bottom: 0;
-											display: table;
-											width: 100%;
-											height: 50px;
-											padding: 0;
-											table-layout: fixed;
-											border-top: 0;
-											border-bottom: 0;
-											-webkit-touch-callout: none;
-										}
+                                                </div>
+                                                <!--查看 </div>--></div>
+                                </div>
+                                <br>
+                                <br>
+                                <!--主体 -->
+                                <style>body,h1,p,form,ul,li,dl,dd,input,h2,h3,th,td,table,tr,td,tbody,thead{margin:0;padding:0}</style>
+                                <style>
+                                .mui-bar-tab {
+                                    bottom: 0;
+                                    display: table;
+                                    width: 100%;
+                                    height: 50px;
+                                    padding: 0;
+                                    table-layout: fixed;
+                                    border-top: 0;
+                                    border-bottom: 0;
+                                    -webkit-touch-callout: none;
+                                }
 
-										.mui-bar {
-											position: fixed;
-											z-index: 10;
-											right: 0;
-											left: 0;
-											height: 56px;
-											
-											border-bottom: 0;
-											background-color: #f7f7f7;
-											-webkit-box-shadow: 0 0 1px rgba(0,0,0,.85);
-											box-shadow: 0 0 1px rgba(0,0,0,.85);
-											-webkit-backface-visibility: hidden;
-											backface-visibility: hidden;
-										}
-										
-										.mui-bar-tab .mui-tab-item {
-    height: 56px;
+                                .mui-bar {
+                                    position: fixed;
+                                    z-index: 10;
+                                    right: 0;
+                                    left: 0;
+                                    height: 56px;
+
+                                    border-bottom: 0;
+                                    background-color: #f7f7f7;
+                                    -webkit-box-shadow: 0 0 1px rgba(0,0,0,.85);
+                                    box-shadow: 0 0 1px rgba(0,0,0,.85);
+                                    -webkit-backface-visibility: hidden;
+                                    backface-visibility: hidden;
+                                }
+
+                                .mui-bar-tab .mui-tab-item {
+height: 56px;
 }
 
 .mui-bar-tab .mui-tab-item {
 }
 .mui-bar-tab .mui-tab-item {
-    display: table-cell;
-    overflow: hidden;
-    width: 1%;
-    height: 50px;
-    text-align: center;
-    vertical-align: middle;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: #929292;
+display: table-cell;
+overflow: hidden;
+width: 1%;
+height: 50px;
+text-align: center;
+vertical-align: middle;
+white-space: nowrap;
+text-overflow: ellipsis;
+color: #929292;
 }
 
 
 .mui-bar-tab .mui-tab-item .mui-icon {
-    top: 3px;
-    width: 24px;
-    height: 24px;
-    padding-top: 0;
-    padding-bottom: 0;
+top: 3px;
+width: 24px;
+height: 24px;
+padding-top: 0;
+padding-bottom: 0;
 }
 .mui-bar .mui-icon {
-    font-size: 24px;
-    position: relative;
-    z-index: 20;
-    padding-top: 10px;
-    padding-bottom: 10px;
+font-size: 24px;
+position: relative;
+z-index: 20;
+padding-top: 10px;
+padding-bottom: 10px;
 }
 .mui-icon {
-    font-family: Muiicons;
-    font-size: 24px;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 1;
-    display: inline-block;
-    text-decoration: none;
-    -webkit-font-smoothing: antialiased;
+font-family: Muiicons;
+font-size: 24px;
+font-weight: 400;
+font-style: normal;
+line-height: 1;
+display: inline-block;
+text-decoration: none;
+-webkit-font-smoothing: antialiased;
 }
 
 
 .mui-bar-tab .mui-tab-item .mui-icon~.mui-tab-label {
-    line-height: 30px;
-    font-family: "Microsoft YaHei";
+line-height: 30px;
+font-family: "Microsoft YaHei";
 }
 .mui-bar-tab .mui-tab-item .mui-icon~.mui-tab-label {
-    font-size: 11px;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
+font-size: 11px;
+display: block;
+overflow: hidden;
+text-overflow: ellipsis;
 }
 
 
@@ -310,658 +806,656 @@
 
 
 
-										
-										</style>
-										<div class="theme-popover" id="module" style="padding:15px;border-radius: 7px;display: none;width:210px;">
-                                                <h1 style="font-size: 14px;color:#000;font-weight: bold;padding-bottom: 15px;border-bottom:#ddd 1px solid;text-align: center;">长按关注
-                                                        <span style="color:#54C058" id="guanzhu">互联</span>公众号</h1>
-                                                <dl style="margin-top:15px;text-align: center;">
-                                                        <dt>
-                                                                <img src="" id="inkeimgs" style="width:100%;height:100%;"></dt>
-                                                        <dd style="color:#ccc;line-height: 30px">关注后可收到选手直播动态</dd></dl>
-                                        </div>
-                                        <nav class="mui-bar mui-bar-tab">
+
+                                </style>
+                                <div class="theme-popover" id="module" style="padding:15px;border-radius: 7px;display: none;width:210px;">
+                                        <h1 style="font-size: 14px;color:#000;font-weight: bold;padding-bottom: 15px;border-bottom:#ddd 1px solid;text-align: center;">长按关注
+                                                <span style="color:#54C058" id="guanzhu">互联</span>公众号</h1>
+                                        <dl style="margin-top:15px;text-align: center;">
+                                                <dt>
+                                                        <img src="" id="inkeimgs" style="width:100%;height:100%;"></dt>
+                                                <dd style="color:#ccc;line-height: 30px">关注后可收到选手直播动态</dd></dl>
+                                </div>
+                                <nav class="mui-bar mui-bar-tab">
 
 
-											<a class="mui-tab-item {if $_GPC['do'] == 'voindex'} mui-active{/if}" href="{php echo $this->createMobileUrl('voindex',array('hdid'=>$_GPC['hdid']))}">
-												<!-- <span class="mui-icon mui-icon-home"></span> -->
-												<span class="mui-icon"><img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/sy.png" width="25" height="25"></span>
-												<span class="mui-tab-label">首页</span>
-												
-											</a>
-											<a class="mui-tab-item {if $_GPC['do'] == 'Jp'} mui-active{/if}" href="{php echo $this->createMobileUrl('Jp',array('hdid'=>$_GPC['hdid']))}">
-												<!-- <span style="font-size: 20px;" class="mui-icon icon-liwu iconfont"></span> -->
-												<span class="mui-icon"> <img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/jp.png" width="25" height="25"></span>
-												<span class="mui-tab-label">奖品</span>
-											</a>
-											{if $this->settings[0]['ischouqian'] == 1}
-											<a class="mui-tab-item {if $_GPC['do'] == 'Chouqiang' || $_GPC['do'] == 'myjp'} mui-active{/if}" href="{php echo $this->createMobileUrl('Chouqiang',array('hdid'=>$_GPC['hdid']))}">
-												<!-- <span class="mui-icon icon-midu-choujiang iconfont"></span> -->
-												<span class="mui-icon"> <img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/cj.png" width="25" height="25"></span>
-												<span class="mui-tab-label">抽奖</span>
-											</a>
-											{/if}
-											{if $this->settings[0]['display'] == 1}
-											<a class="mui-tab-item {if $_GPC['do'] == 'weiindex'} mui-active{/if}" href="{php echo $this->createMobileUrl('weiindex',array('hdid'=>$_GPC['hdid']))}">
-												<!-- <span class="mui-icon icon-baoming5 iconfont "></span> -->
-												<span class="mui-icon"> <img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/bm.png" width="25" height="25"></span>
-												<span class="mui-tab-label">报名</span>
-											</a>
-											{/if}
-											
-											<a class="mui-tab-item {if $_GPC['do'] == 'Paih'} mui-active{/if}" href="{php echo $this->createMobileUrl('Paih',array('hdid'=>$_GPC['hdid']))}">
-												<!-- <span class="mui-icon icon-pkbangdan67 iconfont"></span> -->
-												<span class="mui-icon">  <img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/ph.png" width="25" height="25"></span>
-												
-												
-												<span class="mui-tab-label">榜单</span>
-											</a>
-											
-											{if !empty($this->settings[0]['fenxian'])  && !empty($this->settings[0]['fenxianurl'])}
-											<a class="mui-tab-item {if $_GPC['do'] == 'weiindex'} mui-active{/if}" href="{php echo $this->settings[0]['fenxianurl']}">
-												<!-- <span class="mui-icon icon-baoming5 iconfont "></span> -->
-												<span class="mui-icon"> <img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/sz.png" width="25" height="25"></span>
-												<span class="mui-tab-label">{php echo $this->settings[0]['fenxian']}</span>
-											</a>
-											{/if}
-											
-										</nav>
-                                        <div style="display:none;" id="dituContent"></div>
-                                        <script type="text/javascript">//排行
-                                                function btnclick() {
-                                                        window.location.href = "{php echo $this->createMobileUrl('paih',array('hdid'=>$_GPC['hdid']))}";
-                                                }
+                                    <a class="mui-tab-item {if $_GPC['do'] == 'voindex'} mui-active{/if}" href="{php echo $this->createMobileUrl('voindex',array('hdid'=>$_GPC['hdid']))}">
+                                        <!-- <span class="mui-icon mui-icon-home"></span> -->
+                                        <span class="mui-icon"><img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/sy.png" width="25" height="25"></span>
+                                        <span class="mui-tab-label">首页</span>
 
-                                                function show_desc() {
-                                                        $("#desc").toggle();
-                                                }
+                                    </a>
+                                    <a class="mui-tab-item {if $_GPC['do'] == 'Jp'} mui-active{/if}" href="{php echo $this->createMobileUrl('Jp',array('hdid'=>$_GPC['hdid']))}">
+                                        <!-- <span style="font-size: 20px;" class="mui-icon icon-liwu iconfont"></span> -->
+                                        <span class="mui-icon"> <img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/jp.png" width="25" height="25"></span>
+                                        <span class="mui-tab-label">奖品</span>
+                                    </a>
+                                    {if $this->settings[0]['ischouqian'] == 1}
+                                    <a class="mui-tab-item {if $_GPC['do'] == 'Chouqiang' || $_GPC['do'] == 'myjp'} mui-active{/if}" href="{php echo $this->createMobileUrl('Chouqiang',array('hdid'=>$_GPC['hdid']))}">
+                                        <!-- <span class="mui-icon icon-midu-choujiang iconfont"></span> -->
+                                        <span class="mui-icon"> <img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/cj.png" width="25" height="25"></span>
+                                        <span class="mui-tab-label">抽奖</span>
+                                    </a>
+                                    {/if}
+                                    {if $this->settings[0]['display'] == 1}
+                                    <a class="mui-tab-item {if $_GPC['do'] == 'weiindex'} mui-active{/if}" href="{php echo $this->createMobileUrl('weiindex',array('hdid'=>$_GPC['hdid']))}">
+                                        <!-- <span class="mui-icon icon-baoming5 iconfont "></span> -->
+                                        <span class="mui-icon"> <img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/bm.png" width="25" height="25"></span>
+                                        <span class="mui-tab-label">报名</span>
+                                    </a>
+                                    {/if}
 
-                                                //排行
-                                                function guize() {
-                                                        window.location.href = "{php echo $this->createMobileUrl('jp',array('hdid'=>$_GPC['hdid']))}#maodian";
-                                                }
+                                    <a class="mui-tab-item {if $_GPC['do'] == 'Paih'} mui-active{/if}" href="{php echo $this->createMobileUrl('Paih',array('hdid'=>$_GPC['hdid']))}">
+                                        <!-- <span class="mui-icon icon-pkbangdan67 iconfont"></span> -->
+                                        <span class="mui-icon">  <img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/ph.png" width="25" height="25"></span>
 
-                                                //排行
-                                                function homepage() {
-                                                        window.location.href = "{php echo $this->createMobileUrl('paih',array('hdid'=>$_GPC['hdid']))}";
-                                                }
 
-                                                function index() {
-                                                        window.location.href = "{php echo $this->createMobileUrl('voindex',array('hdid'=>$_GPC['hdid']))}";
-                                                }
-                                                //报名判断
-                                                function apply() {
-                                                        
-                                                    window.location.href = "{php echo $this->createMobileUrl('weiindex',array('hdid'=>$_GPC['hdid']))}";
-                                                               
-                                                }
+                                        <span class="mui-tab-label">榜单</span>
+                                    </a>
 
-                                                //底部导航宽度自适应
-                                                $(function() {
-                                                        var foot_bu = $('#c_foot').children('#foot_bu');
-                                                        var len = foot_bu.length;
-                                                        if (len == 1) {
-                                                                foot_bu.each(function() {
-                                                                        $(this).css("width", "100%");
-                                                                });
-                                                        } else if (len == 2) {
-                                                                foot_bu.each(function() {
-                                                                        $(this).css("width", "50%");
-                                                                });
-                                                        } else if (len == 3) {
-                                                                foot_bu.each(function() {
-                                                                        $(this).css("width", "33%");
-                                                                });
-                                                        } else if (len == 4) {
-                                                                foot_bu.each(function() {
-                                                                        $(this).css("width", "25%");
-                                                                });
-                                                        } else {
-                                                                foot_bu.each(function() {
-                                                                        $(this).css("width", "20%");
-                                                                });
-                                                        }
-                                                });</script>
-                                       
-                                        <script type="text/javascript">function jvli() {
-                                                        return '0';
+                                    {if !empty($this->settings[0]['fenxian'])  && !empty($this->settings[0]['fenxianurl'])}
+                                    <a class="mui-tab-item {if $_GPC['do'] == 'weiindex'} mui-active{/if}" href="{php echo $this->settings[0]['fenxianurl']}">
+                                        <!-- <span class="mui-icon icon-baoming5 iconfont "></span> -->
+                                        <span class="mui-icon"> <img style="margin-bottom:5px;" src="{TEMPLATE_PATH}new5/sz.png" width="25" height="25"></span>
+                                        <span class="mui-tab-label">{php echo $this->settings[0]['fenxian']}</span>
+                                    </a>
+                                    {/if}
+
+                                </nav>
+                                <div style="display:none;" id="dituContent"></div>
+                                <script type="text/javascript">//排行
+                                        function btnclick() {
+                                                window.location.href = "{php echo $this->createMobileUrl('paih',array('hdid'=>$_GPC['hdid']))}";
+                                        }
+
+                                        function show_desc() {
+                                                $("#desc").toggle();
+                                        }
+
+                                        //排行
+                                        function guize() {
+                                                window.location.href = "{php echo $this->createMobileUrl('jp',array('hdid'=>$_GPC['hdid']))}#maodian";
+                                        }
+
+                                        //排行
+                                        function homepage() {
+                                                window.location.href = "{php echo $this->createMobileUrl('paih',array('hdid'=>$_GPC['hdid']))}";
+                                        }
+
+                                        function index() {
+                                                window.location.href = "{php echo $this->createMobileUrl('voindex',array('hdid'=>$_GPC['hdid']))}";
+                                        }
+                                        //报名判断
+                                        function apply() {
+
+                                            window.location.href = "{php echo $this->createMobileUrl('weiindex',array('hdid'=>$_GPC['hdid']))}";
+
+                                        }
+
+                                        //底部导航宽度自适应
+                                        $(function() {
+                                                var foot_bu = $('#c_foot').children('#foot_bu');
+                                                var len = foot_bu.length;
+                                                if (len == 1) {
+                                                        foot_bu.each(function() {
+                                                                $(this).css("width", "100%");
+                                                        });
+                                                } else if (len == 2) {
+                                                        foot_bu.each(function() {
+                                                                $(this).css("width", "50%");
+                                                        });
+                                                } else if (len == 3) {
+                                                        foot_bu.each(function() {
+                                                                $(this).css("width", "33%");
+                                                        });
+                                                } else if (len == 4) {
+                                                        foot_bu.each(function() {
+                                                                $(this).css("width", "25%");
+                                                        });
+                                                } else {
+                                                        foot_bu.each(function() {
+                                                                $(this).css("width", "20%");
+                                                        });
                                                 }
-                                                function zuobiao() {
-                                                        return 'null';
-                                                }</script>
-                                        <!-- 拉票-->
-                                        <!-- 萌宝-->
-                                        <div class="divShow3"></div>
-                                        <div class="dis3">
-                                                <div class="ttop3">
-                                                        <div class="txtspan3">
-                                                                <div id="ttop3div">
-                                                                        <div id="ttpop3div2">
-                                                                                <div style="width:85%; margin:0 auto">
-                                                                                        <div id="cadiv" style=" left:99%; top:10px;">
-                                                                                                <button id="cabutt" onclick="hidediv(3)">×</button></div>
-                                                                                        <div id="babydiv"></div>
-                                                                                </div>
+                                        });</script>
+
+                                <script type="text/javascript">function jvli() {
+                                                return '0';
+                                        }
+                                        function zuobiao() {
+                                                return 'null';
+                                        }</script>
+                                <!-- 拉票-->
+                                <!-- 萌宝-->
+                                <div class="divShow3"></div>
+                                <div class="dis3">
+                                        <div class="ttop3">
+                                                <div class="txtspan3">
+                                                        <div id="ttop3div">
+                                                                <div id="ttpop3div2">
+                                                                        <div style="width:85%; margin:0 auto">
+                                                                                <div id="cadiv" style=" left:99%; top:10px;">
+                                                                                        <button id="cabutt" onclick="hidediv(3)">×</button></div>
+                                                                                <div id="babydiv"></div>
                                                                         </div>
                                                                 </div>
                                                         </div>
                                                 </div>
                                         </div>
-                                        <!--投票提示 -->
-                                        <!--div id="vote_notice" class="myDiv" style="display:none">投票成功</div-->
-                                        <div id="notice_vote" style="z-index:99;left:50%;top: 30%;width:250px; line-height:40px;color:#fff; font-size:18px;  border-radius: 9px;  background-color: #2dcc70; text-align:center; font-family:&#39;微软雅黑&#39;;margin-left:-125px!important;margin-top:-60px!important;position:fixed!important;display:none">投票成功</div>
-                                        <div id="notice_votes" style="z-index:99;left:50%;top: 30%;width:250px; line-height:40px;color:#fff; font-size:18px;border-radius: 9px;  background-color: #2dcc70; text-align:center; font-family:&#39;微软雅黑&#39;;margin-left:-125px!important;margin-top:-60px!important;position:fixed!important;display:none">本地人</div>
-                                        <div id="no_follow" style="z-index:99;left:48%;top: 30%;width:315px;height:40px; line-height:40px;margin-left:-150px;margin-right:150px;margin-top:-60px;position:fixed;display:none"></div>
-                                        <div id="bg" class="bg" style="display:none;"></div>
-                                        <div style="clear: both;height: 60px;"></div>
-										
-										
-										
-										
-											<style>
-	       #audio_btn {
-				position: fixed;
-				right: 10px;
-				top: 55px;
-				z-index: 200;
-				display: none;
-				width: 50px;
-				height: 50px;
-				background-repeat: no-repeat;
-		
-			}
-			
-			.off {
-				background: url(../../addons/wei_vote/template/style/images/music_off.png);
-				background-size: 30px 30px;
-			}
-			
-			.play_yinfu {
-    background-image: url(../../addons/wei_vote/template/style/images/music.gif);
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 60px 60px;
+                                </div>
+                                <!--投票提示 -->
+                                <!--div id="vote_notice" class="myDiv" style="display:none">投票成功</div-->
+                                <div id="notice_vote" style="z-index:99;left:50%;top: 30%;width:250px; line-height:40px;color:#fff; font-size:18px;  border-radius: 9px;  background-color: #2dcc70; text-align:center; font-family:&#39;微软雅黑&#39;;margin-left:-125px!important;margin-top:-60px!important;position:fixed!important;display:none">投票成功</div>
+                                <div id="notice_votes" style="z-index:99;left:50%;top: 30%;width:250px; line-height:40px;color:#fff; font-size:18px;border-radius: 9px;  background-color: #2dcc70; text-align:center; font-family:&#39;微软雅黑&#39;;margin-left:-125px!important;margin-top:-60px!important;position:fixed!important;display:none">本地人</div>
+                                <div id="no_follow" style="z-index:99;left:48%;top: 30%;width:315px;height:40px; line-height:40px;margin-left:-150px;margin-right:150px;margin-top:-60px;position:fixed;display:none"></div>
+                                <div id="bg" class="bg" style="display:none;"></div>
+                                <div style="clear: both;height: 60px;"></div>
+
+
+
+
+                                    <style>
+   #audio_btn {
+        position: fixed;
+        right: 10px;
+        top: 55px;
+        z-index: 200;
+        display: none;
+        width: 50px;
+        height: 50px;
+        background-repeat: no-repeat;
+
+    }
+
+    .off {
+        background: url(../../addons/wei_vote/template/style/images/music_off.png);
+        background-size: 30px 30px;
+    }
+
+    .play_yinfu {
+background-image: url(../../addons/wei_vote/template/style/images/music.gif);
+background-repeat: no-repeat;
+background-position: center center;
+background-size: 60px 60px;
 }
 
 
 .rotate1 {
-    left: 10px;
-    top: 10px;
-    width: 30px;
-    height: 30px;
-    background-size: 100% 100%;
-    background-image: url(../../addons/wei_vote/template/style/images/music_off.png);
-    -webkit-animation: rotating 1.2s linear infinite;
-    -moz-animation: rotating 1.2s linear infinite;
-    -o-animation: rotating 1.2s linear infinite;
-    animation: rotating 1.2s linear infinite;
-	
-	
-	
-	 
+left: 10px;
+top: 10px;
+width: 30px;
+height: 30px;
+background-size: 100% 100%;
+background-image: url(../../addons/wei_vote/template/style/images/music_off.png);
+-webkit-animation: rotating 1.2s linear infinite;
+-moz-animation: rotating 1.2s linear infinite;
+-o-animation: rotating 1.2s linear infinite;
+animation: rotating 1.2s linear infinite;
+
+
+
+
 
 }
 
 #yinfu{
-    background-image: url(../../addons/wei_vote/template/style/images/music_off.png);
-	
-	left: 10px;
-    top: 10px;
-    width: 30px;
-    height: 30px;
-    background-size: 100% 100%;
-	
-	
+background-image: url(../../addons/wei_vote/template/style/images/music_off.png);
+
+left: 10px;
+top: 10px;
+width: 30px;
+height: 30px;
+background-size: 100% 100%;
+
+
 }
 
 .rotate1 {
-     -webkit-animation: rotating 1.2s linear infinite;
-     -moz-animation: rotating 1.2s linear infinite;
-     -o-animation: rotating 1.2s linear infinite;
-     animation: rotating 1.2s linear infinite
- }
- 
- @-webkit-keyframes rotating {
-    from { -webkit-transform: rotate(0) }
-     to { -webkit-transform: rotate(360deg) }
- }
- 
- @keyframes rotating {
-     from { transform: rotate(0) }
-    to { transform: rotate(360deg) }
- }
+-webkit-animation: rotating 1.2s linear infinite;
+-moz-animation: rotating 1.2s linear infinite;
+-o-animation: rotating 1.2s linear infinite;
+animation: rotating 1.2s linear infinite
+}
+
+@-webkit-keyframes rotating {
+from { -webkit-transform: rotate(0) }
+to { -webkit-transform: rotate(360deg) }
+}
+
+@keyframes rotating {
+from { transform: rotate(0) }
+to { transform: rotate(360deg) }
+}
 @-moz-keyframes rotating {
-     from { -moz-transform: rotate(0) }
-     to { -moz-transform: rotate(360deg) }
- }
+from { -moz-transform: rotate(0) }
+to { -moz-transform: rotate(360deg) }
+}
 
-	
-	</style>
-	
-	{if $this->settings[0]['audio'] == ''}
 
-	{else}
+</style>
 
-		<div class="video_exist play_yinfu" id="audio_btn" style="display: block;">
-		
-		
-			<div id="yinfu" class="rotate1"></div>
-		  
-		   
-		  <audio preload="auto" autoplay="autoplay" id="media" src="<?php echo tomedia($this->settings[0]['audio']);?>" loop=""></audio> 
-		 
-		
-	</div>
-		
+{if $this->settings[0]['audio'] == ''}
 
-	{/if}
-										
-										
-										
-										
-										
-		
+{else}
+
+<div class="video_exist play_yinfu" id="audio_btn" style="display: block;">
+
+
+    <div id="yinfu" class="rotate1"></div>
+
+
+  <audio preload="auto" autoplay="autoplay" id="media" src="<?php echo tomedia($this->settings[0]['audio']);?>" loop=""></audio>
+
+
+</div>
+
+
+{/if}
+
+
+
+
+
+
 <script>
 
- var x = document.getElementById("media"); 
+var x = document.getElementById("media");
 $("#yinfu").click(function(){
- 
-	 $(this).toggleClass("rotate1"); //控制音乐图标 自转或暂停
-	 
-	 
-	  //控制背景音乐 播放或暂停            
-         if($(this).hasClass("rotate1")){
-            x.play();
-        }else{
-            x.pause();
-        }
-	 
-	 
- })
+
+$(this).toggleClass("rotate1"); //控制音乐图标 自转或暂停
+
+
+//控制背景音乐 播放或暂停
+ if($(this).hasClass("rotate1")){
+    x.play();
+}else{
+    x.pause();
+}
+
+
+})
 
 $("#audio_btn").click(function(){
 
-   $(this).toggleClass("play_yinfu"); //控制音乐图标 自转或暂停
- 
-	 
- })
- $(function(){
- 
-		 function audioAutoPlay(id){
-			var audio = document.getElementById(id);
-			 console.log(audio);
-			 if(audio != null){
-			    
-				audio.play();
-				
-				document.addEventListener("WeixinJSBridgeReady", function () {
-					audio.play();
-				}, false);
-				
-			 }
-			
-			
-		}
-		audioAutoPlay('media');
- 
- 
- })
+$(this).toggleClass("play_yinfu"); //控制音乐图标 自转或暂停
+
+
+})
+$(function(){
+
+ function audioAutoPlay(id){
+    var audio = document.getElementById(id);
+     console.log(audio);
+     if(audio != null){
+
+        audio.play();
+
+        document.addEventListener("WeixinJSBridgeReady", function () {
+            audio.play();
+        }, false);
+
+     }
+
+
+}
+audioAutoPlay('media');
+
+
+})
 
 </script>										
-										
-										
-										
-										
-										
-										
-										
-										
-										
-										
-										
-										
-										
-                                        <script>//计算高宽
-                                                window.onload = function() {
-                                                        var alii = document.getElementsByTagName('ol');
-                                                        var aHeighti = {
-                                                                L: [],
-                                                                C: [],
-                                                                R: []
-                                                        };
-                                                        var h1 = document.body.scrollWidth;
-                                                        var hee = h1 * 0.038;
-                                                        for (var i = 0; i < alii.length; i++) {
-                                                                var iNowi = i % 2;
-                                                                switch (iNowi) {
-                                                                case 0:
-                                                                        alii[i].style.left = '1%';
-                                                                        aHeighti.L.push(alii[i].offsetHeight);
-                                                                        var step = Math.floor(i / 2);
-                                                                        if (!step) {
-                                                                                alii[i].style.top = 0;
-                                                                        } else {
-                                                                                var sum = 0;
-                                                                                for (var j = 0; j < step; j++) {
-                                                                                        sum += aHeighti.L[j] + hee;
-                                                                                }
-                                                                                alii[i].style.top = sum + 'px';
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                <script>//计算高宽
+                                        window.onload = function() {
+                                                var alii = document.getElementsByTagName('ol');
+                                                var aHeighti = {
+                                                        L: [],
+                                                        C: [],
+                                                        R: []
+                                                };
+                                                var h1 = document.body.scrollWidth;
+                                                var hee = h1 * 0.038;
+                                                for (var i = 0; i < alii.length; i++) {
+                                                        var iNowi = i % 2;
+                                                        switch (iNowi) {
+                                                        case 0:
+                                                                alii[i].style.left = '1%';
+                                                                aHeighti.L.push(alii[i].offsetHeight);
+                                                                var step = Math.floor(i / 2);
+                                                                if (!step) {
+                                                                        alii[i].style.top = 0;
+                                                                } else {
+                                                                        var sum = 0;
+                                                                        for (var j = 0; j < step; j++) {
+                                                                                sum += aHeighti.L[j] + hee;
                                                                         }
-                                                                        break;
-                                                                case 1:
-                                                                        alii[i].style.left = '52%';
-                                                                        aHeighti.C.push(alii[i].offsetHeight);
-                                                                        var step = Math.floor(i / 2);
-                                                                        if (!step) {
-                                                                                alii[i].style.top = 0;
-                                                                        } else {
-                                                                                var sum = 0;
-                                                                                for (var j = 0; j < step; j++) {
-                                                                                        sum += aHeighti.C[j] + hee;
-                                                                                }
-                                                                                alii[i].style.top = sum + 'px';
-                                                                        }
-                                                                        break;
+                                                                        alii[i].style.top = sum + 'px';
                                                                 }
-                                                                //计算分页的位置
-                                                                if (i == alii.length - 1) {
-                                                                        var prev_top = alii[i - 1].style.top;
-                                                                        var prev_height = alii[i - 1];
-                                                                        var h = $(prev_height).height();
-                                                                        //取分页上一个ol的高度
-                                                                        var top = prev_top.substring(0, prev_top.length - 2);
-                                                                        top = parseInt(top);
-                                                                        //投票选项超过1个,分页也是ol标签不算一个
-                                                                        if (alii.length > 2) {
-                                                                                var prev_top_1 = alii[i - 2].style.top;
-                                                                                var prev_height_1 = alii[i - 2];
-                                                                                var h1 = $(prev_height_1).height();
-                                                                                var top1 = prev_top_1.substring(0, prev_top_1.length - 2);
-                                                                                top1 = parseInt(top1);
-                                                                                //投票选项只有一个
-                                                                        } else {
-                                                                                var top1 = alii[i].style.top;
-                                                                                var top1 = top1.substring(0, top1.length - 2);
-                                                                                var ph = alii[i];
-                                                                                var h1 = $(ph).height();
+                                                                break;
+                                                        case 1:
+                                                                alii[i].style.left = '52%';
+                                                                aHeighti.C.push(alii[i].offsetHeight);
+                                                                var step = Math.floor(i / 2);
+                                                                if (!step) {
+                                                                        alii[i].style.top = 0;
+                                                                } else {
+                                                                        var sum = 0;
+                                                                        for (var j = 0; j < step; j++) {
+                                                                                sum += aHeighti.C[j] + hee;
                                                                         }
-                                                                        if (top == top1) {
-                                                                                he = h1 > h ? h1: h;
-                                                                                alii[i].style.top = (top + parseInt(he) + 30) + 'px';
-                                                                        } else if (top + parseInt(h) > top1 + parseInt(h1)) {
-                                                                                alii[i].style.top = (top + parseInt(h) + 30) + 'px';
-                                                                        } else if (top + parseInt(h) < top1 + parseInt(h1)) {
-                                                                                alii[i].style.top = (top1 + parseInt(h1) + 30) + 'px';
-                                                                        }
-                                                                        alii[i].style.left = '1%';
+                                                                        alii[i].style.top = sum + 'px';
                                                                 }
+                                                                break;
                                                         }
-                                                }</script>
-                                       
-                                     
-                                        <script type="text/javascript">//活动介绍我的投票展开收缩效果
-                                                
-                                                //提示信息
-                                                function votenotice(text) {
-                                                        $("#notice_vote").text(text);
-                                                        $("#notice_vote").show();
-                                                        $("#bg").show();
-                                                        $("#notice_vote").fadeOut(5000);
-                                                        $("#bg").fadeOut(5000);
-                                                }
-                                                function votenotices(text) {
-                                                        $("#notice_votes").html(text);
-                                                        $("#notice_votes").show();
-                                                        $("#bg").show();
-                                                }
-                                                //投票
-                                                var tpz = '';
-                                                function vote(id) {
-                                                        if (Number("1") > 0) {
-                                                                window.location.href = "{php echo $this->createMobileUrl('list',array('hdid'=>$_GPC['hdid']))}&id=" + id;
-                                                                return;
+                                                        //计算分页的位置
+                                                        if (i == alii.length - 1) {
+                                                                var prev_top = alii[i - 1].style.top;
+                                                                var prev_height = alii[i - 1];
+                                                                var h = $(prev_height).height();
+                                                                //取分页上一个ol的高度
+                                                                var top = prev_top.substring(0, prev_top.length - 2);
+                                                                top = parseInt(top);
+                                                                //投票选项超过1个,分页也是ol标签不算一个
+                                                                if (alii.length > 2) {
+                                                                        var prev_top_1 = alii[i - 2].style.top;
+                                                                        var prev_height_1 = alii[i - 2];
+                                                                        var h1 = $(prev_height_1).height();
+                                                                        var top1 = prev_top_1.substring(0, prev_top_1.length - 2);
+                                                                        top1 = parseInt(top1);
+                                                                        //投票选项只有一个
+                                                                } else {
+                                                                        var top1 = alii[i].style.top;
+                                                                        var top1 = top1.substring(0, top1.length - 2);
+                                                                        var ph = alii[i];
+                                                                        var h1 = $(ph).height();
+                                                                }
+                                                                if (top == top1) {
+                                                                        he = h1 > h ? h1: h;
+                                                                        alii[i].style.top = (top + parseInt(he) + 30) + 'px';
+                                                                } else if (top + parseInt(h) > top1 + parseInt(h1)) {
+                                                                        alii[i].style.top = (top + parseInt(h) + 30) + 'px';
+                                                                } else if (top + parseInt(h) < top1 + parseInt(h1)) {
+                                                                        alii[i].style.top = (top1 + parseInt(h1) + 30) + 'px';
+                                                                }
+                                                                alii[i].style.left = '1%';
                                                         }
-                                                        
-                                                       
                                                 }
-                                                //锚点
-                                                function anchor() {
-                                                        $("#TopTipHolder").show();
-                                                        if ($("#TopTipHolder").css('height') == '0px') {
-                                                                $("#TopTipClose").click(); //执行关闭
-                                                                $("#TopTipHolder").css('height', '35px'); //弹出
-                                                        }
-
-                                                }
-                                               
-                                                //隐藏提醒关注注册弹框
-                                                $(".close").click(function() {
-                                                        $("#no_follow").hide();
-                                                        $("#bg").hide();
-                                                });
-                                                //隐藏
-                                                function hidediv(id) {
-                                                        if (id == 0) {
-                                                                $('.dis').hide();
-                                                                $('.divShow').hide();
-                                                        }
-                                                        $('.dis' + id).hide();
-                                                        $('.divShow' + id).hide();
-                                                }
-                                                //搜索
-                                                function search() {
-                                                        $("#form_search").submit();
-                                                }
-
-                                                function change(type) {
-                                                        var t = type ? type: 'new';
-                                                        window.location.href = "{php echo $this->createMobileUrl('voindex',array('hdid'=>$_GPC['hdid']))}&type=" + t + "#main";
-                                                }
-                                                //最新和全部切换
-                                                <!-- $(function() { -->
-                                                        <!-- var type = 'new' ? 'new': 'new'; -->
-                                                        <!-- if (type == 'new') { -->
-                                                                <!-- $("#new").addClass('hover'); -->
-                                                                <!-- $("#all").removeClass('hover'); -->
-                                                        <!-- } else { -->
-                                                                <!-- $("#all").addClass('hover'); -->
-                                                                <!-- $("#new").removeClass('hover'); -->
-                                                        <!-- } -->
-                                                <!-- }); -->
-                                                //我的投票
-                                                function show_record() {
-                                                        $("#vote_record").toggle();
-                                                }
-
-                                                function show_desc() {
-                                                        $("#desc").toggle();
-                                                }
-
-                                               </script>
-											   
-										<?php	   
-										$kaitime = strtotime($this->settings[0]['kaitime']);
-										$endtime = strtotime($this->settings[0]['endtime']);
-										if ($kaitime > time()) {
-											
-											
-										}	   
-																			   
-										?>						   
-											   
-											   
-                                        <script>var time = Number($('#djstime').val());
-										var nowtime = '<?php echo time();?>';
-										var kaitime = '<?php echo strtotime($this->settings[0]['kaitime']);?>';
-                                                function djs() {
-                                                        if (time < 0.1) {
-                                                                $('#djs').html('已结束');
-                                                                return;
-                                                        }
-														if(kaitime > nowtime){
-														
-														    $('#djs').html('活动未开始');
-                                                            return;
-														
-														}
-                                                        $str = '';
-                                                        $d = parseInt(time / 86400);
-                                                        $h = parseInt((time - ($d * 86400)) / 3600);
-                                                        $i = parseInt((time - ($d * 86400) - ($h * 3600)) / 60);
-                                                        $s = time - ($d * 86400) - ($h * 3600) - ($i * 60);
-                                                        if ($d) {
-                                                                $str += $d + ' 天 ';
-                                                        }
-                                                        $str += $h + ' 小时 ';
-
-                                                        $str += $i + ' 分 ';
-
-                                                        $str += $s.toFixed(1) + ' 秒 ';
-                                                        $('#djs').html($str);
-                                                        time = time - 0.1;
-                                                }
-                                                $(function() {
-                                                        djs();
-                                                        setInterval("djs()", 100);
-                                                })</script>
-												<script type="text/javascript" src="{TEMPLATE_PATH}new5/swiper.min.js"></script>
-			
-											<script> 
-											 $(function(){
-											 
-											 
-											 n=1;
-												var mySwiper = new Swiper('.swiper-container',{
-												autoplay: {
-													disableOnInteraction: false,
-												  },
-												on:{
-												   autoplay:function(){
-													console.log(n);
-													 n++;
-												  },
-												}
-												})
-											 
-											 
-											 
-											 })
-												
-											</script>
-				
-												
-												  <script>
+                                        }</script>
 
 
-	wx.ready(function () {
-		sharedata = {
-			title: '<?php
-			if($account['bh']){
-			
-			   echo $this->settings[0]['fenxiangbiaotitp'];
-			
-			}else{
-			
-			    echo $this->settings[0]['fenxiangbiaoti'];
-			}
-			
-			?>',
-			desc: '<?php echo $this->settings[0]['fenxiangshuoming'];?>',
-			link: '',
-			imgUrl: '{php echo $this->settings[0][touimg]}',
-			success: function(){
-			
-				
-				$.post('{php echo $this->createMobileUrl('Fenxinajax',array('hdid'=>$_GPC['hdid']))}', function(data){
-							alert(data.a);
-						
-						 
-					},'json')
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-			},
-			cancel: function(){
-				//alert('cancel');
-			}
-		};
-		wx.onMenuShareAppMessage(sharedata);
-		
-		
-		
-		wx.onMenuShareTimeline({
-					title: '<?php
-			if($account['bh']){
-			
-			   echo $this->settings[0]['fenxiangbiaotitp'];
-			
-			}else{
-			
-			    echo $this->settings[0]['fenxiangbiaoti'];
-			}
-			
-			?>', // 分享标题
-					link: '', // 分享链接
-					imgUrl: '{php echo $this->settings[0][touimg]}', // 分享图标
-					success: function () { 
-						// 用户确认分享后执行的回调函数
-						$.post("{php echo $this->createMobileUrl('Fenxinajax',array('hdid'=>$_GPC['hdid']))}", function(data){
-							alert(data.a);
-						
-						 
-					},'json')
-						
-					},
-					cancel: function () { 
-						// 用户取消分享后执行的回调函数
-					}
-					
-				});
-	
-	
-	
+                                <script type="text/javascript">//活动介绍我的投票展开收缩效果
+
+                                        //提示信息
+                                        function votenotice(text) {
+                                                $("#notice_vote").text(text);
+                                                $("#notice_vote").show();
+                                                $("#bg").show();
+                                                $("#notice_vote").fadeOut(5000);
+                                                $("#bg").fadeOut(5000);
+                                        }
+                                        function votenotices(text) {
+                                                $("#notice_votes").html(text);
+                                                $("#notice_votes").show();
+                                                $("#bg").show();
+                                        }
+                                        //投票
+                                        var tpz = '';
+                                        function vote(id) {
+                                                if (Number("1") > 0) {
+                                                        window.location.href = "{php echo $this->createMobileUrl('list',array('hdid'=>$_GPC['hdid']))}&id=" + id;
+                                                        return;
+                                                }
+
+
+                                        }
+                                        //锚点
+                                        function anchor() {
+                                                $("#TopTipHolder").show();
+                                                if ($("#TopTipHolder").css('height') == '0px') {
+                                                        $("#TopTipClose").click(); //执行关闭
+                                                        $("#TopTipHolder").css('height', '35px'); //弹出
+                                                }
+
+                                        }
+
+                                        //隐藏提醒关注注册弹框
+                                        $(".close").click(function() {
+                                                $("#no_follow").hide();
+                                                $("#bg").hide();
+                                        });
+                                        //隐藏
+                                        function hidediv(id) {
+                                                if (id == 0) {
+                                                        $('.dis').hide();
+                                                        $('.divShow').hide();
+                                                }
+                                                $('.dis' + id).hide();
+                                                $('.divShow' + id).hide();
+                                        }
+                                        //搜索
+                                        function search() {
+                                                $("#form_search").submit();
+                                        }
+
+                                        function change(type) {
+                                                var t = type ? type: 'new';
+                                                window.location.href = "{php echo $this->createMobileUrl('voindex',array('hdid'=>$_GPC['hdid']))}&type=" + t + "#main";
+                                        }
+                                        //最新和全部切换
+                                        <!-- $(function() { -->
+                                                <!-- var type = 'new' ? 'new': 'new'; -->
+                                                <!-- if (type == 'new') { -->
+                                                        <!-- $("#new").addClass('hover'); -->
+                                                        <!-- $("#all").removeClass('hover'); -->
+                                                <!-- } else { -->
+                                                        <!-- $("#all").addClass('hover'); -->
+                                                        <!-- $("#new").removeClass('hover'); -->
+                                                <!-- } -->
+                                        <!-- }); -->
+                                        //我的投票
+                                        function show_record() {
+                                                $("#vote_record").toggle();
+                                        }
+
+                                        function show_desc() {
+                                                $("#desc").toggle();
+                                        }
+
+                                       </script>
+
+                                <?php
+                                $kaitime = strtotime($this->settings[0]['kaitime']);
+                                $endtime = strtotime($this->settings[0]['endtime']);
+                                if ($kaitime > time()) {
+
+
+                                }
+
+                                ?>
+
+
+                                <script>var time = Number($('#djstime').val());
+                                var nowtime = '<?php echo time();?>';
+                                var kaitime = '<?php echo strtotime($this->settings[0]['kaitime']);?>';
+                                        function djs() {
+                                                if (time < 0.1) {
+                                                        $('#djs').html('已结束');
+                                                        return;
+                                                }
+                                                if(kaitime > nowtime){
+
+                                                    $('#djs').html('活动未开始');
+                                                    return;
+
+                                                }
+                                                $str = '';
+                                                $d = parseInt(time / 86400);
+                                                $h = parseInt((time - ($d * 86400)) / 3600);
+                                                $i = parseInt((time - ($d * 86400) - ($h * 3600)) / 60);
+                                                $s = time - ($d * 86400) - ($h * 3600) - ($i * 60);
+                                                if ($d) {
+                                                        $str += $d + ' 天 ';
+                                                }
+                                                $str += $h + ' 小时 ';
+
+                                                $str += $i + ' 分 ';
+
+                                                $str += $s.toFixed(1) + ' 秒 ';
+                                                $('#djs').html($str);
+                                                time = time - 0.1;
+                                        }
+                                        $(function() {
+                                                djs();
+                                                setInterval("djs()", 100);
+                                        })</script>
+                                        <script type="text/javascript" src="{TEMPLATE_PATH}new5/swiper.min.js"></script>
+
+                                    <script>
+                                     $(function(){
+
+
+                                     n=1;
+                                        var mySwiper = new Swiper('.swiper-container',{
+                                        autoplay: {
+                                            disableOnInteraction: false,
+                                          },
+                                        on:{
+                                           autoplay:function(){
+                                            console.log(n);
+                                             n++;
+                                          },
+                                        }
+                                        })
+
+
+
+                                     })
+
+                                    </script>
+
+
+                                          <script>
+
+
+wx.ready(function () {
+sharedata = {
+    title: '<?php
+    if($account['bh']){
+
+       echo $this->settings[0]['fenxiangbiaotitp'];
+
+    }else{
+
+        echo $this->settings[0]['fenxiangbiaoti'];
+    }
+
+    ?>',
+    desc: '<?php echo $this->settings[0]['fenxiangshuoming'];?>',
+    link: '',
+    imgUrl: '{php echo $this->settings[0][touimg]}',
+    success: function(){
+
+
+        $.post('{php echo $this->createMobileUrl('Fenxinajax',array('hdid'=>$_GPC['hdid']))}', function(data){
+                    alert(data.a);
+
+
+            },'json')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    },
+    cancel: function(){
+        //alert('cancel');
+    }
+};
+wx.onMenuShareAppMessage(sharedata);
+
+
+
+wx.onMenuShareTimeline({
+            title: '<?php
+    if($account['bh']){
+
+       echo $this->settings[0]['fenxiangbiaotitp'];
+
+    }else{
+
+        echo $this->settings[0]['fenxiangbiaoti'];
+    }
+
+    ?>', // 分享标题
+            link: '', // 分享链接
+            imgUrl: '{php echo $this->settings[0][touimg]}', // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+                $.post("{php echo $this->createMobileUrl('Fenxinajax',array('hdid'=>$_GPC['hdid']))}", function(data){
+                    alert(data.a);
+
+
+            },'json')
+
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+
+        });
+
+
+
 });
-	
-	
-	
-	
-	
-	
-	</script>
-												
-												
-                                       
-                                </div>
+
+
+
+
+
+
+</script>
+
+
+
                         </div>
                 </div>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-        </body>
-		                                
-     
+        </div>
+
+
+
+
+
+
+
+
+
+</body>
 </html>
